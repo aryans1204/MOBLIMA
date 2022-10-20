@@ -1,12 +1,11 @@
-package heh;
+
 
 public class Ticket extends TicketAbs {
     private Movie movie;  //associated movie with the ticket
     private Cinema cinema; //associated cinema of the movie, this will also provide seat number
     private Client client;  //purchasing client details
     private Date showtime;
-    private double
-    
+
     public Ticket(Movie a, Cinema b, Client c, Date d ) {
     	movie = a;
     	cinema = b;
@@ -16,7 +15,7 @@ public class Ticket extends TicketAbs {
     
     public int check_ticket_validity(double[][][][]price_ar) {
     	//invalid case
-        //this will be used to try/throw exception in main method
+    	//used to try/throw exception in main method
     	if (price_ar[movie][cinema][client.age][showtime]==0)
     		return 0;
     	//valid case
@@ -43,11 +42,11 @@ public class Ticket extends TicketAbs {
     	//method to return cinema associated with the ticket.
     	return cinema;
     }
-    public abstract Movie getMovie() {
+    public Movie getMovie() {
     	//method to return the movie for the ticket
     	return movie;
     }
-    public abstract Date getShowtime() {
+    public Date getShowtime() {
     	//method to return showtime of the ticket.
     	return date;
     }
