@@ -1,0 +1,53 @@
+package heh;
+
+public class Ticket extends TicketAbs {
+    private Movie movie;  //associated movie with the ticket
+    private Cinema cinema; //associated cinema of the movie, this will also provide seat number
+    private Client client;  //purchasing client details
+    private Date showtime;
+    private double
+    
+    public Ticket(Movie a, Cinema b, Client c, Date d ) {
+    	movie = a;
+    	cinema = b;
+    	client = c;
+    	showtime = d;
+    }
+    
+    public int check_ticket_validity(double[][][][]price_ar) {
+    	//invalid case
+    	if (price_ar[movie][cinema][client.age][showtime]==0)
+    		return -1;
+    	//valid case
+    	else return 1;
+    }
+    
+    public double getPrice(double[][][][]price_ar){
+    	//method to get price of a ticket based on the factors
+    	//take in parameter of a 4D array.
+    	//each dimension corresponds to each factor that affects ticket price
+    	//Inside the array slot we will put in the value of the ticket price
+    	if (check_ticket_validity(price_ar)==1)
+    		return price_ar[movie][cinema][client.age][showtime];
+    	else return -1;
+    }
+   
+    
+    public void edit_ticket_price(double new_price) {
+    	//may need to throw exceptions, keep in mind
+    	price_array[movie][cinema][client.age][showtime] = new_price;
+    	
+    }
+    public Cinema getCinema() {
+    	//method to return cinema associated with the ticket.
+    	return cinema;
+    }
+    public abstract Movie getMovie() {
+    	//method to return the movie for the ticket
+    	return movie;
+    }
+    public abstract Date getShowtime() {
+    	//method to return showtime of the ticket.
+    	return date;
+    }
+}
