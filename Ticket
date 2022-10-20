@@ -16,8 +16,9 @@ public class Ticket extends TicketAbs {
     
     public int check_ticket_validity(double[][][][]price_ar) {
     	//invalid case
+        //this will be used to try/throw exception in main method
     	if (price_ar[movie][cinema][client.age][showtime]==0)
-    		return -1;
+    		return 0;
     	//valid case
     	else return 1;
     }
@@ -33,9 +34,9 @@ public class Ticket extends TicketAbs {
     }
    
     
-    public void edit_ticket_price(double new_price) {
-    	//may need to throw exceptions, keep in mind
-    	price_array[movie][cinema][client.age][showtime] = new_price;
+    public void edit_ticket_price(double new_price,double[][][][]price_ar) {
+    	//for the staff to edit ticket price
+    	price_ar[movie][cinema][client.age][showtime] = new_price;
     	
     }
     public Cinema getCinema() {
