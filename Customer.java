@@ -1,6 +1,8 @@
 import java.util.*;
 import java.io.*;
 
+import Client,Database,Cinema,Movie;
+
 public class Customer implements Client {
     private Ticket[] bookings;  //previous bookings made by customer given by tickets.
     private boolean auth = false;  //authenticatiuon indicator. Whether customer is authenticated or not. All methods must check for authentication.

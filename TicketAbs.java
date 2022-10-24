@@ -4,7 +4,7 @@ public abstract class TicketAbs {
     Movie movie;  //associated movie with the ticket
     Cinema cinema; //associated cinema of the movie, this will also provide seat number
     Customer client;  //purchasing client details
-    Date showtime;
+    String showtime;
     int seatNo;
 
     public abstract double getPrice();  //method to get price of a ticket based on the factors
