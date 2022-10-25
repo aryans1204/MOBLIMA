@@ -1,10 +1,12 @@
-
+import java.util.*;
 
 public class Ticket extends TicketAbs {
     private Movie movie;  //associated movie with the ticket
     private Cinema cinema; //associated cinema of the movie, this will also provide seat number
     private Client client;  //purchasing client details
     private Date showtime;
+    
+    Scanner sc= new Scanner(System.in);
 
     public Ticket(Movie a, Cinema b, Client c, Date d ) {
     	movie = a;
@@ -30,6 +32,20 @@ public class Ticket extends TicketAbs {
     	if (check_ticket_validity(price_ar)==1)
     		return price_ar[movie][cinema][client.age][showtime];
     	else return -1;
+    }
+    
+    public void create_ticket_price(double[][][][]price_ar) {
+    	//when there is a new movie, create the ticket pricings
+    	System.out.println("PLease enter movie name:");
+    	movie = sc.nextLine();
+    	System.out.println("Please enter cinema:");
+    	cinema = sc.nextLine();
+    	System.out.println("Please enter showtime:");
+    	showtime = sc.nextInt();
+    	System.out.println("Please enter ticket price for child:");
+    	price_ar[movie][cinema][client.age][showtime]= sc.nextInt();
+    	System.out.println("Please enter ticket price for adults:");
+    	price_ar[movie][cinema][client.age][showtime]= sc.nextInt();
     }
    
     
