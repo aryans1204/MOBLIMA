@@ -6,6 +6,7 @@ public abstract class TicketAbs {
     Customer client;  //purchasing client details
     String showtime;
     int seatNo;
+    double price;
 
     public abstract double getPrice();  //method to get price of a ticket based on the factors
 
