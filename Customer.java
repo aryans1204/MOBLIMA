@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-import Client,Database,Cinema,Movie;
+import Client,Cinema,Movie;
 
 public class Customer implements Client {
     private Ticket[] bookings;  //previous bookings made by customer given by tickets.
@@ -76,4 +76,14 @@ public class Customer implements Client {
         cinema.tID.get(this.username).get(movie.title).put(movie.showtime, transactionID);
         return transactionID;
     }
+
+    public void searchMovie(String movieTitle, MovieController m);  //searches for a Movie in our database and prints out the Review and rating
+
+    public void viewBookings();  //view all the past bookings made by the Customer.
+
+    public void checkSeats(Cinema cinema, String showtime) {
+	cinema.printLayout(this, showtime); //simple wrapper to print layout
+    }
+
+    public void listTopFive(String criterion, MovieController m, TicketController t);  //require read access to Movie CRUD if criterion is Rating OR require Ticket CURD if criterion is sales. 
 }
