@@ -1,4 +1,5 @@
 import java.util.Date;
+import Cinema;
 
 public abstract class MovieAbs {
     String title;
@@ -31,8 +32,9 @@ public abstract class MovieAbs {
     double rating;  //overall average rating for this movie
     public String[] reviews; //all the reviews this movie has received
     int[] ratings;  //all the ratings received by the movie ever
-    String[][] showtimes;  //date of all the showtimes of the movie per cinema. First index is given by cinema.code.
-    HashMap<String, Integer> prices = new HashMap<>();  //movie prices per showtime. assumed to be constant across cinemas.
-    
+    Cinema[] cinemas; //list of all cinemas being broadcasted in
+     
     public abstract void addRating(String review, int rating);  //method to add rating and review of a client, and update average;
+    public getParentalRating();  //get the parental rating
+    //implement simple wrappers to access the class variables
 }

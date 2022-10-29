@@ -7,7 +7,7 @@ public class Staff implements Client {
     private boolean auth = false;
     private Cinema cinema;   //associated cinema of the staff. Where the staff works
 
-    public login(String username, String password, Database db) {
+    public boolean login(String username, String password, Datbabase db) {
         if (!db.staff_accounts.containsKey(this.username)) return false;
 
         else if (db.staff_accounts.get(this.username) != password) return false;
@@ -117,4 +117,6 @@ public class Staff implements Client {
         System.out.println("Enter movie status");
         
     }
+    
+    public void deleteMovie();  //deletes movie from Staff's associated cinema.
 }
