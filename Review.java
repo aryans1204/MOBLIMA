@@ -1,5 +1,3 @@
-package SC2002Link;
-
 import java.io.Serializable;
 
 @SuppressWarnings("serial")

@@ -1,4 +1,3 @@
-package SC2002Link;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
