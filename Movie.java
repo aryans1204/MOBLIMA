@@ -1,8 +1,8 @@
+package SC2002Link;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
@@ -16,6 +16,7 @@ public class Movie implements Serializable{
 	private ArrayList<String> casts;
 	private String rating;  //Ratings for this movie e.g. PG M18 etc.
 	private ArrayList<Review> reviews; //all the reviews this movie has received
+	private ArrayList<Cinema> cinemas;
 	private int runtime;  //Duration of the movie in (MINS)
 	private LocalDate movieReleaseDate;
 
@@ -37,6 +38,7 @@ public class Movie implements Serializable{
 		this.casts = casts;
 		this.rating = rating;
 		this.reviews = new ArrayList<Review>();
+		this.cinemas = new ArrayList<Cinema>();
 		this.runtime = runtime;
 		this.movieReleaseDate = movieReleaseDate;
 	}
@@ -68,6 +70,9 @@ public class Movie implements Serializable{
 	}
 	public ArrayList<Review> getReviews() {
 		return reviews;
+	}
+	public ArrayList<Cinema> getCinemas() {
+		return cinemas;
 	}
 	public int getRuntime() {
 		return runtime;
@@ -109,6 +114,9 @@ public class Movie implements Serializable{
 	public void setReviews(ArrayList<Review> reviews) {
 		this.reviews = reviews;
 	}
+	public void setCinemas(ArrayList<Cinema> cinemas) {
+		this.cinemas = cinemas;
+	}
 	public void setRuntime(int runtime) {
 		this.runtime = runtime;
 	}
@@ -141,10 +149,10 @@ public class Movie implements Serializable{
 		
 		if(this.reviews.size() > 0) {
 			for(Review review: this.reviews) {
-				reviewDetail += review.toString() + "\n----------\n";
+				reviewDetail += review.toString() + "\n----------------\n";
 			}
 		}else
-			reviewDetail = "N/A";
+			reviewDetail = "N/A\n";
 		
 		movieDetail = "Movie Title: " + this.getTitle() + "\n"
 					+ "Showing Status: " + this.getStatus().toString() + "\n"
@@ -152,7 +160,7 @@ public class Movie implements Serializable{
 					+ "Director : " + this.getDirector() + "\n"
 					+ "Casts : " + castDetail + "\n"
 					+ "Overall rating(1-5): " + this.getOverallReview() + "\n"
-					+ "Past reviews : " + reviewDetail;
+					+ "Past reviews : \n" + reviewDetail;
 		return movieDetail;
 	}
 	

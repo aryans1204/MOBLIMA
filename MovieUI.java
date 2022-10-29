@@ -1,3 +1,4 @@
+package SC2002Link;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -5,21 +6,14 @@ import java.util.Scanner;
 
 import java.time.format.DateTimeParseException;
 
-public class movieUI {
-
-	public static MovieController mvc = new MovieController();
+public class MovieUI {
+	//Change the fileName path to your own directory path
+	public final static String fileName = "D:\\Academic\\NTU\\SC2002\\SC2002Assignment\\src\\movies.dat";
+	public static MovieController mvc = new MovieController(fileName);
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
-		
-		ArrayList<Movie> movies = mvc.getAllMoviesFromDB();
-		for(Movie movie: movies) {
-			System.out.println("Id: " + movie.getId());
-			System.out.println("Date: " + movie.getMovieReleaseDateToString());
-			System.out.println("Type: " + movie.getType());
-			System.out.println(movie.toString());
-		}
 		
 		boolean exit = false;
 		while (!exit) {
@@ -27,7 +21,11 @@ public class movieUI {
 								"1. Create Movie Listing\n" +
 								"2. Update Movie Listing\n" +
 								"3. Remove Movie Listing\n" +
-								"4. Return\n\n" +
+								"4. List Movie\n" +
+								"5. Add Ratings\n" +
+								"6. List Top 5\n" +
+								"7. Search Movie\n" +
+								"8. Return\n\n" +
 								"Select option: ");
 			int option = Integer.valueOf(sc.nextLine());
 			switch(option) {
@@ -41,20 +39,44 @@ public class movieUI {
 					removeMovieListing();
 					break;
 				case 4:
+					ArrayList<Movie> movies = new ArrayList<Movie>();
+					movies = mvc.getAllMoviesFromDB();
+					
+					for(Movie movie: movies) {
+						System.out.println("Id: " + movie.getId());
+						System.out.println("Date: " + movie.getMovieReleaseDateToString());
+						System.out.println("Type: " + movie.getType());
+						System.out.println(movie);
+					}
+					break;
+				case 5:
+					System.out.println("Enter movieID: ");
+					int movieID = Integer.valueOf(sc.nextLine());
+					System.out.println("Enter Customer Name: ");
+					String customerName = sc.nextLine();
+					System.out.println("Enter Ratings: ");
+					int rating = Integer.valueOf(sc.nextLine());
+					System.out.println("Enter Comments: ");
+					String comments = sc.nextLine();
+					mvc.addRating(movieID, customerName, rating, comments);
+					break;
+				case 6:
+					mvc.printTopFiveMovies();
+					break;
+				case 7:
+					System.out.println("Enter Input: ");
+					String searchInput = sc.nextLine();
+					ArrayList<Movie> matchedMovies = null;
+					matchedMovies = mvc.searchMovies(searchInput);
+					for(Movie movie : matchedMovies)
+						System.out.println(movie);
+					break;
+				case 8:
 					exit = true;
 					break;
 				default:
 					System.out.println("Invalid input!\n Please try again");
 			}
-		}
-		
-		movies = mvc.getAllMoviesFromDB();
-		
-		for(Movie movie: movies) {
-			System.out.println("Id: " + movie.getId());
-			System.out.println("Date: " + movie.getMovieReleaseDateToString());
-			System.out.println("Type: " + movie.getType());
-			System.out.println(movie.toString());
 		}
 		
 		sc.close();

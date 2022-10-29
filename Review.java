@@ -1,5 +1,9 @@
+package SC2002Link;
 
-public abstract class Review{
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Review implements Serializable{
 	private String userName;
 	private int numRating;
 	private String comments;
@@ -37,7 +41,7 @@ public abstract class Review{
 	public String toString() {
 		String reviewDetails = "";
 		
-		reviewDetails = "Username: " + this.getUserName() +
+		reviewDetails = " Username: " + this.getUserName() +
 						"\n Rating: " + this.getNumRating() +
 						"\n Reviews: " + this.getComments();
 		
