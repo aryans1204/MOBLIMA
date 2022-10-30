@@ -86,4 +86,6 @@ public class Customer implements Client {
     }
 
     public void listTopFive(String criterion, MovieController m, TicketController t);  //require read access to Movie CRUD if criterion is Rating OR require Ticket CURD if criterion is sales. 
+
+    public int getAgeGroup();  //method to get the age of the client, as an int.
 }
