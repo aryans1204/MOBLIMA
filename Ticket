@@ -34,14 +34,14 @@ public class Ticket extends TicketAbs implements Serializable {
     	//if child or senior x0.8
     	int[] price_list;
     	int moviePrice;
-    	int movieType;
+    	MovieType movieType;
     	int clientAge;
-    	int cinemaType;
+    	CinemaType cinemaType;
     	int date;
     	double multiplier = 1;
     	
     	price_list = getPricesFromDB();
-    	moviePrice = price_list[movie.getindex()];
+    	moviePrice = price_list[movie.getId()];
     	
     	movieType = movie.getType();
     	clientAge = client.getAgeGroup();
