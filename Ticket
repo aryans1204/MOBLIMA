@@ -1,59 +1,86 @@
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.*;
+import java.lang.*;
 
-public class Ticket extends TicketAbs {
-    private Movie movie;  //associated movie with the ticket
-    private Cinema cinema; //associated cinema of the movie, this will also provide seat number
-    private Client client;  //purchasing client details
-    private Date showtime;
+public class Ticket extends TicketAbs implements Serializable {
+    Movie movie;  //associated movie with the ticket
+    Cinema cinema; //associated cinema of the movie, this will also provide seat number
+    Customer client;  //purchasing client details
+    String showtime;
+    int seatNo;   //in Cinema class, the free seat id will be passed to Ticket
+    double price;
+    String priceFileName;
     
     Scanner sc= new Scanner(System.in);
 
-    public Ticket(Movie a, Cinema b, Client c, Date d ) {
+    public Ticket(Movie a, Cinema b, Customer c, String d, int sit_no, String price_FileName) {
     	movie = a;
     	cinema = b;
     	client = c;
     	showtime = d;
-    }
-    
-    public int check_ticket_validity(double[][][][]price_ar) {
-    	//invalid case
-    	//used to try/throw exception in main method
-    	if (price_ar[movie][cinema][client.age][showtime]==0)
-    		return 0;
-    	//valid case
-    	else return 1;
-    }
-    
-    public double getPrice(double[][][][]price_ar){
-    	//method to get price of a ticket based on the factors
-    	//take in parameter of a 4D array.
-    	//each dimension corresponds to each factor that affects ticket price
-    	//Inside the array slot we will put in the value of the ticket price
-    	if (check_ticket_validity(price_ar)==1)
-    		return price_ar[movie][cinema][client.age][showtime];
-    	else return -1;
-    }
-    
-    public void create_ticket_price(double[][][][]price_ar) {
-    	//when there is a new movie, create the ticket pricings
-    	System.out.println("PLease enter movie name:");
-    	movie = sc.nextLine();
-    	System.out.println("Please enter cinema:");
-    	cinema = sc.nextLine();
-    	System.out.println("Please enter showtime:");
-    	showtime = sc.nextInt();
-    	System.out.println("Please enter ticket price for child:");
-    	price_ar[movie][cinema][client.age][showtime]= sc.nextInt();
-    	System.out.println("Please enter ticket price for adults:");
-    	price_ar[movie][cinema][client.age][showtime]= sc.nextInt();
-    }
-   
-    
-    public void edit_ticket_price(double new_price,double[][][][]price_ar) {
-    	//for the staff to edit ticket price
-    	price_ar[movie][cinema][client.age][showtime] = new_price;
+    	seatNo = sit_no;
+    	priceFileName = price_FileName;
+    	calculatePrice();
+    	
     	
     }
+    
+    public void calculatePrice() {
+    	//gets price from prices database and does algorithm on it.
+    	//prices database stores default values for this particular movie and cinema and showtime
+    	//if child or senior x0.8
+    	int[] price_list;
+    	int moviePrice;
+    	int movieType;
+    	int clientAge;
+    	int cinemaType;
+    	int date;
+    	double multiplier = 1;
+    	
+    	price_list = getPricesFromDB();
+    	moviePrice = price_list[movie.getindex()];
+    	
+    	movieType = movie.getType();
+    	clientAge = client.getAgeGroup();
+    	cinemaType = cinema.getType();
+    	if (showtime.compareTo("Sunday")==1||showtime.compareTo("Saturday")==1||
+    			showtime.compareTo("Holiday")==1) {
+    		multiplier = multiplier*1.5;
+    	}
+    	
+    	multiplier = multiplier * movieType * clientAge * cinemaType;
+    	
+    	price = moviePrice * multiplier;
+    	
+
+    }
+    
+    public int[] getPricesFromDB() {
+		int[] prices = null;
+		FileInputStream fis = null;
+		ObjectInputStream in = null;
+		
+		try {
+			fis = new FileInputStream(priceFileName);
+			in = new ObjectInputStream(fis);
+			prices = (int[]) in.readObject();
+			in.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} catch (ClassNotFoundException ex) {
+			ex.printStackTrace();
+		}
+		return prices;
+	}
+   
+    
+    public double getPrice(){
+    	return price;
+    }
+    
     public Cinema getCinema() {
     	//method to return cinema associated with the ticket.
     	return cinema;
@@ -66,4 +93,5 @@ public class Ticket extends TicketAbs {
     	//method to return showtime of the ticket.
     	return date;
     }
+}
 }
