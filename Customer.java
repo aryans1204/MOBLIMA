@@ -70,24 +70,6 @@ public class Customer implements Client, Serializable{
         return true;
     }
 
-//    public void checkMovieListings(Cinema cinema) {
-//        if (!auth) return;
-//        for (Movie movie : cinema.movies) {
-//            System.out.println(movie.title);
-//            System.out.println(movie.status);
-//            System.out.println(movie.synopsis);
-//            System.out.println("Director: " + movie.Director + "Cast: " + movie.Cast1 + " " + movie.Cast2);
-//            System.out.println(movie.rating);
-//            System.out.println("Review                                                          Rating");  //please keep review length to 64 characters
-//            System.out.println("=======================================================================");
-//            for (for (int j = 0; j < movie.reviews.length; j++)) {
-//                System.out.print(movie.reviews[j]);
-//                for (int i = 0; i < 66 - movie.reviews[j].length(); i++) System.out.print(" ");
-//                System.out.println(movie.ratings[j]);
-//            }
-//        }
-//    }
-
     public String makeBooking(Cinema cinema, Movie movie) throws Exception {
         if (!auth) return "0xdeadbeef";
         cinema.printLayout(movie, showtime);  //prints layout for movie and showtime at the cinema.
