@@ -18,16 +18,17 @@ public class Movie implements Serializable{
 	private ArrayList<Cinema> cinemas;
 	private int runtime;  //Duration of the movie in (MINS)
 	private LocalDate movieReleaseDate;
+	private double totalSales;
 
 	/*
 	 * No abstract methods atm
 	 */
-	
-	
+
+
 	//Constructor
 	public Movie(int id, String title, MovieType type, MovieStatus status, String synopsis, String director, ArrayList<String> casts,
-			String rating, int runtime, LocalDate movieReleaseDate) {
-		
+			String rating, int runtime, LocalDate movieReleaseDate, double totalSales) {
+
 		this.id = id;
 		this.title = title;
 		this.type = type;
@@ -40,8 +41,9 @@ public class Movie implements Serializable{
 		this.cinemas = new ArrayList<Cinema>();
 		this.runtime = runtime;
 		this.movieReleaseDate = movieReleaseDate;
+		this.totalSales = totalSales;
 	}
-	
+
 	//Getters
     public int getId() {
 		return id;
@@ -79,12 +81,15 @@ public class Movie implements Serializable{
 	public LocalDate getMovieReleaseDate() {
 		return movieReleaseDate;
 	}
-	
 	//Return the dates as String
 	public String getMovieReleaseDateToString(){
         return movieReleaseDate.format(DateTimeFormatter.ofPattern("EEEE, dd/MM/yyyy"));
     }
-	
+	public double getTotalSales(){
+		return totalSales;
+	}
+
+
 	//Setters
 	public void setId(int id) {
 		this.id = id;
@@ -121,6 +126,10 @@ public class Movie implements Serializable{
 	}
 	public void setMovieReleaseDate(LocalDate movieReleaseDate) {
 		this.movieReleaseDate = movieReleaseDate;
+	}
+
+	public void setTotalSales(double totalSales){
+		this.totalSales = getTotalSales() + totalSales;
 	}
 	
 	//Methods
