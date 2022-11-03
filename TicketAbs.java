@@ -24,4 +24,6 @@ public abstract class TicketAbs {
     public abstract Movie getMovie(); //method to return the movie for the ticket
 
     public abstract Date getShowtime();  //method to return showtime of the ticket.
+    
+    public abstract Customer getCustomer(); //method to return customer of ticket
 }
