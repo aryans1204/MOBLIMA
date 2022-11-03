@@ -5,19 +5,16 @@ import Client,Cinema,Movie;
 
 public class Customer implements Client, Serializable{
 
-    private int age;
+
+    private ClientController c;
     private String name;
+    private int age;
     private boolean auth = false;  //authentication indicator. Whether customer is authenticated or not. All methods must check for authentication.
     public String username;
     public String password;
 
     //Constructor for Customer object.
-    public Customer(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
-
-    public Customer(String name, int age, String username, String password) {
+    public Customer(String name, int age, String username, String password){
         this.name = name;
         this.age = age;
         this.username = username;
@@ -25,7 +22,7 @@ public class Customer implements Client, Serializable{
     }
 
 
-    public boolean login(CustomerController c) throws IOException {
+    public boolean login() throws IOException {
         int tries = 9;
         String tempUsername;
         String tempPassword;
@@ -36,10 +33,10 @@ public class Customer implements Client, Serializable{
         System.out.println("Please enter your password: ");
         tempPassword = reader.readLine();
 
-        ArrayList<Customer> customers = null;
+        ArrayList<Customer> customers = new ArrayList<>();
         customers = c.getCustomerFromDB();  //Fetch all customers details from DB
         for (int i = 0; i < customers.size(); i++) {
-            if (customers.get(i).getUsername() == tempUsername && customers.get(i).getPassword() == tempPassword) {
+            if (customers.get(i).getUsername().equals(tempUsername) && customers.get(i).getPassword().equals(tempPassword)) {
                 System.out.println("Authenticated successfully");
                 auth = true;
                 return true;
@@ -48,7 +45,7 @@ public class Customer implements Client, Serializable{
         return false;
     }
 
-    public boolean createAccount(CustomerController c) throws IOException{
+    public boolean createAccount() throws IOException{
         int tries = 9;  //9 tries before system shuts;
         String tempUsername;
         String tempPassword;
@@ -92,10 +89,10 @@ public class Customer implements Client, Serializable{
     }
     public void listMovie(MovieController m) { // List all movies that are "NowShowing"
         if (!auth) return;
-        ArrayList<Movie> movies = null;
+        ArrayList<Movie> movies = new ArrayList<>();
         movies = m.getAllMoviesFromDB();
         for(int i=0; i<movies.size(); i++){
-            if(movies.get(i).getStatus() == MovieStatus.NOW_SHOWING){
+            if(movies.get(i).getStatus().equals(MovieStatus.NOW_SHOWING)){
                 System.out.println("Movie Title: " + movies.get(i).getTitle());
                 System.out.println("Director: " + movies.get(i).getDirector());
                 System.out.println("Runtime: " + movies.get(i).getRuntime());
@@ -109,7 +106,7 @@ public class Customer implements Client, Serializable{
 
     public void searchMovie(String movieTitle, MovieController m){ //searches for a Movie in our database and prints out the Review and rating
         if (!auth) return;
-        ArrayList<Movie> matchedmovie = null;
+        ArrayList<Movie> matchedmovie = new ArrayList<>();
         matchedmovie = m.searchMovies(movieTitle);
 
         if(matchedmovie.size() > 0){ //When movie is successfully searched
@@ -127,11 +124,11 @@ public class Customer implements Client, Serializable{
 
     public void viewBookings(TicketController t){ //view all past bookings made by the Customer.
         if (!auth) return;
-        ArrayList<Ticket> tickets = new ArrayList<Ticket>();
+        ArrayList<Ticket> tickets = new ArrayList<>();
         tickets = t.getAllTicketsFromDB();  //Get all tickets from DB
 
         for(int i=0; i< tickets.size();i++){
-            if(tickets.get(i).getCustomer().getName() == name && tickets.get(i).getCustomer().getAge() == age){
+            if(tickets.get(i).getCustomer().getName().equals(name) && tickets.get(i).getCustomer().getAge().equals(age)){
                 System.out.println(tickets.get(i).getCinema());
                 System.out.println(tickets.get(i).getMovie());
                 System.out.println(tickets.get(i).getShowtime());
@@ -148,7 +145,7 @@ public class Customer implements Client, Serializable{
     public void listTopFive(String criterion, MovieController m){ //require read access to Movie CRUD if criterion is Rating OR require Ticket CRUD if criterion is sales.
         if (!auth) return;
         //Top 5 by Ratings
-        if(criterion == "Rating" || criterion == "rating"){
+        if(criterion.equals("Rating") || criterion.equals("rating")){
             m.printTopFiveMovies();
         }
 

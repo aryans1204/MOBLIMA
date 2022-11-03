@@ -18,7 +18,7 @@ public class Movie implements Serializable{
 	private ArrayList<Cinema> cinemas;
 	private int runtime;  //Duration of the movie in (MINS)
 	private LocalDate movieReleaseDate;
-	private double totalSales;
+	private double totalSales = 0.0;
 
 	/*
 	 * No abstract methods atm
@@ -27,7 +27,7 @@ public class Movie implements Serializable{
 
 	//Constructor
 	public Movie(int id, String title, MovieType type, MovieStatus status, String synopsis, String director, ArrayList<String> casts,
-			String rating, int runtime, LocalDate movieReleaseDate, double totalSales) {
+			String rating, int runtime, LocalDate movieReleaseDate) {
 
 		this.id = id;
 		this.title = title;

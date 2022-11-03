@@ -5,19 +5,12 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.regex.Pattern;
 
-public class CustomerController {
+public class ClientController {
     private String fileName;
 
-    CustomerController(String fileName){
+    ClientController(String fileName){
         this.fileName = fileName;
     }
 
