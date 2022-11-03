@@ -119,6 +119,10 @@ public class Ticket extends TicketAbs implements Serializable {
 		}
 		return prices;
 	}
+	
+    public Customer getCustomer(){
+         return customer;
+    }
    
     
     public double getPrice(){
