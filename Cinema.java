@@ -42,4 +42,6 @@ public class Cinema implements Serializable {
     public updateMovies(Movie newMovie) {
 	this.movies.add(newMovie);
     }
+    
+    public void printLayout(Movie movie, LocalDate showtime);  //prints layout of the Cinema based on available seats for the Movie at the particular showtime
 }	
