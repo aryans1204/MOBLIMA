@@ -272,6 +272,39 @@ public class MovieController {
 			System.out.println("File: " + fileName + " does not exist");
 		return false;
 	}
+
+	//Print the top 5 movies based on the Overall Review
+	public boolean printTopFiveMoviesBySales() {
+		ArrayList<Movie> movies = null;
+		File f = new File(fileName);
+		if(f.exists()) {
+			movies = this.getAllMoviesFromDB();//Read in existing data in db
+			if(movies.size() > 0) {
+				List<Movie> listMovies = movies;
+
+				Collections.sort(listMovies, new Comparator<Movie>(){
+					public int compare(Movie o1, Movie o2)
+					{
+						return Double.valueOf(o2.getTotalSales()).compareTo(Double.valueOf(o1.getTotalSales()));
+					}
+				});
+
+				ArrayList<Movie> sortedMovies = new ArrayList<Movie>(listMovies);
+				System.out.println("Top 5 Movies by Total Sales\n");
+				System.out.println("Total Sales\tTitle");
+				System.out.println("--------------\t-----");
+				for(int i = 0; i < 5; i ++)
+					System.out.println("\t" + sortedMovies.get(i).getTotalSales() + "\t" + sortedMovies.get(i).getTitle());
+
+				return true;
+
+			}
+		}
+		else
+			System.out.println("File: " + fileName + " does not exist");
+		return false;
+	}
+
 	
 	//Search the movie in the database and return those movies that the input of user matches.
 	public ArrayList<Movie> searchMovies(String input) {
@@ -312,6 +345,25 @@ public class MovieController {
 		else
 			System.out.println("File: " + fileName + " does not exist");
 		return false;
+	}
+
+	//Insert a totalSales for a movie into the movie database
+	public void addTotalSales(int movieID, double totalSales) {
+		ArrayList<Movie> movies = null;
+		File f = new File(fileName);
+		if(f.exists()) {
+			movies = this.getAllMoviesFromDB();//Read in existing data in db
+			if(movies.size() > 0) {
+				for(int i = 0; i < movies.size(); i++)
+					if(movies.get(i).getId() == movieID) {
+						movies.get(i).setTotalSales(totalSales);
+						break;
+					}
+				if(this.updateExistingFile(movies))
+			}
+		}
+		else
+			System.out.println("File: " + fileName + " does not exist");
 	}
 	
 	//Insert cinema that is broadcasting the movie into the movie database

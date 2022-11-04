@@ -3,57 +3,68 @@ import java.io.*;
 
 import Client,Cinema,Movie;
 
-public class Customer implements Client {
-    private Ticket[] bookings;  //previous bookings made by customer given by tickets.
-    private boolean auth = false;  //authenticatiuon indicator. Whether customer is authenticated or not. All methods must check for authentication.
+public class Customer implements Client, Serializable{
+
+
+    private ClientController c;
+    private String name;
+    private int age;
+    private boolean auth = false;  //authentication indicator. Whether customer is authenticated or not. All methods must check for authentication.
     public String username;
+    public String password;
 
-    public boolean login(String password, Database db) {
-        if (!db.user_accounts.containsKey(this.username)) return false;
-
-        else if (db.user_accounts.get(this.username) != password) return false;
-        this.auth = true;
-        System.out.println("Authenticated succesfully");
-        bookings = new Ticket[100];
-        return true;
-    }
-
-    public boolean createAccount(Database db) throws Exception {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        int tries = 9;  //9 tries before system shuts;
-        do {
-            System.out.println("Enter username: ");
-            String username = reader.readLine();
-            if (db.user_accounts.containsKey(username)) System.out.println("Username already taken");
-            if (tries == 0) System.out.println("Too many tries. System quitting now");
-            tries--;
-        }
-        while (db.user_accounts.containsKey(username) && tries != 0);
-        if (tries == 0) return false;
-        System.out.println("Enter password: ");
-        String password = reader.readLine();
-        db.user_accounts.put(username, password);
+    //Constructor for Customer object.
+    public Customer(String name, int age, String username, String password){
+        this.name = name;
+        this.age = age;
         this.username = username;
-        System.out.println("Account created successfully");
-        return true;
+        this.password = password;
     }
 
-    public void checkMovieListings(Cinema cinema) {
-        if (!auth) return;
-        for (Movie movie : cinema.movies) {
-            System.out.println(movie.title);
-            System.out.println(movie.status);
-            System.out.println(movie.synopsis);
-            System.out.println("Director: " + movie.Director + "Cast: " + movie.Cast1 + " " + movie.Cast2);
-            System.out.println(movie.rating);
-            System.out.println("Review                                                          Rating");  //please keep review length to 64 characters
-            System.out.println("=======================================================================");
-            for (for (int j = 0; j < movie.reviews.length; j++)) {
-                System.out.print(movie.reviews[j]);
-                for (int i = 0; i < 66 - movie.reviews[j].length(); i++) System.out.print(" ");
-                System.out.println(movie.ratings[j]);
+
+    public boolean login() throws IOException {
+        int tries = 9;
+        String tempUsername;
+        String tempPassword;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        System.out.println("Please enter your login username: ");
+        tempUsername = reader.readLine();
+        System.out.println("Please enter your password: ");
+        tempPassword = reader.readLine();
+
+        ArrayList<Customer> customers = new ArrayList<>();
+        customers = c.getCustomerFromDB();  //Fetch all customers details from DB
+        for (int i = 0; i < customers.size(); i++) {
+            if (customers.get(i).getUsername().equals(tempUsername) && customers.get(i).getPassword().equals(tempPassword)) {
+                System.out.println("Authenticated successfully");
+                auth = true;
+                return true;
             }
         }
+        return false;
+    }
+
+    public boolean createAccount() throws IOException{
+        int tries = 9;  //9 tries before system shuts;
+        String tempUsername;
+        String tempPassword;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        do {
+            System.out.println("Enter username: ");
+            tempUsername = reader.readLine();
+            if (c.checkUsernameExist(tempUsername)) System.out.println("Username already taken");
+            if (tries == 0) System.out.println("Too many tries. System quitting now");
+            tries--;
+        } while (c.checkUsernameExist(tempUsername) && tries != 0);
+        if (tries == 0) return false;
+        setUsername(tempUsername);
+        System.out.println("Enter password: ");
+        tempPassword = reader.readLine();
+        setPassword(tempPassword);
+        c.insertCustomerToDB(name, age, username, password);
+        System.out.println("Account created successfully");
+        return true;
     }
 
     public String makeBooking(Cinema cinema, Movie movie) throws Exception {
@@ -76,16 +87,110 @@ public class Customer implements Client {
         cinema.tID.get(this.username).get(movie.title).put(movie.showtime, transactionID);
         return transactionID;
     }
-
-    public void searchMovie(String movieTitle, MovieController m);  //searches for a Movie in our database and prints out the Review and rating
-
-    public void viewBookings();  //view all the past bookings made by the Customer.
-
-    public void checkSeats(Cinema cinema, String showtime) {
-	cinema.printLayout(this, showtime); //simple wrapper to print layout
+    public void listMovie(MovieController m) { // List all movies that are "NowShowing"
+        if (!auth) return;
+        ArrayList<Movie> movies = new ArrayList<>();
+        movies = m.getAllMoviesFromDB();
+        for(int i=0; i<movies.size(); i++){
+            if(movies.get(i).getStatus().equals(MovieStatus.NOW_SHOWING)){
+                System.out.println("Movie Title: " + movies.get(i).getTitle());
+                System.out.println("Director: " + movies.get(i).getDirector());
+                System.out.println("Runtime: " + movies.get(i).getRuntime());
+                System.out.println("Type: " + movies.get(i).getType() );
+                System.out.println("Ratings: " + movies.get(i).getRating());
+                System.out.println("Synopsis: " + movies.get(i).getSynopsis());
+                System.out.println("Reviews: " + movies.get(i).getReviews());
+            }
+        }
     }
 
-    public void listTopFive(String criterion, MovieController m, TicketController t);  //require read access to Movie CRUD if criterion is Rating OR require Ticket CURD if criterion is sales. 
+    public void searchMovie(String movieTitle, MovieController m){ //searches for a Movie in our database and prints out the Review and rating
+        if (!auth) return;
+        ArrayList<Movie> matchedmovie = new ArrayList<>();
+        matchedmovie = m.searchMovies(movieTitle);
 
-    public int getAgeGroup();  //method to get the age of the client, as an int.
+        if(matchedmovie.size() > 0){ //When movie is successfully searched
+            for(int i=0; i<matchedmovie.size(); i++){
+                System.out.println("Movie Title: " + movieTitle);
+                System.out.println("Director: " + matchedmovie.get(i).getDirector());
+                System.out.println("Runtime: " + matchedmovie.get(i).getRuntime());
+                System.out.println("Type: " + matchedmovie.get(i).getType() );
+                System.out.println("Ratings: " + matchedmovie.get(i).getRating());
+                System.out.println("Synopsis: " + matchedmovie.get(i).getSynopsis());
+                System.out.println("Reviews: " + matchedmovie.get(i).getReviews());
+            }
+        }
+    }
+
+    public void viewBookings(TicketController t){ //view all past bookings made by the Customer.
+        if (!auth) return;
+        ArrayList<Ticket> tickets = new ArrayList<>();
+        tickets = t.getAllTicketsFromDB();  //Get all tickets from DB
+
+        for(int i=0; i< tickets.size();i++){
+            if(tickets.get(i).getCustomer().getName().equals(name) && tickets.get(i).getCustomer().getAge().equals(age)){
+                System.out.println(tickets.get(i).getCinema());
+                System.out.println(tickets.get(i).getMovie());
+                System.out.println(tickets.get(i).getShowtime());
+                System.out.println(tickets.get(i).getPrice());
+            }
+        }
+    }
+
+    public void checkSeats(Cinema cinema, String showtime) {
+        if (!auth) return;
+	    cinema.printLayout(this, showtime); //simple wrapper to print layout
+    }
+
+    public void listTopFive(String criterion, MovieController m){ //require read access to Movie CRUD if criterion is Rating OR require Ticket CRUD if criterion is sales.
+        if (!auth) return;
+        //Top 5 by Ratings
+        if(criterion.equals("Rating") || criterion.equals("rating")){
+            m.printTopFiveMovies();
+        }
+
+        //Top 5 by Sales
+        else{
+            m.printTopFiveMoviesBySales();
+        }
+    }
+
+
+    //Getters
+    public String getName(){
+        return name;
+    }
+    public int getAge(){
+        return age;
+    }  //method to get the age of the client, as an int.
+    public String getUsername(){
+        return username;
+    }
+    public String getPassword() {
+        return password;
+    }
+
+
+    //Setters
+    public void setName(String name){
+        this.name = name;
+    }
+    public void setAge(int age){
+        this.age = age;
+    }
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String toString() {
+        String customerDetail;
+        customerDetail = "Name: " + name + "\n"
+                       + "Age: " + age + "\n"
+                       + "Username: " + username + "\n"
+                       + "Password: " + password;
+        return customerDetail;
+    }
 }
