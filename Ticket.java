@@ -24,8 +24,10 @@ public class Ticket extends TicketAbs implements Serializable {
     	showtime = d;
     	seatNo = sit_no;
     	priceFileName = price_FileName;
-    	transaction = new Transaction(TID, custName, custEmail, custMobileNumber);
-    	calculatePrice(); 	
+    	transaction = new Transaction(TID, custName, custEmail, custMobileNumber); 	
+	    double priceL = b.getTicketPrice(a.getTitle());
+	    if (priceL == 0) calculatePrice();
+	    else price = priceL;	
     }
     
     public void calculatePrice() {
