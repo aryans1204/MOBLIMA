@@ -9,6 +9,7 @@ public class Ticket extends TicketAbs implements Serializable {
     Movie movie;  //associated movie with the ticket
     Cinema cinema; //associated cinema of the movie, this will also provide seat number
     Customer customer;  //purchasing customer details
+    Transaction transaction;
     String showtime;
     int seatNo;   //in Cinema class, the free seat id will be passed to Ticket
     double price;
@@ -16,16 +17,15 @@ public class Ticket extends TicketAbs implements Serializable {
     
     Scanner sc= new Scanner(System.in);
 
-    public Ticket(Movie a, Cinema b, Customer c, String d, int sit_no, String price_FileName) {
+    public Ticket(Movie a, Cinema b, Customer c, String d, int sit_no, String price_FileName, String TID, String custName, String custEmail, String custMobileNumber) {
     	movie = a;
     	cinema = b;
     	customer = c;
     	showtime = d;
     	seatNo = sit_no;
     	priceFileName = price_FileName;
-    	calculatePrice();
-    	
-    	
+    	transaction = new Transaction(TID, custName, custEmail, custMobileNumber);
+    	calculatePrice(); 	
     }
     
     public void calculatePrice() {
@@ -124,7 +124,6 @@ public class Ticket extends TicketAbs implements Serializable {
          return customer;
     }
    
-    
     public double getPrice(){
     	return price;
     }
@@ -140,5 +139,9 @@ public class Ticket extends TicketAbs implements Serializable {
     public Date getShowtime() {
     	//method to return showtime of the ticket.
     	return date;
+    }
+    
+    public void setPrice(double newPrice){
+    	price = newPrice;
     }
 }
