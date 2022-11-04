@@ -9,17 +9,27 @@ import java.util.ArrayList;
 
 public class ClientController {
     private String fileName;
+    private String fileNameStaff;
 
-    ClientController(String fileName){
-        this.fileName = fileName;
+    ClientController(String fileNameCustomer, fileNameStaff){
+        this.fileNameStaff = fileNameStaff;
+	this.fileName = fileNameCustomer;
     }
 
     public String getFileName() {
         return fileName;
     }
 
+    public String getFileNameStaff() {
+	return fileNameStaff;
+    }
+
     public void setFileName(String fileName){
         this.fileName = fileName;
+    }
+
+    public void setFileNameStaff(String fileNameStaff) {
+	this.fileNameStaff = fileNameStaff;
     }
 
     //Inserting Customers name, age, username and password into the database
@@ -49,7 +59,32 @@ public class ClientController {
         }
 
     }
+    //Inserting Staff into database with username, password and associated cinema
+    public void insertStaffToDB(String username, String password, Cinema cinema) {
+	ArrayList<Staff> staffs = new ArrayList<>();
+        Staff newStaff = new Staff(username, password, cinema);
+        FileOutputStream fos = null;
+        ObjectOutputStream out = null;
+        File f = new File(fileName);
+        if(f.exists()) {
+            customers = this.getStaffFromDB();
+            customers.add(newCustomer);
+        }
+        else{
+            System.out.println("File: " + fileName + " does not exist");
+            System.out.println("Creating new DB");
+        }
 
+        try {
+            fos = new FileOutputStream(fileName);
+            out = new ObjectOutputStream(fos);
+            out.writeObject(staffs);
+            out.close();
+        }
+        catch (IOException ex){
+            ex.printStackTrace();
+        }
+    }
     //Getting all customer's details from the database
     public ArrayList<Customer> getCustomerFromDB(){
         ArrayList<Customer> customers = null;
@@ -70,6 +105,26 @@ public class ClientController {
         }
         return customers;
     }
+    
+    public ArrayList<Staff> getStaffFromDB() {	
+        ArrayList<Staff> staffs = new ArrayList<>();
+        FileInputStream fis = null;
+        ObjectInputStream in = null;
+
+        try{
+            fis = new FileInputStream(fileName);
+            in = new ObjectInputStream(fis);
+            staffs = (ArrayList<Staff>) in.readObject();
+            in.close();
+        }
+        catch (IOException ex){
+            ex.printStackTrace();
+        }
+        catch(ClassNotFoundException ex){
+            ex.printStackTrace();
+        }
+        return staffs;
+    }
 
     public boolean checkUsernameExist(String username) {
         ArrayList<Customer> customers = null;
@@ -82,14 +137,11 @@ public class ClientController {
                         return true;
             }
         }
-//        else
-//            System.out.println("File: " + fileName + " does not exist");
+        else
+          System.out.println("File: " + fileName + " does not exist");
 
         return false;
     }
-
-    //public boolean updateCustomerDB(){ return true;}
-    // Don't think there is a need to update customer DB
 
     public boolean removeCustomer(String name, int age) {
         ArrayList<Customer> customers = null;
@@ -109,4 +161,5 @@ public class ClientController {
 
         return false;
     }
+    
 }
