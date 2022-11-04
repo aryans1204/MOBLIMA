@@ -143,7 +143,9 @@ public class Staff implements Client, Serializable {
 				case 9:
 					System.out.println("Enter Movie title for which you would like to update the prices");
 					String title = sc.nextLine();
-					this.cinema.setTicketPrice(title);
+					System.out..println("Enter the price you want to set for this ticket");
+					double price = Double.parseDouble(sc.nextLine());
+					this.cinema.setTicketPrice(title, price);
 				default:
 					System.out.println("Invalid input!\n Please try again");
 			}
@@ -274,7 +276,8 @@ public class Staff implements Client, Serializable {
 				}
 			}
 
-			mvc.insertMovieToDB(title, type, status, synopsis, director, casts, rating, runtime, releaseDate);
+			Movie newMovie = new Movie(title, type, status, synopsis, director, casts, rating, runtime, releaseDate);
+			this.cinema.updateMovies(newMovie);
 			System.out.println("Movie List Created.. Going back to previous menu");
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -384,7 +387,7 @@ public class Staff implements Client, Serializable {
 							break;
 						case 4:
 							status = MovieStatus.END_OF_SHOWING;
-							success = mvc.removeMovieByID(movieId);
+							//success = mvc.removeMovieByID(movieId);
 							exit = true;
 							break;
 						default:
