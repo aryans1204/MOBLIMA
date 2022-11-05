@@ -12,7 +12,7 @@ public class Customer implements Client, Serializable{
     private boolean auth = false;  //authentication indicator. Whether customer is authenticated or not. All methods must check for authentication.
     private String username;
     private String password;
-    private ArrayList<ticket> bookings = new ArrayList<>();
+    private ArrayList<Ticket> bookings = new ArrayList<>();
 
     //Constructor for Customer object.
     public Customer(String name, int age, String username, String password, String email, int mobileNumber){
