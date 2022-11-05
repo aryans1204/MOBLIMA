@@ -118,6 +118,9 @@ public class Movie implements Serializable{
 	public void setReviews(ArrayList<Review> reviews) {
 		this.reviews = reviews;
 	}
+	public void setReviews(Review review) {
+		this.reviews.add(review);
+	}
 	public void setCinemas(ArrayList<Cinema> cinemas) {
 		this.cinemas = cinemas;
 	}

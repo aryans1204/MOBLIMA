@@ -10,7 +10,7 @@ public class Ticket extends TicketAbs implements Serializable {
     Cinema cinema; //associated cinema of the movie, this will also provide seat number
     Customer customer;  //purchasing customer details
     Transaction transaction;
-    String showtime;
+    LocalDate showtime;
     int seatNo;   //in Cinema class, the free seat id will be passed to Ticket
     double price;
     String priceFileName;
@@ -146,4 +146,13 @@ public class Ticket extends TicketAbs implements Serializable {
     public void setPrice(double newPrice){
     	price = newPrice;
     }
+
+    @Override
+    public String toString() {
+	return "Date of Movie: " + showtime.toString() + "\n" + 
+		"Movie Title: " + movie.getTitle() + "\n" +
+		"Cinema Name: " + cinema.getName() + "\n" +
+		"Price paid: " + price + "\n" +
+		"Transaction ID: " + transaction.getTID();
+    }   
 }

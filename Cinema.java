@@ -6,17 +6,18 @@ public class Cinema implements Serializable {
     private ArrayList<Movie>  movies;  //array of Movies at this cinema;
     private HashMap<String, ArrayList<LocalDate>> showtimes;
     private HashMap<String, ArrayList<Seat>> seats;  //key is the movie title + showtime.toString().
-
-    public Cinema(ArrayList<Movie> movies, HashMap<Movie, ArrayList<LocalDate>> showtimes) {
+    private String cinemaName;
+    public Cinema(String cinemaName, ArrayList<Movie> movies, HashMap<Movie, ArrayList<LocalDate>> showtimes, HashMap<String, ArrayList<Seat> seats) {
 	
 	this.movies = movies;
+	this.cinemaName = cinemaName;
 	ArrayList<LocalDate> shows = new ArrayList<>();
 	this.showtimes = new HashMap<>();
 	for (Movie mov : showtimes.keySet()) {
 		this.showtimes.put(mov.getTitle(), showtimes.get(mov));
 		this.prices.put(mov.getTitle(), 0);  //0 is a sign that Staff hasn't configured prices yet
 	}
-	this.seats = Seat.getSeatsFromDB(movies, showtimes, this);
+	this.seats = seats;
     }
 
     public void setTicketPrice(String title, double price) {
@@ -27,6 +28,14 @@ public class Cinema implements Serializable {
 	ArrayList<LocalDate> shows = this.showtimes.get(title);
 	shows.add(showtime);
 	this.showtimes.put(title, shows);
+    }
+
+    public void setName(String name) {
+	this.cinemaname = name;
+    }
+
+    public String getName() {
+	return this.cinemaName;
     }
 
     public double getTicketPrice(String title) {
@@ -45,5 +54,18 @@ public class Cinema implements Serializable {
 	this.movies.add(newMovie);
     }
     
+    public void setSeats(String title, Seat newSeat) {
+	ArrayList<Seat> s = this.seats.get(title);
+	s.add(newSeat);
+	this.seats.put(title, s);
+    }
+    
+    public void setSeats(HashMap<String, ArrayList<LocalDate>> seats) {
+	this.seats = seats;
+    }
+
+    public ArrayList<Seat> getSeats(String title) {
+	return this.seats.get(title);
+    }    
     public void printLayout(Movie movie, LocalDate showtime);  //prints layout of the Cinema based on available seats for the Movie at the particular showtime
 }	
