@@ -56,7 +56,7 @@ public class Staff implements Client, Serializable {
         return true;
     }
 
-	public void updateSystemUI(ArrayList<Movie> movieDB){
+	public void staffUI(ArrayList<Movie> movieDB){
 		// TODO Auto-generated method stub
 		if (!auth) return;
 		Scanner sc = new Scanner(System.in);

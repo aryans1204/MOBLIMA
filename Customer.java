@@ -82,7 +82,7 @@ public class Customer implements Client, Serializable{
         return true;
     }
 
-    public customerUI(ArrayList<Cinema> cinemaDB, Araylist<Movie> movieDB) throws Exception {
+    public void customerUI(ArrayList<Cinema> cinemaDB, Araylist<Movie> movieDB) throws Exception {
 	if (!auth) return;
 	boolean exit = false;
 	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
