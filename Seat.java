@@ -10,9 +10,15 @@ public class Seat implements Serializable {
 
     private Customer customer;
 
-    pubic Seat(SeatType type, Customer customer) {
+    public Seat(SeatType type, Customer customer) {
 	this.type = type;
 	this.customer = customer;
+    }
+    public SeatType getType() {
+	return this.type;
+    }
+    public Customer getCustomer() {
+	return this.customer;
     }
 	
 }
