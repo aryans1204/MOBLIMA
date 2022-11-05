@@ -5,6 +5,7 @@ public class Cinema implements Serializable {
     private HashMap<String, Double> prices = new HashMap<>();  //prices indicator per movie-title for Staff to set.
     private ArrayList<Movie>  movies;  //array of Movies at this cinema;
     private HashMap<String, ArrayList<LocalDate>> showtimes;
+    private HashMap<String, ArrayList<Seat>> seats;  //key is the movie title + showtime.toString().
 
     public Cinema(ArrayList<Movie> movies, HashMap<Movie, ArrayList<LocalDate>> showtimes) {
 	
@@ -15,6 +16,7 @@ public class Cinema implements Serializable {
 		this.showtimes.put(mov.getTitle(), showtimes.get(mov));
 		this.prices.put(mov.getTitle(), 0);  //0 is a sign that Staff hasn't configured prices yet
 	}
+	this.seats = Seat.getSeatsFromDB(movies, showtimes, this);
     }
 
     public void setTicketPrice(String title, double price) {
