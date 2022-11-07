@@ -49,8 +49,13 @@ public class Cinema implements Serializable {
 	    return this.movies;
     }
 
+    public void updateMovies(Movie newMovie) {
+	    this.movies.add(newMovie);
+    }
+
     public ArrayList<Movie> updateMovies(Movie newMovie) {
 	    this.movies.add(newMovie);
+      return this.movies;
     }
     
     public void setSeats(String title, Seat newSeat) {

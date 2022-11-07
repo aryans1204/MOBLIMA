@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.*;
 import java.lang.*;
 
-public class Ticket extends TicketAbs implements Serializable {
+public class Ticket implements Serializable {
     Movie movie;  //associated movie with the ticket
     Cinema cinema; //associated cinema of the movie, this will also provide seat number
     Customer customer;  //purchasing customer details
@@ -13,28 +13,33 @@ public class Ticket extends TicketAbs implements Serializable {
     LocalDate showtime;
     int seatNo;   //in Cinema class, the free seat id will be passed to Ticket
     double price;
-    String priceFileName;
+    //String priceFileName;
     
     Scanner sc= new Scanner(System.in);
 
-    public Ticket(Movie a, Cinema b, Customer c, String d, int sit_no, String price_FileName, String TID, String custName, String custEmail, String custMobileNumber) {
+    public Ticket(Movie a, Cinema b, Customer c, String d, int sit_no, /*String price_FileName,*/ String TID, String custName, String custEmail, String custMobileNumber) {
     	movie = a;
     	cinema = b;
     	customer = c;
     	showtime = d;
     	seatNo = sit_no;
-    	priceFileName = price_FileName;
+    	//priceFileName = price_FileName;
     	transaction = new Transaction(TID, custName, custEmail, custMobileNumber); 	
 	    double priceL = b.getTicketPrice(a.getTitle());
-	    if (priceL == 0) calculatePrice();
-	    else price = priceL;	
+	    if (priceL == 0) {
+	    	price = 0;
+	    	calculatePrice();
+	    }
+	    else {
+	    	price = priceL;
+	    	calculatePrice();
+	    }
     }
     
     public void calculatePrice() {
     	//gets price from prices database and does algorithm on it.
     	//prices database stores default values for this particular movie and cinema and showtime
     	//if child or senior x0.8
-    	int[] price_list;
     	int moviePrice;
     	MovieType movieType;
     	int customerAge;
@@ -42,9 +47,12 @@ public class Ticket extends TicketAbs implements Serializable {
     	int date;
     	double multiplier = 1;
     	
-    	price_list = getPricesFromDB();
-    	moviePrice = price_list[movie.getId()];
     	
+    	if (price==0)
+    		moviePrice = 10;
+    	else
+    		moviePrice = price;
+    		
     	movieType = movie.getType();
         //getAgeGroup might be changed to getAge();
     	customerAge = customer.getAge();
