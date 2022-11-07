@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.*;
 import java.lang.*;
 
-public class Ticket extends TicketAbs implements Serializable {
+public class Ticket implements Serializable {
     Movie movie;  //associated movie with the ticket
     Cinema cinema; //associated cinema of the movie, this will also provide seat number
     Customer customer;  //purchasing customer details
