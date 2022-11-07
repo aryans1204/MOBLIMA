@@ -7,7 +7,7 @@ public class Cinema implements Serializable {
     private HashMap<String, ArrayList<LocalDate>> showtimes;
     private HashMap<String, ArrayList<Seat>> seats;  //key is the movie title + showtime.toString().
     private String cinemaName;
-    public Cinema(String cinemaName, ArrayList<Movie> movies, HashMap<Movie, ArrayList<LocalDate>> showtimes, HashMap<String, ArrayList<Seat> seats) {
+    public Cinema(String cinemaName, ArrayList<Movie> movies, HashMap<Movie, ArrayList<LocalDate>> showtimes, HashMap<String, ArrayList<Seat>> seats) {
         this.movies = movies;
         this.cinemaName = cinemaName;
         ArrayList<LocalDate> shows = new ArrayList<>();
