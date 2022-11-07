@@ -5,8 +5,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.*;
-import java.lang.*;
+import java.time.*;
 
+@SuppressWarnings("serial")
 public class Ticket implements Serializable {
     Movie movie;  //associated movie with the ticket
     Cinema cinema; //associated cinema of the movie, this will also provide seat number
@@ -17,14 +18,14 @@ public class Ticket implements Serializable {
     double price;
     Scanner sc= new Scanner(System.in);
 
-    public Ticket(Movie a, Cinema b, Customer c, String d, Seat seat, String TID, String custName, String custEmail, String custMobileNumber) {
-    	movie = a;
-    	cinema = b;
-    	customer = c;
-    	showtime = d;
+    public Ticket(Movie movie, Cinema cinema, Customer customer, LocalDate showtime, Seat seat, String TID, String custName, String custEmail, String custMobileNumber) {
+    	this.movie = movie;
+    	this.cinema = cinema;
+    	this.customer = customer;
+    	this.showtime = showtime;
     	this.seat = seat;
     	transaction = new Transaction(TID, custName, custEmail, custMobileNumber); 	
-	    double priceL = b.getTicketPrice(a.getTitle());
+	    double priceL = cinema.getTicketPrice(movie.getTitle());
 	    if (priceL == 0) {
 	    	price = 0;
 	    	calculatePrice();
@@ -39,16 +40,16 @@ public class Ticket implements Serializable {
     	//gets price from prices database and does algorithm on it.
     	//prices database stores default values for this particular movie and cinema and showtime
     	//if child or senior x0.8
-    	int moviePrice;
+    	double moviePrice;
     	MovieType movieType;
     	int customerAge;
-	SeatType seatType;
+    	SeatType seatType;
     	int date;
     	double multiplier = 1;
     	
     	
     	if (price==0)
-    		moviePrice = 10;
+    		moviePrice = 10.0;
     	else
     		moviePrice = price;
     		
@@ -80,7 +81,7 @@ public class Ticket implements Serializable {
          }
 
          //update multiplier for cinemaType
-         switch(cinemaType){
+         switch(seatType){
                 case STANDARD:
                     //no change in multiplier
                     break;
@@ -111,23 +112,23 @@ public class Ticket implements Serializable {
 
     }
     
-    public int[] getPricesFromDB() {
-		int[] prices = null;
-		FileInputStream fis = null;
-		ObjectInputStream in = null;
-		
-		try {
-			fis = new FileInputStream(priceFileName);
-			in = new ObjectInputStream(fis);
-			prices = (int[]) in.readObject();
-			in.close();
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		} catch (ClassNotFoundException ex) {
-			ex.printStackTrace();
-		}
-		return prices;
-	}
+//    public int[] getPricesFromDB() {
+//		int[] prices = null;
+//		FileInputStream fis = null;
+//		ObjectInputStream in = null;
+//		
+//		try {
+//			fis = new FileInputStream(priceFileName);
+//			in = new ObjectInputStream(fis);
+//			prices = (int[]) in.readObject();
+//			in.close();
+//		} catch (IOException ex) {
+//			ex.printStackTrace();
+//		} catch (ClassNotFoundException ex) {
+//			ex.printStackTrace();
+//		}
+//		return prices;
+//	}
 	
     public Customer getCustomer(){
          return customer;
@@ -155,7 +156,7 @@ public class Ticket implements Serializable {
     }
     public LocalDate getShowtime() {
     	//method to return showtime of the ticket.
-    	return date;
+    	return showtime;
     }
     
     public void setPrice(double newPrice){

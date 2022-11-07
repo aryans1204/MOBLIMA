@@ -8,13 +8,17 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import entities.Cinema;
+import entities.Movie;
+import entities.MovieStatus;
+import entities.MovieType;
+import entities.Review;
 
 
 
@@ -350,7 +354,7 @@ public class MovieController {
 	}
 
 	//Insert a totalSales for a movie into the movie database
-	public void addTotalSales(int movieID, double totalSales) {
+	public boolean addTotalSales(int movieID, double totalSales) {
 		ArrayList<Movie> movies = null;
 		File f = new File(fileName);
 		if(f.exists()) {
@@ -362,10 +366,12 @@ public class MovieController {
 						break;
 					}
 				if(this.updateExistingFile(movies))
+					return true;
 			}
 		}
 		else
 			System.out.println("File: " + fileName + " does not exist");
+		return false;
 	}
 	
 	//Insert cinema that is broadcasting the movie into the movie database

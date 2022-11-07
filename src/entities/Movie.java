@@ -20,7 +20,7 @@ public class Movie implements Serializable{
 	private ArrayList<Cinema> cinemas;
 	private int runtime;  //Duration of the movie in (MINS)
 	private LocalDate movieReleaseDate;
-	private double totalSales = 0.0;
+	private double totalSales;
 
 	/*
 	 * No abstract methods atm
@@ -43,7 +43,7 @@ public class Movie implements Serializable{
 		this.cinemas = new ArrayList<Cinema>();
 		this.runtime = runtime;
 		this.movieReleaseDate = movieReleaseDate;
-		this.totalSales = totalSales;
+		this.totalSales = 0.0;
 	}
 
 	//Getters

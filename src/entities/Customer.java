@@ -1,8 +1,13 @@
 package entities;
 
 import java.util.*;
+
+import controllers.MovieController;
+
 import java.io.*;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Customer implements Client, Serializable{
     private String email;
@@ -20,8 +25,8 @@ public class Customer implements Client, Serializable{
         this.age = age;
         this.username = username;
         this.password = password;
-	this.email = email;
-	this.mobileNumber = mobileNumber;
+		this.email = email;
+		this.mobileNumber = mobileNumber;
     }
 
 
@@ -66,23 +71,23 @@ public class Customer implements Client, Serializable{
         tempPassword = reader.readLine();
         setPassword(tempPassword);
     	System.out.println("Enter your name: ");
-	String tempName = reader.readLine();
-	setName(tempName);
-	System.out.println("Enter email: ");
-	String tempEmail = reader.readLine();
-	setEmail(tempEmail);
-	System.out.println("Enter mobile number: ");
-	int tempNumber = Integer.parseInt(reader.readLine());
-	setNumber(tempNumber);
-	System.out.println("Enter age: ");
-	int tempage = Integer.parseInt(reader.readLine());
-	setAge(tempage);
+		String tempName = reader.readLine();
+		setName(tempName);
+		System.out.println("Enter email: ");
+		String tempEmail = reader.readLine();
+		setEmail(tempEmail);
+		System.out.println("Enter mobile number: ");
+		int tempNumber = Integer.parseInt(reader.readLine());
+		setNumber(tempNumber);
+		System.out.println("Enter age: ");
+		int tempage = Integer.parseInt(reader.readLine());
+		setAge(tempage);
         customerDB.add(this);
         System.out.println("Account created successfully");
         return true;
     }
 
-    public void customerUI(ArrayList<Cinema> cinemaDB, Araylist<Movie> movieDB) throws Exception {
+    public void customerUI(ArrayList<Cinema> cinemaDB, ArrayList<Movie> movieDB) throws Exception {
 	if (!auth) return;
 	boolean exit = false;
 	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -101,12 +106,12 @@ public class Customer implements Client, Serializable{
 			case 1:
 				System.out.println("Enter movie title you woudl like to search about");
 				String title = reader.readLine();
-				searchMovie(title, moviesDB);
+				searchMovie(title, movieDB);
 				break;
 			case 2:
 				System.out.println("Enter the name of the Cinema you would like to search");
 				String cinemaName = reader.readLine();
-				listMovies(cinemaName, cinemaDB);
+				listMovie(cinemaName, cinemaDB);
 				break;
 			case 3:
 				checkSeatAvailability(cinemaDB);
@@ -156,7 +161,8 @@ public class Customer implements Client, Serializable{
 	while(!e) {
 		try {
 			System.out.println("Enter showtime e.g (Saturday, Jul 14, 2018 14:31:06 PM) : ");
-			showtime = LocalDate.parse(reader.readLine(), formatter);									e = true;
+			showtime = LocalDate.parse(reader.readLine(), formatter);									
+			e = true;
 		}catch(DateTimeParseException d) {
 			System.out.println("Invalid date format, Please try again");
 		}	
@@ -165,10 +171,12 @@ public class Customer implements Client, Serializable{
 		if (cinema.getName() == cinemaName) {
 			ArrayList<Seat> seats = cinema.getSeats(title+showtime.toString());
 			cinema.printLayout(title, showtime);
+			String seatNo;
 			do {
 				System.out.println("Which seat would you like to select?: Enter the alphabet along with the column number like so (C6)");
-				String seatNo = reader.readLine();
+				seatNo = reader.readLine();
 			} while (seatNo.charAt(0) > 'J' || seatNo.charAt(0) < 'A');
+			
 			int row = seatNo.charAt(0) % 65;
 			int col = Integer.parseInt(seatNo.substring(1));
 			int index = row*16+col;
@@ -181,7 +189,7 @@ public class Customer implements Client, Serializable{
 				}
 			}
 			String TID = Integer.toString(cinema.getName().hashCode()%1000) + showtime.toString();
-			Ticket newTicket = new Ticket(mov, cinema, this, cinema.getSeat(title+showtime.toString(), index), TID, this.username, this.email, this.mobileNumber);
+			Ticket newTicket = new Ticket(mov, cinema, customer?? , cinema.getSeat(title+showtime.toString(), index), TID, this.username, this.email, this.mobileNumber);
 			this.bookings.add(newTicket);
 			System.out.println("The price of your ticket is: " + newTicket.getPrice());
 			System.out.println("Ticket booked successfully. A confirmation has been sent to the provided email and phone number");
@@ -203,32 +211,34 @@ public class Customer implements Client, Serializable{
 	}
     }
 
-    private void checkSeatAvailability(ArrayList<CInema> cinemaDB) {
-	System.out.println("Enter the name of the Cinema you would like to check seat availability for");
-	String cinemaname = reader.readLine();
-	System.out.println("Enter the Movie for which you would like to check availability");
-	String moviename = reader.readLine();
-				 	
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mm:ss a");
-	LocalDate showtime = null;
-	boolean e = false;
-	while(!e) {
-		try {
-			System.out.println("Enter showtime e.g (Saturday, Jul 14, 2018 14:31:06 PM) : ");
-			showtime = LocalDate.parse(reader.readLine(), formatter);									e = true;
-		}catch(DateTimeParseException d) {
-			System.out.println("Invalid date format, Please try again");
-		}	
-	}
+    private void checkSeatAvailability(ArrayList<Cinema> cinemaDB) {
+    	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Enter the name of the Cinema you would like to check seat availability for");
+		String cinemaname = reader.readLine();
+		System.out.println("Enter the Movie for which you would like to check availability");
+		String moviename = reader.readLine();
+					 	
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mm:ss a");
+		LocalDate showtime = null;
+		boolean e = false;
+		while(!e) {
+			try {
+				System.out.println("Enter showtime e.g (Saturday, Jul 14, 2018 14:31:06 PM) : ");
+				showtime = LocalDate.parse(reader.readLine(), formatter);									
+				e = true;
+			}catch(DateTimeParseException d) {
+				System.out.println("Invalid date format, Please try again");
+			}	
+		}
+		for (Cinema cinema : cinemaDB) {
+			if (cinema.getName() == cinemaname) {
+				cinema.printLayout(moviename, showtime);
+				break;
+			}
+		}
     }
-				for (Cinema cinema : cinemaDB) {
-					if (cinema.getName() == cinemaname) {
-						cinema.printLayout(moviename, showtime);
-						break;
-					}
-				}
 	
-    private void searchMovie(String movieTitle, ArrayList<Movie? moviesDB) {
+    private void searchMovie(String movieTitle, ArrayList<Movie> moviesDB) {
 	for (Movie movie : moviesDB) {
 		if (movie.getTitle() == movieTitle) {
 			System.out.println(movie.toString());
@@ -237,10 +247,10 @@ public class Customer implements Client, Serializable{
 	}
     
     private void viewBookings() {
-	System.out.println("Your past bookings are available here");
-	for (Ticket ticket : this.bookings) {
-		System.out.println(ticket.toString());
-	}
+		System.out.println("Your past bookings are available here");
+		for (Ticket ticket : this.bookings) {
+			System.out.println(ticket.toString());
+		}
     }
 
     private void checkSeats(Cinema cinema, String showtime) {
@@ -249,24 +259,25 @@ public class Customer implements Client, Serializable{
     }
 
 
-    private void addReview(ArrayList<Movie> movieDB) throws Exception {
-	System.out.println("Enter the title of the Movie you would like to add a review for");
-	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-	String title = reader.readLine();
-	int index = 0;
-	for (int i = 0; i < movieDB.size(); i++) {
-		if (movieDB.get(i).getTitle() == title) {
-			index = i;
-			break;
+    private void addReview(ArrayList<Movie> movieDB, MovieController mvc) throws Exception {
+		System.out.println("Enter the title of the Movie you would like to add a review for");
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		String title = reader.readLine();
+		int index = 0;
+		for (int i = 0; i < movieDB.size(); i++) {
+			if (movieDB.get(i).getTitle() == title) {
+				index = movieDB.get(i).getId(); //id is the unique identifier for each movie
+				break;
+			}
 		}
-	}
-	System.out.println("Enter your rating for the movie, on a scale of 1.0 - 5.0 ");
-	int rating = Integer.parseInt(reader.readLine());
-	System.out.println("Enter your review for the movie");
-	String comment = reader.readLine();
-	Review newReview = new Review(this.username, rating, comment);
-	movieDB.get(i).addReview(newReview);
-	System.out.println("You're review was added successfully");
+		System.out.println("Enter your rating for the movie, on a scale of 1.0 - 5.0 ");
+		int rating = Integer.parseInt(reader.readLine());
+		System.out.println("Enter your review for the movie");
+		String comment = reader.readLine();
+//		Review newReview = new Review(this.username, rating, comment);
+//		movieDB.get(i).addReview(newReview);
+		mvc.addRating(index, title, rating, comment); //Will add the new review into the database for the specific movie
+		System.out.println("You're review was added successfully");
     }
     //Getters
     public String getName(){

@@ -1,8 +1,14 @@
-packag entities;
+package entities;
 
 import java.util.*;
+
+import controllers.ClientController;
+import controllers.MovieController;
+
 import java.io.*;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Staff implements Client, Serializable {
     private String username;
@@ -11,46 +17,47 @@ public class Staff implements Client, Serializable {
     private Cinema cinema;   //associated cinema of the staff. Where the staff works
 
     public Staff(String username, String password, Cinema cinema, ClientController c, MovieController mvc) {
-	this.username = username;
-	this.password = password;
-	this.cinema = cinema;
+		this.username = username;
+		this.password = password;
+		this.cinema = cinema;
     }
+    
     public boolean login(ArrayList<Staff> staffDB) throws IOException {
-	System.out.println("Enter username: ");
-	BufferedReader reader = new BufferedReader(new InputStreamreader(System.in));
-	String username = reader.readLine();
-	System.out.println("Enter password: ");
-	String password = reader.readLine();
-	ArrayList<Staff> staffs = staffDB;
-
-	for (Staff s : staffs) {
-		if (s.getUsername(.equals(username) && s.getPassword().equals(password)) {
-			System.out.println("Authenticated succesfully");
-			auth = true;
+		System.out.println("Enter username: ");
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		String username = reader.readLine();
+		System.out.println("Enter password: ");
+		String password = reader.readLine();
+		ArrayList<Staff> staffs = staffDB;
+	
+		for (Staff s : staffs) {
+			if (s.getUsername().equals(username) && s.getPassword().equals(password)) {
+				System.out.println("Authenticated succesfully");
+				auth = true;
+			}
 		}
-	}
-	return false;
+		return false;
     }
 
-    public void createAccount(ArrayList<Staff> staffDB) throws IOException {
+    public boolean createAccount(ArrayList<Staff> staffDB) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         int tries = 9;  //9 tries before system shuts;
-	String tempUsername;
-	do {
-		System.out.println("Enter username: ");
-		String username = reader.readLine();
-	    	tempUsername = username;
-	    	if (staffDB.contains(tempUsername)) System.out.println("Username already exists, try another one!");
-            	if (tries == 0) System.out.println("Too many tries. System quitting now");
-            	tries--;
-	}
-	while (staffDB.contains(tempUsername) && tries != 0);
-	if (tries == 0) return false;
-	setUsername(tempUsername);
+        String tempUsername;
+		do {
+			System.out.println("Enter username: ");
+			String username = reader.readLine();
+		    	tempUsername = username;
+		    	if (staffDB.contains(tempUsername)) System.out.println("Username already exists, try another one!");
+	            	if (tries == 0) System.out.println("Too many tries. System quitting now");
+	            	tries--;
+		}
+		while (staffDB.contains(tempUsername) && tries != 0);
+		if (tries == 0) return false;
+		setUsername(tempUsername);
         System.out.println("Enter password: ");
         String password = reader.readLine();
         setPassword(password);
-	System.out.println("Account created successfully");
+		System.out.println("Account created successfully");
         return true;
     }
 
@@ -121,9 +128,9 @@ public class Staff implements Client, Serializable {
 				exit = true;
 				break;
 			case 8:
-				List<Movie> listMovies = movieDB;
+				List<Movie> listMoviesSales = movieDB;
 
-				Collections.sort(listMovies, new Comparator<Movie>(){
+				Collections.sort(listMoviesSales, new Comparator<Movie>(){
 
 					public int compare(Movie o1, Movie o2)
 					{
@@ -131,7 +138,7 @@ public class Staff implements Client, Serializable {
 					}
 				});
 
-				ArrayList<Movie> sortedMovies = new ArrayList<Movie>(listMovies);
+				ArrayList<Movie> sortedMoviesSales = new ArrayList<Movie>(listMoviesSales);
 				System.out.println("Top 5 Movies by Total Sales\n");
 				System.out.println("Overall Rating\tTitle");
 				System.out.println("--------------\t-----");
@@ -141,7 +148,7 @@ public class Staff implements Client, Serializable {
 			case 9:
 				System.out.println("Enter Movie title for which you would like to update the prices");
 				String title = sc.nextLine();
-				System.out..println("Enter the price you want to set for this ticket");
+				System.out.println("Enter the price you want to set for this ticket");
 				double price = Double.parseDouble(sc.nextLine());
 				this.cinema.setTicketPrice(title, price);
 				break;
@@ -274,7 +281,8 @@ public class Staff implements Client, Serializable {
 			}
 		}
 
-		Movie newMovie = new Movie(title, type, status, synopsis, director, casts, rating, runtime, releaseDate);
+		Movie newMovie = new Movie(mvc.getLastID()+1,title, type, status, synopsis, director, casts, rating, runtime, releaseDate);
+		mvc.insertMovieToDB(title, type, status, synopsis, director, casts, rating, runtime, releaseDate); //Have to insert to db to keep track of the movie IDs
 		this.cinema.updateMovies(newMovie);
 		System.out.println("Movie List Created.. Going back to previous menu");
 	}catch(Exception e) {
@@ -292,11 +300,11 @@ public class Staff implements Client, Serializable {
 
 		try {
 			System.out.println("\nMOVIE UPDATE");
-
+			int index = 0;
 			while(!exit) {
 				System.out.println("Enter the Movie title which you need to update: ");
 				String title = sc.nextLine();
-				int index;
+				
 				for (int i = 0; i < movieDB.size(); i++) {
 					if (movieDB.get(i).getTitle() == title) {
 						index = i;
