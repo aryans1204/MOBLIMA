@@ -2,9 +2,6 @@ import java.util.*;
 import java.io.*;
 
 public class Cinema implements Serializable {
-
-    private CinemaController cc;
-    private MovieController m;
     private HashMap<String, Double> prices = new HashMap<>();  //prices indicator per movie-title for Staff to set.
     private ArrayList<Movie>  movies;  //array of Movies at this cinema;
     private HashMap<String, ArrayList<LocalDate>> showtimes;
@@ -33,7 +30,7 @@ public class Cinema implements Serializable {
     }
 
     public void setName(String name) {
-	this.cinemaname = name;
+	this.cinemaName = name;
     }
 
     public String getName() {
@@ -70,9 +67,9 @@ public class Cinema implements Serializable {
 	    return this.seats.get(title);
     }    
     public void printLayout(Movie movie, LocalDate showtime) { //prints layout of the Cinema based on available seats for the Movie at the particular showtime
-        HashMap<String, ArrayList<Seat>> allSeats = cc.getSeatsFromDB(m.searchMovies(movie.getTitle()), showtime); //Not sure about the local date class
+        HashMap<String, ArrayList<Seat>> allSeats = this.seats; //Not sure about the local date class
         ArrayList<Seat> seats = new ArrayList<>();
-                String title = movie.getTitle();
+        String title = movie.getTitle();
         if(allSeats.containsKey(title+showtime.toString())){
             seats = allSeats.get(title+showtime.toString());
         }
