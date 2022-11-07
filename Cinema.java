@@ -46,11 +46,11 @@ public class Cinema implements Serializable {
 	return this.showtimes.get(title);
     }
 
-    public getMovies() {
+    public ArrayList<Movie> getMovies() {
 	return this.movies;
     }
 
-    public updateMovies(Movie newMovie) {
+    public void updateMovies(Movie newMovie) {
 	this.movies.add(newMovie);
     }
     
