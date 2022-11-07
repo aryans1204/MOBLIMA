@@ -104,7 +104,7 @@ public class Customer implements Client, Serializable{
 		int option = Integer.parseInt(reader.readLine());
 		switch (option) {
 			case 1:
-				System.out.println("Enter movie title you woudl like to search about");
+				System.out.println("Enter movie title you would like to search about");
 				String title = reader.readLine();
 				searchMovie(title, movieDB);
 				break;
