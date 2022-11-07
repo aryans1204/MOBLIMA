@@ -1,5 +1,8 @@
+package controllers;
+
 import java.util.*;
 import java.io.*;
+import java.time.*;
 
 public class CinemaController {
     private String filename;

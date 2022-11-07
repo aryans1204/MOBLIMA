@@ -1,12 +1,12 @@
+package entities;
+
 import java.util.*;
 import java.io.*;
-
-import Client,Cinema,Movie;
+import java.time.*;
 
 public class Customer implements Client, Serializable{
     private String email;
     private int mobileNumber;
-    private ClientController c;
     private String name;
     private int age;
     private boolean auth = false;  //authentication indicator. Whether customer is authenticated or not. All methods must check for authentication.
@@ -25,7 +25,7 @@ public class Customer implements Client, Serializable{
     }
 
 
-    public boolean login() throws IOException {
+    public boolean login(ArrayList<Customer> customerDB) throws IOException {
         int tries = 9;
         String tempUsername;
         String tempPassword;
@@ -37,7 +37,7 @@ public class Customer implements Client, Serializable{
         tempPassword = reader.readLine();
 
         ArrayList<Customer> customers = new ArrayList<>();
-        customers = c.getCustomerFromDB();  //Fetch all customers details from DB
+        customers = customerDB;  //Fetch all customers details from DB
         for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getUsername().equals(tempUsername) && customers.get(i).getPassword().equals(tempPassword)) {
                 System.out.println("Authenticated successfully");
@@ -48,7 +48,7 @@ public class Customer implements Client, Serializable{
         return false;
     }
 
-    public boolean createAccount() throws IOException{
+    public boolean createAccount(ArrayList<Customer> customerDB) throws IOException{
         int tries = 9;  //9 tries before system shuts;
         String tempUsername;
         String tempPassword;
@@ -56,10 +56,10 @@ public class Customer implements Client, Serializable{
         do {
             System.out.println("Enter username: ");
             tempUsername = reader.readLine();
-            if (c.checkUsernameExist(tempUsername)) System.out.println("Username already taken");
+            if (customerDB.contains(tempUsername)) System.out.println("Username already taken");
             if (tries == 0) System.out.println("Too many tries. System quitting now");
             tries--;
-        } while (c.checkUsernameExist(tempUsername) && tries != 0);
+        } while (customerDB.contains(tempUsername) && tries != 0);
         if (tries == 0) return false;
         setUsername(tempUsername);
         System.out.println("Enter password: ");
@@ -77,7 +77,7 @@ public class Customer implements Client, Serializable{
 	System.out.println("Enter age: ");
 	int tempage = Integer.parseInt(reader.readLine());
 	setAge(tempage);
-        c.insertCustomerToDB(name, age, username, password);
+        customerDB.add(this);
         System.out.println("Account created successfully");
         return true;
     }
@@ -109,37 +109,13 @@ public class Customer implements Client, Serializable{
 				listMovies(cinemaName, cinemaDB);
 				break;
 			case 3:
-				System.out.println("Enter the name of the Cinema you would like to check seat availability for");
-				String cinemaname = reader.readLine();
-				System.out.println("Enter the Movie for which you would like to check availability");
-				String moviename = reader.readLine();
-				 	
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mm:ss a");
-				LocalDate showtime = null;
-				boolean e = false;
-				while(!e) {
-					try {
-						System.out.println("Enter showtime e.g (Saturday, Jul 14, 2018 14:31:06 PM) : ");
-						showtime = LocalDate.parse(reader.readLine(), formatter);									e = true;
-					}catch(DateTimeParseException d) {
-						System.out.println("Invalid date format, Please try again");
-					}	
-				}
-				for (Cinema cinema : cinemaDB) {
-					if (cinema.getName() == cinemaname) {
-						cinema.printLayout(moviename, showtime);
-						break;
-					}
-				}
+				checkSeatAvailability(cinemaDB);
 				break;
 			case 4:
 				makeBooking(cinemaDB, movieDB);
 				break;
 			case 5:	
-				System.out.println("Your past bookings are available here");
-				for (Ticket ticket : this.bookings) {
-					System.out.println(ticket.toString());
-				}
+				viewBookings();
 				break;
 			case 6:										
 				List<Movie> listMovies = movieDB;
@@ -167,7 +143,7 @@ public class Customer implements Client, Serializable{
 	}
     }				
 
-    public String makeBooking(ArrayList<Cinema> cinemaDB, ArrayList<Movie> movieDB) throws Exception {
+    private String makeBooking(ArrayList<Cinema> cinemaDB, ArrayList<Movie> movieDB) throws Exception {
 	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	System.out.println("Enter movie title to make booking");
 	String title = reader.readLine();
@@ -186,16 +162,36 @@ public class Customer implements Client, Serializable{
 		}	
 	}
 	for (Cinema cinema : cinemaDB) {
-		if (cinema.getName() == cinemaname) {
+		if (cinema.getName() == cinemaName) {
 			ArrayList<Seat> seats = cinema.getSeats(title+showtime.toString());
 			cinema.printLayout(title, showtime);
-			System.out.println("Which seat would you like to select?: ");
-			//part to be completed after the Cinema representation is completed
+			do {
+				System.out.println("Which seat would you like to select?: Enter the alphabet along with the column number like so (C6)");
+				String seatNo = reader.readLine();
+			} while (seatNo.charAt(0) > 'J' || seatNo.charAt(0) < 'A');
+			int row = seatNo.charAt(0) % 65;
+			int col = Integer.parseInt(seatNo.substring(1));
+			int index = row*16+col;
+			cinema.setCustomer(this, title+showtime.toString(), index);
+			Movie mov;
+		      	for (Movie movie : movieDB) {
+				if (movie.getTitle() == title) {
+					mov = movie;
+					break;
+				}
+			}
+			String TID = Integer.toString(cinema.getName().hashCode()%1000) + showtime.toString();
+			Ticket newTicket = new Ticket(mov, cinema, this, cinema.getSeat(title+showtime.toString(), index), TID, this.username, this.email, this.mobileNumber);
+			this.bookings.add(newTicket);
+			System.out.println("The price of your ticket is: " + newTicket.getPrice());
+			System.out.println("Ticket booked successfully. A confirmation has been sent to the provided email and phone number");
+			break;
 		}
-	}
+	}		
+
     }
 
-    public void listMovie(String cinemaname, ArrayList<Cinema> cinemaDB) {
+    private void listMovie(String cinemaname, ArrayList<Cinema> cinemaDB) {
 	for (Cinema cinema: cinemaDB) {
 		if (cinema.getName() == cinemaname) {
 			ArrayList<Movie> movies = cinema.getMovies();
@@ -206,90 +202,60 @@ public class Customer implements Client, Serializable{
 		}
 	}
     }
-	
-    public void listMovie(MovieController m) { // List all movies that are "NowShowing"
-        if (!auth) return;
-        ArrayList<Movie> movies = new ArrayList<>();
-        movies = m.getAllMoviesFromDB();
-        for(int i=0; i<movies.size(); i++){
-            if(movies.get(i).getStatus().equals(MovieStatus.NOW_SHOWING)){
-                System.out.println("Movie Title: " + movies.get(i).getTitle());
-                System.out.println("Director: " + movies.get(i).getDirector());
-                System.out.println("Runtime: " + movies.get(i).getRuntime());
-                System.out.println("Type: " + movies.get(i).getType() );
-                System.out.println("Ratings: " + movies.get(i).getRating());
-                System.out.println("Synopsis: " + movies.get(i).getSynopsis());
-                System.out.println("Reviews: " + movies.get(i).getReviews());
-            }
-        }
-    }
 
-    public void searchMovie(String movieTitle, ArrayList<Movie? moviesDB) {
+    private void checkSeatAvailability(ArrayList<CInema> cinemaDB) {
+	System.out.println("Enter the name of the Cinema you would like to check seat availability for");
+	String cinemaname = reader.readLine();
+	System.out.println("Enter the Movie for which you would like to check availability");
+	String moviename = reader.readLine();
+				 	
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mm:ss a");
+	LocalDate showtime = null;
+	boolean e = false;
+	while(!e) {
+		try {
+			System.out.println("Enter showtime e.g (Saturday, Jul 14, 2018 14:31:06 PM) : ");
+			showtime = LocalDate.parse(reader.readLine(), formatter);									e = true;
+		}catch(DateTimeParseException d) {
+			System.out.println("Invalid date format, Please try again");
+		}	
+	}
+    }
+				for (Cinema cinema : cinemaDB) {
+					if (cinema.getName() == cinemaname) {
+						cinema.printLayout(moviename, showtime);
+						break;
+					}
+				}
+	
+    private void searchMovie(String movieTitle, ArrayList<Movie? moviesDB) {
 	for (Movie movie : moviesDB) {
 		if (movie.getTitle() == movieTitle) {
 			System.out.println(movie.toString());
 			break;
 		}
 	}
-
-    public void searchMovie(String movieTitle, MovieController m){ //searches for a Movie in our database and prints out the Review and rating
-        if (!auth) return;
-        ArrayList<Movie> matchedmovie = new ArrayList<>();
-        matchedmovie = m.searchMovies(movieTitle);
-
-        if(matchedmovie.size() > 0){ //When movie is successfully searched
-            for(int i=0; i<matchedmovie.size(); i++){
-                System.out.println("Movie Title: " + movieTitle);
-                System.out.println("Director: " + matchedmovie.get(i).getDirector());
-                System.out.println("Runtime: " + matchedmovie.get(i).getRuntime());
-                System.out.println("Type: " + matchedmovie.get(i).getType() );
-                System.out.println("Ratings: " + matchedmovie.get(i).getRating());
-                System.out.println("Synopsis: " + matchedmovie.get(i).getSynopsis());
-                System.out.println("Reviews: " + matchedmovie.get(i).getReviews());
-            }
-        }
+    
+    private void viewBookings() {
+	System.out.println("Your past bookings are available here");
+	for (Ticket ticket : this.bookings) {
+		System.out.println(ticket.toString());
+	}
     }
 
-    public void viewBookings(TicketController t){ //view all past bookings made by the Customer.
-        if (!auth) return;
-        ArrayList<Ticket> tickets = new ArrayList<>();
-        tickets = t.getAllTicketsFromDB();  //Get all tickets from DB
-
-        for(int i=0; i< tickets.size();i++){
-            if(tickets.get(i).getCustomer().getName().equals(name) && tickets.get(i).getCustomer().getAge().equals(age)){
-                System.out.println(tickets.get(i).getCinema());
-                System.out.println(tickets.get(i).getMovie());
-                System.out.println(tickets.get(i).getShowtime());
-                System.out.println(tickets.get(i).getPrice());
-            }
-        }
-    }
-
-    public void checkSeats(Cinema cinema, String showtime) {
+    private void checkSeats(Cinema cinema, String showtime) {
         if (!auth) return;
 	    cinema.printLayout(this, showtime); //simple wrapper to print layout
     }
 
-    public void listTopFive(String criterion, MovieController m){ //require read access to Movie CRUD if criterion is Rating OR require Ticket CRUD if criterion is sales.
-        if (!auth) return;
-        //Top 5 by Ratings
-        if(criterion.equals("Rating") || criterion.equals("rating")){
-            m.printTopFiveMovies();
-        }
 
-        //Top 5 by Sales
-        else{
-            m.printTopFiveMoviesBySales();
-        }
-    }
-
-    public void addreview(ArrayList<Movie> movieDB) throws Exception {
+    private void addReview(ArrayList<Movie> movieDB) throws Exception {
 	System.out.println("Enter the title of the Movie you would like to add a review for");
-	BufferedReader reader = new BufferedReader(new InputStreamReader(Syetm.in));
+	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	String title = reader.readLine();
 	int index = 0;
 	for (int i = 0; i < movieDB.size(); i++) {
-		if (movieDB.get(i).gertTitle() == title) {
+		if (movieDB.get(i).getTitle() == title) {
 			index = i;
 			break;
 		}
@@ -300,7 +266,7 @@ public class Customer implements Client, Serializable{
 	String comment = reader.readLine();
 	Review newReview = new Review(this.username, rating, comment);
 	movieDB.get(i).addReview(newReview);
-	System.out.println("Youre review was added successfully");
+	System.out.println("You're review was added successfully");
     }
     //Getters
     public String getName(){

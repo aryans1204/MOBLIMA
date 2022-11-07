@@ -1,14 +1,12 @@
+package entities;
+
 import java.io.*;
-
-import Cinema;
-
 public interface Client {
     public String username = null; //client username
     public String password = null;
 
-    public boolean login(ClientController c) throws IOException;  //returns successful login or not, login also initializes state for client
+    public boolean login(ArrayList<Cinema> cinemaDB) throws IOException;
 
-    public boolean createAccount(ClientController c) throws IOException; //returns true if account creation was successful, false otherwise. for staff, it must ask for cinema as well.
+    public boolean createAccount(ArrayList<Cinema> cinemaDB) throws IOException;
 
-    public void listTopFive(String criterion, MovieController m);  //list top five movies based on Ticket Sales or Movie reviews.
 }

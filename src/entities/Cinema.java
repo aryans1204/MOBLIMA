@@ -1,3 +1,5 @@
+package entities;
+
 import java.util.*;
 import java.io.*;
 
@@ -67,10 +69,16 @@ public class Cinema implements Serializable {
     public void setSeats(HashMap<String, ArrayList<LocalDate>> seats) {
 	    this.seats = seats;
     }
-
+    public void setCustomer(Customer customer, String title, int index) {
+	this.seats.get(title).get(index).setCustomer(customer);
+    }
     public ArrayList<Seat> getSeats(String title) {
-	    return this.seats.get(title);
-    }    
+	   return this.seats.get(title);
+    }
+    public Seat getSeat(String title, int index) {
+	return this.seats.get(title).get(index);  
+    }
+  
     public void printLayout(Movie movie, LocalDate showtime) { //prints layout of the Cinema based on available seats for the Movie at the particular showtime
         HashMap<String, ArrayList<Seat>> allSeats = this.seats; //Not sure about the local date class
         ArrayList<Seat> seats = new ArrayList<>();

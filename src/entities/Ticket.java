@@ -1,3 +1,5 @@
+package entities;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,19 +13,16 @@ public class Ticket implements Serializable {
     Customer customer;  //purchasing customer details
     Transaction transaction;
     LocalDate showtime;
-    int seatNo;   //in Cinema class, the free seat id will be passed to Ticket
+    Seat seat;
     double price;
-    //String priceFileName;
-    
     Scanner sc= new Scanner(System.in);
 
-    public Ticket(Movie a, Cinema b, Customer c, String d, int sit_no, /*String price_FileName,*/ String TID, String custName, String custEmail, String custMobileNumber) {
+    public Ticket(Movie a, Cinema b, Customer c, String d, Seat seat, String TID, String custName, String custEmail, String custMobileNumber) {
     	movie = a;
     	cinema = b;
     	customer = c;
     	showtime = d;
-    	seatNo = sit_no;
-    	//priceFileName = price_FileName;
+    	this.seat = seat;
     	transaction = new Transaction(TID, custName, custEmail, custMobileNumber); 	
 	    double priceL = b.getTicketPrice(a.getTitle());
 	    if (priceL == 0) {
@@ -43,7 +42,7 @@ public class Ticket implements Serializable {
     	int moviePrice;
     	MovieType movieType;
     	int customerAge;
-    	CinemaType cinemaType;
+	SeatType seatType;
     	int date;
     	double multiplier = 1;
     	
@@ -56,7 +55,7 @@ public class Ticket implements Serializable {
     	movieType = movie.getType();
         //getAgeGroup might be changed to getAge();
     	customerAge = customer.getAge();
-    	cinemaType = cinema.getType();
+    	seatType = seat.getType();
 
         //update multiplier for different days of week
     	if (showtime.compareTo("Sunday")==1||showtime.compareTo("Saturday")==1||
@@ -82,13 +81,13 @@ public class Ticket implements Serializable {
 
          //update multiplier for cinemaType
          switch(cinemaType){
-                case GOLD:
+                case STANDARD:
                     //no change in multiplier
                     break;
-                case PLATINUM:
+                case GOLD:
                     multiplier = multiplier * 1.2;
                     break;
-                case DIRECTORS_CUT:
+                case PLATINUM:
                     multiplier = multiplier * 1.5;
                     break;
                 default:
@@ -137,6 +136,14 @@ public class Ticket implements Serializable {
     public double getPrice(){
     	return price;
     }
+	
+    public Seat getSeat() {
+	return seat;
+    }
+	
+    public Transaction getTransaction() {
+	return this.transaction;
+    }
     
     public Cinema getCinema() {
     	//method to return cinema associated with the ticket.
@@ -146,7 +153,7 @@ public class Ticket implements Serializable {
     	//method to return the movie for the ticket
     	return movie;
     }
-    public Date getShowtime() {
+    public LocalDate getShowtime() {
     	//method to return showtime of the ticket.
     	return date;
     }

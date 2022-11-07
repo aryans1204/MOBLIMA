@@ -1,4 +1,7 @@
-import java.io.Serializable;
+package entities;
+
+import java.io.*;
+import java.util.*;
 
 @SuppressWarnings("serial")
 public class Review implements Serializable{

@@ -1,185 +1,184 @@
+packag entities;
+
 import java.util.*;
 import java.io.*;
-import Client,Cinema;
+import java.time.*;
 
 public class Staff implements Client, Serializable {
     private String username;
-	private String password;
+    private String password;
     private boolean auth = false;
     private Cinema cinema;   //associated cinema of the staff. Where the staff works
-    private ClientController c;
-	private MovieController mvc;
 
-	public Staff(String username, String password, Cinema cinema, ClientController c, MovieController mvc) {
-		this.username = username;
-		this.password = password;
-		this.cinema = cinema;
-		this.c = c;
-		this.mvc = mvc;
-	}
-    public boolean login() throws IOException {
-		System.out.println("Enter username: ");
-		BufferedReader reader = new BufferedReader(new InputStreamreader(System.in));
-		String username = reader.readLine();
-		System.out.println("Enter password: ");
-		String password = reader.readLine();
-		ArrayList<Staff> staffs = c.getStaffFromDB();
+    public Staff(String username, String password, Cinema cinema, ClientController c, MovieController mvc) {
+	this.username = username;
+	this.password = password;
+	this.cinema = cinema;
+    }
+    public boolean login(ArrayList<Staff> staffDB) throws IOException {
+	System.out.println("Enter username: ");
+	BufferedReader reader = new BufferedReader(new InputStreamreader(System.in));
+	String username = reader.readLine();
+	System.out.println("Enter password: ");
+	String password = reader.readLine();
+	ArrayList<Staff> staffs = staffDB;
 
-		for (Staff s : staffs) {
-			if (s.getUsername(.equals(username) && s.getPassword().equals(password)) {
-				System.out.println("Authenticated succesfully");
-				auth = true;
-			}
+	for (Staff s : staffs) {
+		if (s.getUsername(.equals(username) && s.getPassword().equals(password)) {
+			System.out.println("Authenticated succesfully");
+			auth = true;
 		}
-		return false;
 	}
+	return false;
+    }
 
-    public void createAccount() throws IOException {
+    public void createAccount(ArrayList<Staff> staffDB) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         int tries = 9;  //9 tries before system shuts;
-		String tempUsername;
-		do {
-			System.out.println("Enter username: ");
-			String username = reader.readLine();
+	String tempUsername;
+	do {
+		System.out.println("Enter username: ");
+		String username = reader.readLine();
 	    	tempUsername = username;
-	    	if (c.checkStaffUsernameExists(tempUsername)) System.out.println("Username already exists, try another one!");
-            if (tries == 0) System.out.println("Too many tries. System quitting now");
-            tries--;
-		}
-		while (c.checkStaffUsernameExists(tempUsername) && tries != 0);
-		if (tries == 0) return false;
-		setUsername(tempUsername);
+	    	if (staffDB.contains(tempUsername)) System.out.println("Username already exists, try another one!");
+            	if (tries == 0) System.out.println("Too many tries. System quitting now");
+            	tries--;
+	}
+	while (staffDB.contains(tempUsername) && tries != 0);
+	if (tries == 0) return false;
+	setUsername(tempUsername);
         System.out.println("Enter password: ");
         String password = reader.readLine();
         setPassword(password);
-		System.out.println("Account created successfully");
+	System.out.println("Account created successfully");
         return true;
     }
 
-	public void staffUI(ArrayList<Movie> movieDB){
-		// TODO Auto-generated method stub
-		if (!auth) return;
-		Scanner sc = new Scanner(System.in);
+    public void staffUI(ArrayList<Movie> movieDB){
+	if (!auth) return;
+	Scanner sc = new Scanner(System.in);
 
-		boolean exit = false;
-		while (!exit) {
-			System.out.printf("\n\nCinema Staff Selection: \n" +
-								"1. Create Movie Listing\n" +
-								"2. Update Movie Listing\n" +
-								"3. Remove Movie Listing\n" +
-								"4. List Movie\n" +
-								"5. List Top 5 Movies by Reviews\n" +
-								"6. Search Movie\n" +
-								"7. Return\n" +
-								"8. List Top 5 Movies by TotalSales\n"+
-								"9. Configure Ticket Prices for a Movie\n"+
-								"Select option: ");
-			int option = Integer.valueOf(sc.nextLine());
-			switch(option) {
-				case 1:
-					createMovieListing();
-					break;
-				case 2:
-					updateMovieListing(movieDB);
-					break;
-				case 3:
-					removeMovieListing(movieDB);
-					break;
-				case 4:
-					for (Movie movie: movieDB) {
-						System.out.println("Title: " + movie.getTitle());
-						System.out.println("Date: " + movie.getMovieReleaseDateToString());
-						System.out.println("Type: " + movie.getType());
-						System.out.println(movie);
+	boolean exit = false;
+	while (!exit) {
+		System.out.printf("\n\nCinema Staff Selection: \n" +
+							"1. Create Movie Listing\n" +
+							"2. Update Movie Listing\n" +
+							"3. Remove Movie Listing\n" +
+							"4. List Movie\n" +
+							"5. List Top 5 Movies by Reviews\n" +
+							"6. Search Movie\n" +
+							"7. Return\n" +
+							"8. List Top 5 Movies by TotalSales\n"+
+							"9. Configure Ticket Prices for a Movie\n"+
+							"Select option: ");
+		int option = Integer.valueOf(sc.nextLine());
+		switch(option) {
+			case 1:
+				createMovieListing();
+				break;
+			case 2:
+				updateMovieListing(movieDB);
+				break;
+			case 3:
+				removeMovieListing(movieDB);
+				break;
+			case 4:
+				for (Movie movie: movieDB) {
+					System.out.println("Title: " + movie.getTitle());
+					System.out.println("Date: " + movie.getMovieReleaseDateToString());
+					System.out.println("Type: " + movie.getType());
+					System.out.println(movie);
+				}
+				break;
+			case 5:
+				List<Movie> listMovies = movieDB;
+
+				Collections.sort(listMovies, new Comparator<Movie>(){
+
+					public int compare(Movie o1, Movie o2)
+						{
+						return Double.valueOf(o2.getOverallReview()).compareTo(Double.valueOf(o1.getOverallReview()));
+						}
+				});
+
+				ArrayList<Movie> sortedMovies = new ArrayList<Movie>(listMovies);
+				System.out.println("Top 5 Movies by Overall Rating\n");
+				System.out.println("Overall Rating\tTitle");
+				System.out.println("--------------\t-----");
+				for(int i = 0; i < 5; i ++)
+				System.out.println("\t" + sortedMovies.get(i).getOverallReview() + "\t" + sortedMovies.get(i).getTitle());
+
+				break;
+			case 6:
+				System.out.println("Enter Input: ");
+				String searchInput = sc.nextLine();
+				ArrayList<Movie> matchedMovies = null;
+				matchedMovies = mvc.searchMovies(searchInput);
+				for(Movie movie : matchedMovies)
+					System.out.println(movie);
+				break;
+			case 7:
+				exit = true;
+				break;
+			case 8:
+				List<Movie> listMovies = movieDB;
+
+				Collections.sort(listMovies, new Comparator<Movie>(){
+
+					public int compare(Movie o1, Movie o2)
+					{
+						return Double.valueOf(o2.getTotalSales()).compareTo(Double.valueOf(o1.getTotalSales()));
 					}
-					break;
-				case 5:
-					List<Movie> listMovies = movieDB;
+				});
 
-					Collections.sort(listMovies, new Comparator<Movie>(){
+				ArrayList<Movie> sortedMovies = new ArrayList<Movie>(listMovies);
+				System.out.println("Top 5 Movies by Total Sales\n");
+				System.out.println("Overall Rating\tTitle");
+				System.out.println("--------------\t-----");
+				for(int i = 0; i < 5; i ++)
+				System.out.println("\t" + sortedMovies.get(i).getTotalSales() + "\t" + sortedMovies.get(i).getTitle());
+				break;
+			case 9:
+				System.out.println("Enter Movie title for which you would like to update the prices");
+				String title = sc.nextLine();
+				System.out..println("Enter the price you want to set for this ticket");
+				double price = Double.parseDouble(sc.nextLine());
+				this.cinema.setTicketPrice(title, price);
+				break;
 
-						public int compare(Movie o1, Movie o2)
-						{
-							return Double.valueOf(o2.getOverallReview()).compareTo(Double.valueOf(o1.getOverallReview()));
-						}
-					});
-
-					ArrayList<Movie> sortedMovies = new ArrayList<Movie>(listMovies);
-					System.out.println("Top 5 Movies by Overall Rating\n");
-					System.out.println("Overall Rating\tTitle");
-					System.out.println("--------------\t-----");
-					for(int i = 0; i < 5; i ++)
-						System.out.println("\t" + sortedMovies.get(i).getOverallReview() + "\t" + sortedMovies.get(i).getTitle());
-
-					break;
-				case 6:
-					System.out.println("Enter Input: ");
-					String searchInput = sc.nextLine();
-					ArrayList<Movie> matchedMovies = null;
-					matchedMovies = mvc.searchMovies(searchInput);
-					for(Movie movie : matchedMovies)
-						System.out.println(movie);
-					break;
-				case 7:
-					exit = true;
-					break;
-				case 8:
-					List<Movie> listMovies = movieDB;
-
-					Collections.sort(listMovies, new Comparator<Movie>(){
-
-						public int compare(Movie o1, Movie o2)
-						{
-							return Double.valueOf(o2.getTotalSales()).compareTo(Double.valueOf(o1.getTotalSales()));
-						}
-					});
-
-					ArrayList<Movie> sortedMovies = new ArrayList<Movie>(listMovies);
-					System.out.println("Top 5 Movies by Total Sales\n");
-					System.out.println("Overall Rating\tTitle");
-					System.out.println("--------------\t-----");
-					for(int i = 0; i < 5; i ++)
-						System.out.println("\t" + sortedMovies.get(i).getTotalSales() + "\t" + sortedMovies.get(i).getTitle());
-				case 9:
-					System.out.println("Enter Movie title for which you would like to update the prices");
-					String title = sc.nextLine();
-					System.out..println("Enter the price you want to set for this ticket");
-					double price = Double.parseDouble(sc.nextLine());
-					this.cinema.setTicketPrice(title, price);
-				default:
-					System.out.println("Invalid input!\n Please try again");
-			}
+			default:
+				System.out.println("Invalid input!\n Please try again");
 		}
-
-		sc.close();
-
 	}
-	private void createMovieListing() {
-		Scanner sc = new Scanner(System.in);
-		int runtime, option;
-		String title, synopsis, director, rating;
-		boolean exit = false;
-		LocalDate releaseDate = null;
-		MovieType type = null;
-		MovieStatus status = null;
-		ArrayList<String> casts = new ArrayList<String>();
 
-		try {
-			System.out.println("\nCREATE MOVIE");
+	sc.close();
+    }
+    
+    private void createMovieListing() {
+	Scanner sc = new Scanner(System.in);
+	int runtime, option;
+	String title, synopsis, director, rating;
+	boolean exit = false;
+	LocalDate releaseDate = null;
+	MovieType type = null;
+	MovieStatus status = null;
+	ArrayList<String> casts = new ArrayList<String>();
+	try {
+		System.out.println("\nCREATE MOVIE");
 
-			System.out.println("Enter movie title: ");
-			title = sc.nextLine();
+		System.out.println("Enter movie title: ");
+		title = sc.nextLine();
 
-			while(!exit) {
-				System.out.print("\nMovie types: \n" +
-						   "	1. 2D\n" +
-						   "	2. 3D\n" +
-						   "	3. Blockbuster\n\n" +
-						   "Select an option: ");
+		while(!exit) {
+			System.out.print("\nMovie types: \n" +
+					   "	1. 2D\n" +
+					   "	2. 3D\n" +
+					   "	3. Blockbuster\n\n" +
+					   "Select an option: ");
 
-				option = Integer.valueOf(sc.nextLine());
+			option = Integer.valueOf(sc.nextLine());
 
-				switch(option) {
+			switch(option) {
 				case 1:
 					type = MovieType.TWO_D;
 					exit = true;
@@ -194,21 +193,21 @@ public class Staff implements Client, Serializable {
 					break;
 				default:
 					System.out.println("Invalid input!, Please try again");
-				}
 			}
+		}
 
-			exit = false;
-			while(!exit) {
-				System.out.print("\nMovie showing status: \n" +
-						   "	1. Coming Soon\n" +
-						   "	2. Preview\n" +
-						   "	3. Now Showing\n" +
-						   "	4. End of showing\n\n" +
-						   "Select an option: ");
+		exit = false;
+		while(!exit) {
+			System.out.print("\nMovie showing status: \n" +
+					   "	1. Coming Soon\n" +
+					   "	2. Preview\n" +
+					   "	3. Now Showing\n" +
+					   "	4. End of showing\n\n" +
+					   "Select an option: ");
 
-				option = Integer.valueOf(sc.nextLine());
+			option = Integer.valueOf(sc.nextLine());
 
-				switch(option) {
+			switch(option) {
 				case 1:
 					status = MovieStatus.COMING_SOON;
 					exit = true;
@@ -227,66 +226,65 @@ public class Staff implements Client, Serializable {
 					break;
 				default:
 					System.out.println("Wrong input!, Please try again");
-				}
 			}
-
-			System.out.println("Enter movie's synopsis: ");
-			synopsis = sc.nextLine();
-
-			System.out.println("Enter movie's director: ");
-			director = sc.nextLine();
-
-			exit = false;
-			while(!exit) {
-				System.out.println("Enter number of casts (min 2): ");
-				option = Integer.valueOf(sc.nextLine());
-				if (option < 2) {
-					System.out.println("Invalid number, Please enter for more than 2 casts");
-					continue;
-				}
-
-				for (int i = 0; i < option; i++) {
-					System.out.println("Enter name of cast " + (i+1) + ": ");
-					casts.add(sc.nextLine());
-				}
-				exit = true;
-			}
-			/*
-			 * G: Suitable For General Audiences Of All Ages
-			PG:  Parental Guidance Suggested. Some Material May Not Be Suitable For Children
-			M: Recommended For A Mature Audience
-			R: Restricted To Persons Over specifed age Unless Accompanied By A Parent Or Guardian.
-			TBC: To Be Classified
-			*/
-			System.out.println("Enter movie rating (G / PG / M / R / TBC) :");
-			rating = sc.nextLine();
-
-			System.out.println("Enter movie duration (mins): ");
-			runtime = Integer.valueOf(sc.nextLine());
-
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-			exit = false;
-			while(!exit) {
-				try {
-					System.out.println("Enter movie release date (DD/MM/YYYY) : ");
-					releaseDate = LocalDate.parse(sc.nextLine(), formatter);
-					exit = true;
-				}catch(DateTimeParseException e) {
-					System.out.println("Invalid date format, Please try again");
-				}
-			}
-
-			Movie newMovie = new Movie(title, type, status, synopsis, director, casts, rating, runtime, releaseDate);
-			this.cinema.updateMovies(newMovie);
-			System.out.println("Movie List Created.. Going back to previous menu");
-		}catch(Exception e) {
-			e.printStackTrace();
-			System.out.println("Invalid input detected, Please try again");
-			return;
 		}
-	}
 
-	private void updateMovieListing(ArrayList<Movie> movieDB) {
+		System.out.println("Enter movie's synopsis: ");
+		synopsis = sc.nextLine();
+
+		System.out.println("Enter movie's director: ");
+		director = sc.nextLine();
+
+		exit = false;
+		while(!exit) {
+			System.out.println("Enter number of casts (min 2): ");
+			option = Integer.valueOf(sc.nextLine());
+			if (option < 2) {
+				System.out.println("Invalid number, Please enter for more than 2 casts");
+				continue;
+			}
+			for (int i = 0; i < option; i++) {
+				System.out.println("Enter name of cast " + (i+1) + ": ");
+				casts.add(sc.nextLine());
+			}
+			exit = true;
+		}
+		/*
+		 * G: Suitable For General Audiences Of All Ages
+		PG:  Parental Guidance Suggested. Some Material May Not Be Suitable For Children
+		M: Recommended For A Mature Audience
+		R: Restricted To Persons Over specifed age Unless Accompanied By A Parent Or Guardian.
+		TBC: To Be Classified
+		*/
+		System.out.println("Enter movie rating (G / PG / M / R / TBC) :");
+		rating = sc.nextLine();
+
+		System.out.println("Enter movie duration (mins): ");
+		runtime = Integer.valueOf(sc.nextLine());
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+		exit = false;
+		while(!exit) {
+			try {
+				System.out.println("Enter movie release date (DD/MM/YYYY) : ");
+				releaseDate = LocalDate.parse(sc.nextLine(), formatter);
+				exit = true;
+			}catch(DateTimeParseException e) {
+				System.out.println("Invalid date format, Please try again");
+			}
+		}
+
+		Movie newMovie = new Movie(title, type, status, synopsis, director, casts, rating, runtime, releaseDate);
+		this.cinema.updateMovies(newMovie);
+		System.out.println("Movie List Created.. Going back to previous menu");
+	}catch(Exception e) {
+		e.printStackTrace();
+		System.out.println("Invalid input detected, Please try again");
+		return;
+	}
+    }
+
+    private void updateMovieListing(ArrayList<Movie> movieDB) {
 		//Instead of updating release date, give an option to update a showtime, based on a Cinema.
 		Scanner sc = new Scanner(System.in);
 		int movieId = 0, option;

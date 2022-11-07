@@ -1,4 +1,4 @@
-import Cinema;
+package entities;
 
 public class Cineplex {
 	Cinema c1;
