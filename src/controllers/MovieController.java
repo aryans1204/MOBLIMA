@@ -16,6 +16,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import entities.Cinema, entities.Movie, entities.MovieType, entities.MovieStatus, entities.Review;
+
 
 
 public class MovieController {
@@ -350,7 +352,7 @@ public class MovieController {
 	}
 
 	//Insert a totalSales for a movie into the movie database
-	public void addTotalSales(int movieID, double totalSales) {
+	public boolean addTotalSales(int movieID, double totalSales) {
 		ArrayList<Movie> movies = null;
 		File f = new File(fileName);
 		if(f.exists()) {
@@ -361,11 +363,12 @@ public class MovieController {
 						movies.get(i).setTotalSales(totalSales);
 						break;
 					}
-				if(this.updateExistingFile(movies))
+				if(this.updateExistingFile(movies)) return true;
 			}
 		}
 		else
 			System.out.println("File: " + fileName + " does not exist");
+		return false;
 	}
 	
 	//Insert cinema that is broadcasting the movie into the movie database
