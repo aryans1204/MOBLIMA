@@ -28,6 +28,23 @@ public class Movie implements Serializable{
 
 
 	//Constructor
+	public Movie(String title, MovieType type, MovieStatus status, String synopsis, String director, ArrayList<String> casts,
+			String rating, int runtime, LocalDate movieReleaseDate, int totalSales) {
+
+		this.title = title;
+		this.type = type;
+		this.status = status;
+		this.synopsis = synopsis;
+		this.director = director;
+		this.casts = casts;
+		this.rating = rating;
+		this.reviews = new ArrayList<Review>();
+		this.cinemas = new ArrayList<Cinema>();
+		this.runtime = runtime;
+		this.movieReleaseDate = movieReleaseDate;
+		this.totalSales = totalSales;
+	}
+	
 	public Movie(int id, String title, MovieType type, MovieStatus status, String synopsis, String director, ArrayList<String> casts,
 			String rating, int runtime, LocalDate movieReleaseDate, int totalSales) {
 

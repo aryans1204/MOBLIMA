@@ -274,7 +274,7 @@ public class Staff implements Client, Serializable {
 			}
 		}
 
-		Movie newMovie = new Movie(title, type, status, synopsis, director, casts, rating, runtime, releaseDate);
+		Movie newMovie = new Movie(title, type, status, synopsis, director, casts, rating, runtime, releaseDate, 0);
 		this.cinema.updateMovies(newMovie);
 		System.out.println("Movie List Created.. Going back to previous menu");
 	}catch(Exception e) {
@@ -439,13 +439,13 @@ public class Staff implements Client, Serializable {
 					break;
 
 				case 9:
-					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mm:ss a");
-					LocalDate showtime = null;
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mma");
+					LocalDateTime showtime = null;
 					exit = false;
 					while(!exit) {
 						try {
-							System.out.println("Enter new movie release date e.g (Saturday, Jul 14, 2018 14:31:06 PM) : ");
-							showtime = LocalDate.parse(sc.nextLine(), formatter);
+							System.out.println("Enter new movie release date e.g (Saturday, Jul 14, 2018 14:30PM) : ");
+							showtime = LocalDateTime.parse(sc.nextLine(), formatter);
 							exit = true;
 						}catch(DateTimeParseException e) {
 							System.out.println("Invalid date format, Please try again");

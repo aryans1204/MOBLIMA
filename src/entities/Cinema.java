@@ -7,7 +7,7 @@ import java.time.*;
 public class Cinema implements Serializable {
     private HashMap<String, Double> prices = new HashMap<>();  //prices indicator per movie-title for Staff to set.
     private ArrayList<Movie>  movies;  //array of Movies at this cinema;
-    private HashMap<String, ArrayList<LocalDate>> showtimes;
+    private HashMap<String, ArrayList<LocalDateTime>> showtimes;
     private HashMap<String, ArrayList<Seat>> seats;  //key is the movie title + showtime.toString().
     private String cinemaName;
     public Cinema(String cinemaName, ArrayList<Movie> movies, HashMap<Movie, ArrayList<LocalDate>> showtimes, HashMap<String, ArrayList<Seat>> seats) {
@@ -26,8 +26,8 @@ public class Cinema implements Serializable {
 	this.prices.put(title, price);
     }
 
-    public void setShowtime(String title, LocalDate showtime) {
-	ArrayList<LocalDate> shows = this.showtimes.get(title);
+    public void setShowtime(String title, LocalDateTime showtime) {
+	ArrayList<LocalDateTime> shows = this.showtimes.get(title);
 	shows.add(showtime);
 	this.showtimes.put(title, shows);
     }
@@ -44,7 +44,7 @@ public class Cinema implements Serializable {
 	    return this.prices.get(title);
     }
 
-    public ArrayList<LocalDate> getShowtimes(String title) {
+    public ArrayList<LocalDateTime> getShowtimes(String title) {
 	    return this.showtimes.get(title);
     }
 
@@ -76,7 +76,7 @@ public class Cinema implements Serializable {
 	return this.seats.get(title).get(index);  
     }
   
-    public void printLayout(Movie movie, LocalDate showtime) { //prints layout of the Cinema based on available seats for the Movie at the particular showtime
+    public void printLayout(Movie movie, LocalDateTime showtime) { //prints layout of the Cinema based on available seats for the Movie at the particular showtime
         HashMap<String, ArrayList<Seat>> allSeats = this.seats; //Not sure about the local date class
         ArrayList<Seat> seats = new ArrayList<>();
         String title = movie.getTitle();

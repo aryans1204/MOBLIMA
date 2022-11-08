@@ -12,13 +12,13 @@ public class Ticket implements Serializable {
     Cinema cinema; //associated cinema of the movie, this will also provide seat number
     Customer customer;  //purchasing customer details
     Transaction transaction;
-    LocalDate showtime;
+    LocalDateTime showtime;
     Seat seat;
     double price;
     String holidayFileName;
     Scanner sc= new Scanner(System.in);
 
-    public Ticket(Movie a, Cinema b, Customer c, LocalDate d, Seat seat, String TID, String custName, String custEmail, String custMobileNumber,String holidayFileName) {
+    public Ticket(Movie a, Cinema b, Customer c, LocalDateTime d, Seat seat, String TID, String custName, String custEmail, String custMobileNumber,String holidayFileName) {
     	movie = a;
     	cinema = b;
     	customer = c;
@@ -157,7 +157,7 @@ public class Ticket implements Serializable {
     	//method to return the movie for the ticket
     	return movie;
     }
-    public LocalDate getShowtime() {
+    public LocalDateTime getShowtime() {
     	//method to return showtime of the ticket.
     	return showtime;
     }

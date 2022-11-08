@@ -15,7 +15,7 @@ public class CinemaController {
 	this.seatFileName = seatFileName;
     }
 
-   public void insertCinemaIntoDB(String cinemaName, ArrayList<Movie> movies, HashMap<Movie, ArrayList<LocalDate>> showtimes) {
+   public void insertCinemaIntoDB(String cinemaName, ArrayList<Movie> movies, HashMap<String, ArrayList<LocalDateTime>> showtimes) {
 	HashMap<String, ArrayList<Seat>> seats = this.getSeatsFromDB(movies, showtimes);
 	ArrayList<Cinema> cinemas = new ArrayList<>();
 	Cinema newCinema = new Cinema(cinemaName, movies, showtimes, seats);
@@ -39,7 +39,7 @@ public class CinemaController {
 	}
     }
     
-    public HashMap<String, ArrayList<Seat>> getSeatsFromDB(ArrayList<Movie> movies, HashMap<String, ArrayList<LocalDate>> showtimes) {
+    public HashMap<String, ArrayList<Seat>> getSeatsFromDB(ArrayList<Movie> movies, HashMap<String, ArrayList<LocalDateTime>> showtimes) {
 	ArrayList<Seat> seats = null;
         FileInputStream fis = null;
         ObjectInputStream in = null;
@@ -57,8 +57,8 @@ public class CinemaController {
         HashMap<String, ArrayList<Seat>> s = new HashMap<>(); 
 	for (Movie movie : movies) {
 		String title = movie.getTitle();
-		ArrayList<LocalDate> showtime = showtimes.get(title);
-		for (LocalDate sho : showtime) {
+		ArrayList<LocalDateTime> showtime = showtimes.get(title);
+		for (LocalDateTime sho : showtime) {
 			String key = title + sho.toString();
 			s.put(key, seats);
 		}
