@@ -1,4 +1,4 @@
-package controllers;
+package src.controllers;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+
+import src.entities.*;
 
 //Ticket controller is used to add tickets to tickets database
 //Also used to update default ticket price value in prices database
