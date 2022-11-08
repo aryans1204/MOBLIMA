@@ -1,4 +1,4 @@
-package entities;
+package src.entities;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -20,7 +20,7 @@ public class Movie implements Serializable{
 	private ArrayList<Cinema> cinemas;
 	private int runtime;  //Duration of the movie in (MINS)
 	private LocalDate movieReleaseDate;
-	private double totalSales = 0.0;
+	private int totalSales = 0;
 
 	/*
 	 * No abstract methods atm
@@ -29,7 +29,7 @@ public class Movie implements Serializable{
 
 	//Constructor
 	public Movie(int id, String title, MovieType type, MovieStatus status, String synopsis, String director, ArrayList<String> casts,
-			String rating, int runtime, LocalDate movieReleaseDate) {
+			String rating, int runtime, LocalDate movieReleaseDate, int totalSales) {
 
 		this.id = id;
 		this.title = title;
