@@ -1,7 +1,8 @@
-package entities;
+package src.entities;
 
 import java.util.*;
 import java.io.*;
+import java.time.*;
 
 public class Cinema implements Serializable {
     private HashMap<String, Double> prices = new HashMap<>();  //prices indicator per movie-title for Staff to set.
@@ -9,14 +10,14 @@ public class Cinema implements Serializable {
     private HashMap<String, ArrayList<LocalDate>> showtimes;
     private HashMap<String, ArrayList<Seat>> seats;  //key is the movie title + showtime.toString().
     private String cinemaName;
-    public Cinema(String cinemaName, ArrayList<Movie> movies, HashMap<Movie, ArrayList<LocalDate>> showtimes, HashMap<String, ArrayList<Seat> seats) {
+    public Cinema(String cinemaName, ArrayList<Movie> movies, HashMap<Movie, ArrayList<LocalDate>> showtimes, HashMap<String, ArrayList<Seat>> seats) {
         this.movies = movies;
         this.cinemaName = cinemaName;
         ArrayList<LocalDate> shows = new ArrayList<>();
         this.showtimes = new HashMap<>();
         for (Movie mov : showtimes.keySet()) {
             this.showtimes.put(mov.getTitle(), showtimes.get(mov));
-            this.prices.put(mov.getTitle(), 0);  //0 is a sign that Staff hasn't configured prices yet
+            this.prices.put(mov.getTitle(), 0.0);  //0 is a sign that Staff hasn't configured prices yet
 	    }
 	this.seats = seats;
     }
@@ -43,16 +44,12 @@ public class Cinema implements Serializable {
 	    return this.prices.get(title);
     }
 
-    public getShowtimes(String title) {
+    public ArrayList<LocalDate> getShowtimes(String title) {
 	    return this.showtimes.get(title);
     }
 
     public ArrayList<Movie> getMovies() {
 	    return this.movies;
-    }
-
-    public void updateMovies(Movie newMovie) {
-	    this.movies.add(newMovie);
     }
 
     public ArrayList<Movie> updateMovies(Movie newMovie) {
@@ -66,7 +63,7 @@ public class Cinema implements Serializable {
         this.seats.put(title, s);
     }
     
-    public void setSeats(HashMap<String, ArrayList<LocalDate>> seats) {
+    public void setSeats(HashMap<String, ArrayList<Seat>> seats) {
 	    this.seats = seats;
     }
     public void setCustomer(Customer customer, String title, int index) {
@@ -100,7 +97,7 @@ public class Cinema implements Serializable {
 
         int alpha = 65;
         boolean gap = true;
-        String[][] seats = {
+        String[][] seatLayout = {
                 {"<  >", "<-->"},//0: Standard
                 {"(  )", "(--)"},//1: Gold
                 {"{  }", "{--}"},//2: Platinum
@@ -165,13 +162,13 @@ public class Cinema implements Serializable {
                         seatStatus=1; //Set the seat status to taken
                     if(c % 4==0) {
                         if(gap)
-                            System.out.print(seats[seatClass][seatStatus]+isleGap);
+                            System.out.print(seatLayout[seatClass][seatStatus]+isleGap);
                         else
-                            System.out.print(seats[seatClass][seatStatus]+seatGap);
+                            System.out.print(seatLayout[seatClass][seatStatus]+seatGap);
                         gap = !gap;
                     }
                     else
-                        System.out.print(seats[seatClass][seatStatus]+seatGap);
+                        System.out.print(seatLayout[seatClass][seatStatus]+seatGap);
 
                     seatStatus=0; //Prepares to print the next seat (Empty by default)
                 }
@@ -192,13 +189,13 @@ public class Cinema implements Serializable {
         System.out.println();
         System.out.println("\tLegends");
         System.out.println("\tStandard Seats");
-        System.out.printf("\t"+seats[0][0]+"\tAvailable \t\t"+seats[0][1]+"\tTaken\n");
+        System.out.printf("\t"+seatLayout[0][0]+"\tAvailable \t\t"+seatLayout[0][1]+"\tTaken\n");
         System.out.println("\tGold Seats");
-        System.out.printf("\t"+seats[1][0]+"\tAvailable \t\t"+seats[1][1]+"\tTaken\n");
+        System.out.printf("\t"+seatLayout[1][0]+"\tAvailable \t\t"+seatLayout[1][1]+"\tTaken\n");
         System.out.println("\tPlatinum Seats");
-        System.out.printf("\t"+seats[2][0]+"\tAvailable \t\t"+seats[2][1]+"\tTaken\n");
+        System.out.printf("\t"+seatLayout[2][0]+"\tAvailable \t\t"+seatLayout[2][1]+"\tTaken\n");
         System.out.println("\tCouple Seats");
-        System.out.printf("\t"+seats[3][0]+"\tAvailable \t\t"+seats[3][1]+"\tTaken\n");
+        System.out.printf("\t"+seatLayout[3][0]+"\tAvailable \t\t"+seatLayout[3][1]+"\tTaken\n");
     }
 
 }	
