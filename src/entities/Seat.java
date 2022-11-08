@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 
 public class Seat implements Serializable {
-    private enum SeatType {
+    public enum SeatType {
 	STANDARD,
 	GOLD,
 	PLATINUM
