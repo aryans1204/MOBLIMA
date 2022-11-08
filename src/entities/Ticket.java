@@ -15,14 +15,16 @@ public class Ticket implements Serializable {
     LocalDate showtime;
     Seat seat;
     double price;
+    String holidayFileName;
     Scanner sc= new Scanner(System.in);
 
-    public Ticket(Movie a, Cinema b, Customer c, String d, Seat seat, String TID, String custName, String custEmail, String custMobileNumber) {
+    public Ticket(Movie a, Cinema b, Customer c, LocalDate d, Seat seat, String TID, String custName, String custEmail, String custMobileNumber,String holidayFileName) {
     	movie = a;
     	cinema = b;
     	customer = c;
     	showtime = d;
     	this.seat = seat;
+	this.holidayFileName = holidayFileName;
     	transaction = new Transaction(TID, custName, custEmail, custMobileNumber); 	
 	    double priceL = b.getTicketPrice(a.getTitle());
 	    if (priceL == 0) {
@@ -39,12 +41,13 @@ public class Ticket implements Serializable {
     	//gets price from prices database and does algorithm on it.
     	//prices database stores default values for this particular movie and cinema and showtime
     	//if child or senior x0.8
-    	int moviePrice;
+    	double moviePrice;
     	MovieType movieType;
     	int customerAge;
 	SeatType seatType;
     	int date;
     	double multiplier = 1;
+	string day;
     	
     	
     	if (price==0)
@@ -53,13 +56,14 @@ public class Ticket implements Serializable {
     		moviePrice = price;
     		
     	movieType = movie.getType();
-        //getAgeGroup might be changed to getAge();
     	customerAge = customer.getAge();
     	seatType = seat.getType();
 
         //update multiplier for different days of week
-    	if (showtime.compareTo("Sunday")==1||showtime.compareTo("Saturday")==1||
-    			showtime.compareTo("Holiday")==1) {
+	//need to create class to calculate holidays
+    	HolidayController a = new HolidayController(holidayFileName);
+	day = showtime.getDayOfWeek().toString()
+    	if ("SATURDAY".equalsIgnoreCase(day)||"SUNDAY".equalsIgnoreCase(day)||a.isAHoliday(showtime)) {
     		multiplier = multiplier*1.5;
     	}
 
@@ -111,7 +115,7 @@ public class Ticket implements Serializable {
 
     }
     
-    public int[] getPricesFromDB() {
+    /*public int[] getPricesFromDB() {
 		int[] prices = null;
 		FileInputStream fis = null;
 		ObjectInputStream in = null;
@@ -127,7 +131,7 @@ public class Ticket implements Serializable {
 			ex.printStackTrace();
 		}
 		return prices;
-	}
+	}*/
 	
     public Customer getCustomer(){
          return customer;
