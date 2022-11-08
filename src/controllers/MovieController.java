@@ -37,9 +37,9 @@ public class MovieController {
 	
 	//Create a new movie object and insert it into the database
 	public void insertMovieToDB(String title, MovieType type, MovieStatus status, String synopsis, String director, ArrayList<String> casts,
-			String rating, int runtime, LocalDate movieReleaseDate) {
+			String rating, int runtime, LocalDate movieReleaseDate, int totalSales) {
 		ArrayList<Movie> movies = new ArrayList<Movie>();
-		Movie newMovie = new Movie(this.getLastID()+1, title, type, status, synopsis, director, casts, rating, runtime, movieReleaseDate); //Need to update ID to get from db
+		Movie newMovie = new Movie(this.getLastID()+1, title, type, status, synopsis, director, casts, rating, runtime, movieReleaseDate, totalSales); //Need to update ID to get from db
 		
 		FileOutputStream fos = null;
 		ObjectOutputStream out = null;
