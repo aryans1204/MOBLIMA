@@ -1,11 +1,11 @@
-package entities;
+package src.entities;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.*;
-import java.lang.*;
+import java.time.*;
 
 public class Ticket implements Serializable {
     Movie movie;  //associated movie with the ticket
@@ -51,7 +51,7 @@ public class Ticket implements Serializable {
     	
     	
     	if (price==0)
-    		moviePrice = 10;
+    		moviePrice = 10.0;
     	else
     		moviePrice = price;
     		
@@ -84,7 +84,7 @@ public class Ticket implements Serializable {
          }
 
          //update multiplier for cinemaType
-         switch(cinemaType){
+         switch(seatType){
                 case STANDARD:
                     //no change in multiplier
                     break;
@@ -159,7 +159,7 @@ public class Ticket implements Serializable {
     }
     public LocalDate getShowtime() {
     	//method to return showtime of the ticket.
-    	return date;
+    	return showtime;
     }
     
     public void setPrice(double newPrice){
