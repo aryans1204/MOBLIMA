@@ -4,6 +4,8 @@ import java.util.*;
 import java.io.*;
 import java.time.*;
 
+import src.entities.*;
+
 public class CinemaController {
     private String filename;
     private String seatFileName;
