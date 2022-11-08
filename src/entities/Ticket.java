@@ -18,7 +18,7 @@ public class Ticket implements Serializable {
     ArrayList<LocalDate>Holidays = null;
     Scanner sc= new Scanner(System.in);
 
-    public Ticket(Movie a, Cinema b, Customer c, LocalDate d, Seat seat, String TID, String custName, String custEmail, String custMobileNumber,ArrayList<LocalDate>Holiday) {
+    public Ticket(Movie a, Cinema b, Customer c, LocalDateTime d, Seat seat, String TID, String custName, String custEmail, String custMobileNumber,ArrayList<LocalDate>Holiday) {
     	movie = a;
     	cinema = b;
     	customer = c;
