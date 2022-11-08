@@ -1,4 +1,4 @@
-package controllers;
+package src.controllers;
 
 import java.io.IOException;
 import java.io.File;
@@ -16,7 +16,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import entities.Cinema, entities.Movie, entities.MovieType, entities.MovieStatus, entities.Review;
+import src.entities.*;
 
 
 
