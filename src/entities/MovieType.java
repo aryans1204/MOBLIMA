@@ -1,4 +1,4 @@
-package entities;
+package src.entities;
 
 public enum MovieType {
 	TWO_D,
