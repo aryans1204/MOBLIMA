@@ -17,7 +17,7 @@ public class Ticket implements Serializable {
     double price;
     Scanner sc= new Scanner(System.in);
 
-    public Ticket(Movie a, Cinema b, Customer c, String d, Seat seat, String TID, String custName, String custEmail, String custMobileNumber) {
+    public Ticket(Movie a, Cinema b, Customer c, LocalDate d, Seat seat, String TID, String custName, String custEmail, String custMobileNumber,String holidayFileName) {
     	movie = a;
     	cinema = b;
     	customer = c;
@@ -39,7 +39,7 @@ public class Ticket implements Serializable {
     	//gets price from prices database and does algorithm on it.
     	//prices database stores default values for this particular movie and cinema and showtime
     	//if child or senior x0.8
-    	int moviePrice;
+    	double moviePrice;
     	MovieType movieType;
     	int customerAge;
 	SeatType seatType;
@@ -54,14 +54,14 @@ public class Ticket implements Serializable {
     		moviePrice = price;
     		
     	movieType = movie.getType();
-        //getAgeGroup might be changed to getAge();
     	customerAge = customer.getAge();
     	seatType = seat.getType();
 
         //update multiplier for different days of week
 	//need to create class to calculate holidays
+    	HolidayController a = new HolidayController(holidayFileName);
 	day = showtime.getDayOfWeek().toString()
-    	if (day.compareTo("Sunday")==1||day.compareTo("Saturday")==1) {
+    	if (day.compareTo("Sunday")==1||day.compareTo("Saturday")==1||a.isAHoliday(showtime)) {
     		multiplier = multiplier*1.5;
     	}
 
