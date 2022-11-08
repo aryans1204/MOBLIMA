@@ -1,4 +1,4 @@
-packag entities;
+package entities;
 
 import java.util.*;
 import java.io.*;
@@ -10,7 +10,7 @@ public class Staff implements Client, Serializable {
     private boolean auth = false;
     private Cinema cinema;   //associated cinema of the staff. Where the staff works
 
-    public Staff(String username, String password, Cinema cinema, ClientController c, MovieController mvc) {
+    public Staff(String username, String password, Cinema cinema) {
 	this.username = username;
 	this.password = password;
 	this.cinema = cinema;
