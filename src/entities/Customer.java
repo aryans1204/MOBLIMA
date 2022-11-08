@@ -8,7 +8,7 @@ import java.time.*;
 
 public class Customer implements Client, Serializable{
     private String email;
-    private String mobileNumber;
+    private int mobileNumber;
     private String name;
     private int age;
     private boolean auth = false;  //authentication indicator. Whether customer is authenticated or not. All methods must check for authentication.
@@ -17,7 +17,7 @@ public class Customer implements Client, Serializable{
     private ArrayList<Ticket> bookings = new ArrayList<>();
 
     //Constructor for Customer object.
-    public Customer(String name, int age, String username, String password, String email, String mobileNumber){
+    public Customer(String name, int age, String username, String password, String email, int mobileNumber){
         this.name = name;
         this.age = age;
         this.username = username;
