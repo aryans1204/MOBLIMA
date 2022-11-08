@@ -6,7 +6,7 @@ import java.time.*;
 
 public class CinemaController {
     private String filename;
-    private String seatFilename;
+    private String seatFileName;
 
     public CinemaController(String filename, String seatFileName) {
 	this.filename = filename;
@@ -72,7 +72,7 @@ public class CinemaController {
 	try {
 		fis = new FileInputStream(filename);
 		in = new ObjectInputStream(fis);
-		movies = (ArrayList<Cinema>) in.readObject();
+		cinemas = (ArrayList<Cinema>) in.readObject();
 		in.close();
 	} catch (IOException ex) {
 		ex.printStackTrace();
