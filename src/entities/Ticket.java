@@ -15,16 +15,16 @@ public class Ticket implements Serializable {
     LocalDateTime showtime;
     Seat seat;
     double price;
-    String holidayFileName;
+    ArrayList<LocalDate>Holidays = null;
     Scanner sc= new Scanner(System.in);
 
-    public Ticket(Movie a, Cinema b, Customer c, LocalDateTime d, Seat seat, String TID, String custName, String custEmail, String custMobileNumber,String holidayFileName) {
+    public Ticket(Movie a, Cinema b, Customer c, LocalDate d, Seat seat, String TID, String custName, String custEmail, String custMobileNumber,ArrayList<LocalDate>Holiday) {
     	movie = a;
     	cinema = b;
     	customer = c;
     	showtime = d;
     	this.seat = seat;
-	this.holidayFileName = holidayFileName;
+	    Holidays = Holiday;
     	transaction = new Transaction(TID, custName, custEmail, custMobileNumber); 	
 	    double priceL = b.getTicketPrice(a.getTitle());
 	    if (priceL == 0) {
@@ -44,10 +44,10 @@ public class Ticket implements Serializable {
     	double moviePrice;
     	MovieType movieType;
     	int customerAge;
-	SeatType seatType;
+	    SeatType seatType;
     	int date;
     	double multiplier = 1;
-	string day;
+	    String day;
     	
     	
     	if (price==0)
@@ -60,10 +60,9 @@ public class Ticket implements Serializable {
     	seatType = seat.getType();
 
         //update multiplier for different days of week
-	//need to create class to calculate holidays
-    	HolidayController a = new HolidayController(holidayFileName);
-	day = showtime.getDayOfWeek().toString()
-    	if ("SATURDAY".equalsIgnoreCase(day)||"SUNDAY".equalsIgnoreCase(day)||a.isAHoliday(showtime)) {
+	    //need to create class to calculate holiday
+	    day = showtime.getDayOfWeek().toString()
+    	if ("SATURDAY".equalsIgnoreCase(day)||"SUNDAY".equalsIgnoreCase(day)||this.isAHoliday()) {
     		multiplier = multiplier*1.5;
     	}
 
@@ -132,6 +131,14 @@ public class Ticket implements Serializable {
 		}
 		return prices;
 	}*/
+    
+    public boolean isAHoliday() {
+    	for (int i=0;i<Holidays.size();i++) {
+    		if(Holidays.get(i) == showtime)
+    			return true;
+    	}
+    	return false;
+    }
 	
     public Customer getCustomer(){
          return customer;
