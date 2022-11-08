@@ -109,7 +109,7 @@ public class Customer implements Client, Serializable{
 				listMovies(cinemaName, cinemaDB);
 				break;
 			case 3:
-				checkSeatAvailability(cinemaDB);
+				checkSeatAvailability(cinemaDB, movieDB);
 				break;
 			case 4:
 				makeBooking(cinemaDB, movieDB);
@@ -203,7 +203,7 @@ public class Customer implements Client, Serializable{
 	}
     }
 
-    private void checkSeatAvailability(ArrayList<CInema> cinemaDB) {
+    private void checkSeatAvailability(ArrayList<Cinema> cinemaDB, ArrayList<Movie> movieDB) {
 	System.out.println("Enter the name of the Cinema you would like to check seat availability for");
 	String cinemaname = reader.readLine();
 	System.out.println("Enter the Movie for which you would like to check availability");
@@ -220,13 +220,20 @@ public class Customer implements Client, Serializable{
 			System.out.println("Invalid date format, Please try again");
 		}	
 	}
+	Movie myMovie;
+	for (Movie movie : movieDB) {
+		if (movie.getTitle() == moviename) {
+			myMovie = movie;
+			break;
+		}
+	}
+    	for (Cinema cinema : cinemaDB) {
+		if (cinema.getName() == cinemaname) {
+			cinema.printLayout(myMovie, showtime);
+			break;
+		}
+	}
     }
-				for (Cinema cinema : cinemaDB) {
-					if (cinema.getName() == cinemaname) {
-						cinema.printLayout(moviename, showtime);
-						break;
-					}
-				}
 	
     private void searchMovie(String movieTitle, ArrayList<Movie? moviesDB) {
 	for (Movie movie : moviesDB) {
