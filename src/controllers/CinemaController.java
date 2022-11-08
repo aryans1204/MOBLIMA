@@ -13,16 +13,15 @@ public class CinemaController {
 	this.seatFileName = seatFileName;
     }
 
-   public void insertCinemaIntoDB(String name, HashMap<String, Double> prices, ArrayList<Movie>  movies, HashMap<String, ArrayList<LocalDate>> showtimes) {
-
+   public void insertCinemaIntoDB(String cinemaName, ArrayList<Movie> movies, HashMap<Movie, ArrayList<LocalDate>> showtimes) {
+	HashMap<String, ArrayList<Seat>> seats = this.getSeatsFromDB(movies, showtimes);
 	ArrayList<Cinema> cinemas = new ArrayList<>();
-	Cinema newCinema = new Cinema(name, prices, movies, showtimes)
-	cinema.setSeats(getSeatsFromDB(movies, showtimes));	
+	Cinema newCinema = new Cinema(cinemaName, movies, showtimes, seats);
 	FileOutputStream fos = null;
 	ObjectOutputStream out = null;
 	File f = new File(filename);
 	if(f.exists())
-	movies = this.getAllCinemasFromDB();//Read in existing data in db
+	cinemas = this.getAllCinemasFromDB();//Read in existing data in db
 	else {
 		System.out.println("File: " + filename + " does not exist");
 		System.out.println("Creating new DB");
