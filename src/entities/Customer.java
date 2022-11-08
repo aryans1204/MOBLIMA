@@ -1,7 +1,8 @@
-package entities;
+package src.entities;
 
 import java.util.*;
 import java.io.*;
+import java.time.format.*;
 import java.time.*;
 
 
@@ -83,7 +84,7 @@ public class Customer implements Client, Serializable{
         return true;
     }
 
-    public void customerUI(ArrayList<Cinema> cinemaDB, Araylist<Movie> movieDB) throws Exception {
+    public void customerUI(ArrayList<Cinema> cinemaDB, ArrayList<Movie> movieDB) throws Exception {
 	if (!auth) return;
 	boolean exit = false;
 	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -100,14 +101,14 @@ public class Customer implements Client, Serializable{
 		int option = Integer.parseInt(reader.readLine());
 		switch (option) {
 			case 1:
-				System.out.println("Enter movie title you woudl like to search about");
+				System.out.println("Enter movie title you would like to search about");
 				String title = reader.readLine();
-				searchMovie(title, moviesDB);
+				searchMovie(title, movieDB);
 				break;
 			case 2:
 				System.out.println("Enter the name of the Cinema you would like to search");
 				String cinemaName = reader.readLine();
-				listMovies(cinemaName, cinemaDB);
+				listMovie(cinemaName, cinemaDB);
 				break;
 			case 3:
 				checkSeatAvailability(cinemaDB, movieDB);
@@ -157,7 +158,8 @@ public class Customer implements Client, Serializable{
 	while(!e) {
 		try {
 			System.out.println("Enter showtime e.g (Saturday, Jul 14, 2018 14:31:06 PM) : ");
-			showtime = LocalDate.parse(reader.readLine(), formatter);									e = true;
+			showtime = LocalDate.parse(reader.readLine(), formatter);									
+			e = true;
 		}catch(DateTimeParseException d) {
 			System.out.println("Invalid date format, Please try again");
 		}	
@@ -166,9 +168,10 @@ public class Customer implements Client, Serializable{
 		if (cinema.getName() == cinemaName) {
 			ArrayList<Seat> seats = cinema.getSeats(title+showtime.toString());
 			cinema.printLayout(title, showtime);
+			String seatNo;
 			do {
 				System.out.println("Which seat would you like to select?: Enter the alphabet along with the column number like so (C6)");
-				String seatNo = reader.readLine();
+				seatNo = reader.readLine();
 			} while (seatNo.charAt(0) > 'J' || seatNo.charAt(0) < 'A');
 			int row = seatNo.charAt(0) % 65;
 			int col = Integer.parseInt(seatNo.substring(1));
@@ -205,6 +208,7 @@ public class Customer implements Client, Serializable{
     }
 
     private void checkSeatAvailability(ArrayList<Cinema> cinemaDB, ArrayList<Movie> movieDB) {
+	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	System.out.println("Enter the name of the Cinema you would like to check seat availability for");
 	String cinemaname = reader.readLine();
 	System.out.println("Enter the Movie for which you would like to check availability");
@@ -216,7 +220,8 @@ public class Customer implements Client, Serializable{
 	while(!e) {
 		try {
 			System.out.println("Enter showtime e.g (Saturday, Jul 14, 2018 14:31:06 PM) : ");
-			showtime = LocalDate.parse(reader.readLine(), formatter);									e = true;
+			showtime = LocalDate.parse(reader.readLine(), formatter);									
+			e = true;
 		}catch(DateTimeParseException d) {
 			System.out.println("Invalid date format, Please try again");
 		}	
@@ -236,7 +241,7 @@ public class Customer implements Client, Serializable{
 	}
     }
 	
-    private void searchMovie(String movieTitle, ArrayList<Movie? moviesDB) {
+    private void searchMovie(String movieTitle, ArrayList<Movie> moviesDB) {
 	for (Movie movie : moviesDB) {
 		if (movie.getTitle() == movieTitle) {
 			System.out.println(movie.toString());
