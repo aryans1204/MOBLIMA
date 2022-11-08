@@ -224,19 +224,13 @@ public class Customer implements Client, Serializable{
 			e = true;
 		}catch(DateTimeParseException d) {
 			System.out.println("Invalid date format, Please try again");
-		}
-		Movie myMovie = null;
-		for (Movie movie : movieDB) {
-			if (movie.getTitle() == moviename) {
-				myMovie = movie;
-				break;
-			}
-		}
-		for (Cinema cinema : cinemaDB) {
-			if (cinema.getName() == cinemaname) {
-				cinema.printLayout(myMovie.getTitle(), showtime);
-				break;
-			}
+		}	
+	}
+	
+    	for (Cinema cinema : cinemaDB) {
+		if (cinema.getName() == cinemaname) {
+			cinema.printLayout(moviename, showtime);
+			break;
 		}
 	}
 	}

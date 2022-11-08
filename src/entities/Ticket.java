@@ -15,7 +15,7 @@ public class Ticket implements Serializable {
     LocalDate showtime;
     Seat seat;
     double price;
-    String holidayFileName;
+    ArrayList<LocalDate>Holidays = null;
     Scanner sc= new Scanner(System.in);
 
     public Ticket(Movie movie, Cinema cinema, Customer customer, LocalDate showtime, Seat seat, String TID, String custName, String custEmail, String custMobileNumber) {
@@ -59,6 +59,7 @@ public class Ticket implements Serializable {
     	seatType = seat.getType();
 
         //update multiplier for different days of week
+
 	    //need to create class to calculate holidays
     	HolidayController a = new HolidayController(holidayFileName);
 	    day = showtime.getDayOfWeek().toString();
@@ -128,6 +129,14 @@ public class Ticket implements Serializable {
 		}
 		return prices;
 	}*/
+    
+    public boolean isAHoliday() {
+    	for (int i=0;i<Holidays.size();i++) {
+    		if(Holidays.get(i) == showtime)
+    			return true;
+    	}
+    	return false;
+    }
 	
     public Customer getCustomer(){
          return customer;
