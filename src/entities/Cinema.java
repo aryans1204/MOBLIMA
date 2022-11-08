@@ -10,12 +10,12 @@ public class Cinema implements Serializable {
     private HashMap<String, ArrayList<LocalDate>> showtimes;
     private HashMap<String, ArrayList<Seat>> seats;  //key is the movie title + showtime.toString().
     private String cinemaName;
-    public Cinema(String cinemaName, ArrayList<Movie> movies, HashMap<Movie, ArrayList<LocalDate>> showtimes, HashMap<String, ArrayList<Seat>> seats) {
+    public Cinema(String cinemaName, ArrayList<Movie> movies, HashMap<String, ArrayList<LocalDate>> showtimes, HashMap<String, ArrayList<Seat>> seats) {
         this.movies = movies;
         this.cinemaName = cinemaName;
-        ArrayList<LocalDate> shows = new ArrayList<>();
+        ArrayList<LocalDate> showstime = new ArrayList<>();
         this.showtimes = new HashMap<>();
-        for (Movie mov : showtimes.keySet()) {
+        for (Movie mov : movies) {
             this.showtimes.put(mov.getTitle(), showtimes.get(mov));
             this.prices.put(mov.getTitle(), 0.0);  //0 is a sign that Staff hasn't configured prices yet
 	    }
@@ -76,10 +76,9 @@ public class Cinema implements Serializable {
 	return this.seats.get(title).get(index);  
     }
   
-    public void printLayout(Movie movie, LocalDate showtime) { //prints layout of the Cinema based on available seats for the Movie at the particular showtime
+    public void printLayout(String title, LocalDate showtime) { //prints layout of the Cinema based on available seats for the Movie at the particular showtime
         HashMap<String, ArrayList<Seat>> allSeats = this.seats; //Not sure about the local date class
         ArrayList<Seat> seats = new ArrayList<>();
-        String title = movie.getTitle();
         if(allSeats.containsKey(title+showtime.toString())){
             seats = allSeats.get(title+showtime.toString());
         }

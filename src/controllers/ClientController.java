@@ -38,7 +38,7 @@ public class ClientController {
     }
 
     //Inserting Customers name, age, username and password into the database
-    public void insertCustomerToDB(String name, int age, String username, String password, String email, int mobileNumber){
+    public void insertCustomerToDB(String name, int age, String username, String password, String email, String mobileNumber){
         ArrayList<Customer> customers = new ArrayList<>();
         Customer newCustomer = new Customer(name, age, username, password, email, mobileNumber);
         FileOutputStream fos = null;

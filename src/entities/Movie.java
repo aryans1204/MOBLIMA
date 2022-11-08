@@ -87,7 +87,7 @@ public class Movie implements Serializable{
 	public String getMovieReleaseDateToString(){
         return movieReleaseDate.format(DateTimeFormatter.ofPattern("EEEE, dd/MM/yyyy"));
     }
-	public double getTotalSales(){
+	public int getTotalSales(){
 		return totalSales;
 	}
 
@@ -133,7 +133,7 @@ public class Movie implements Serializable{
 		this.movieReleaseDate = movieReleaseDate;
 	}
 
-	public void setTotalSales(double totalSales){
+	public void setTotalSales(int totalSales){
 		this.totalSales = getTotalSales() + totalSales;
 	}
 	

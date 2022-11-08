@@ -352,7 +352,7 @@ public class MovieController {
 	}
 
 	//Insert a totalSales for a movie into the movie database
-	public boolean addTotalSales(int movieID, double totalSales) {
+	public boolean addTotalSales(int movieID, int totalSales) {
 		ArrayList<Movie> movies = null;
 		File f = new File(fileName);
 		if(f.exists()) {
