@@ -1,4 +1,4 @@
-package entities;
+package src.entities;
 
 public enum MovieStatus {
 	COMING_SOON,
