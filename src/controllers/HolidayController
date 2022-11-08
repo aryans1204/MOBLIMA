@@ -1,4 +1,4 @@
-package controllers;
+package src.controllers;
 
 import java.time.LocalDate;
 import java.io.BufferedReader;
