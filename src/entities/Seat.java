@@ -1,15 +1,10 @@
-package entities;
+package src.entities;
 
 import java.util.*;
 import java.io.*;
 
 public class Seat implements Serializable {
-    public enum SeatType {
-	STANDARD,
-	GOLD,
-	PLATINUM
-    } type;
-
+    public SeatType type;
     private Customer customer;
     private String seatNo;
 
@@ -27,7 +22,7 @@ public class Seat implements Serializable {
     public void setCustomer(Customer customer) {
 	this.customer = customer;
     }
-    public String getSeatNo() [
+    public String getSeatNo() {
 	return this.seatNo;
     }
 	
