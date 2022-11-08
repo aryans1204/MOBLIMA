@@ -10,11 +10,13 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.time.*;
 
+import entities.Client, entities.Customer, entities.Staff, entities.Cinema;
+
 public class ClientController {
     private String fileName;
     private String fileNameStaff;
 
-    ClientController(String fileNameCustomer, fileNameStaff){
+    ClientController(String fileNameCustomer, String fileNameStaff){
         this.fileNameStaff = fileNameStaff;
 	this.fileName = fileNameCustomer;
     }
@@ -36,9 +38,9 @@ public class ClientController {
     }
 
     //Inserting Customers name, age, username and password into the database
-    public void insertCustomerToDB(String name, int age, String username, String password){
+    public void insertCustomerToDB(String name, int age, String username, String password, String email, int mobileNumber){
         ArrayList<Customer> customers = new ArrayList<>();
-        Customer newCustomer = new Customer(name, age, username, password);
+        Customer newCustomer = new Customer(name, age, username, password, email, mobileNumber);
         FileOutputStream fos = null;
         ObjectOutputStream out = null;
         File f = new File(fileName);
@@ -70,8 +72,8 @@ public class ClientController {
         ObjectOutputStream out = null;
         File f = new File(fileName);
         if(f.exists()) {
-            customers = this.getStaffFromDB();
-            customers.add(newCustomer);
+            staffs = this.getStaffFromDB();
+            staffs.add(newStaff);
         }
         else{
             System.out.println("File: " + fileName + " does not exist");
