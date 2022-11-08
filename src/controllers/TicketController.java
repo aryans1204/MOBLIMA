@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import src.entities.*;
@@ -59,10 +60,10 @@ public class TicketController {
 	}
 	
 	
-	public void insertTicketToDB(Movie a, Cinema b, Customer c, String d, String TID, String custName, String custEmail, String custMobileNumber) {
+	public void insertTicketToDB(Movie movie, Cinema cinema, Customer customer, LocalDate showtime, Seat seat, String TID, String custName, String custEmail, String custMobileNumber) {
 		ArrayList<Ticket> tickets = new ArrayList<Ticket>();
 		//reads the array from the pricelist DB and then inserts the corresponding price
-		Ticket newTicket = new Ticket(a,b,c,d, TID, custName, custEmail, custMobileNumber); 
+		Ticket newTicket = new Ticket(movie,cinema,customer,showtime, seat, TID, custName, custEmail, custMobileNumber);
 		
 		FileOutputStream fos = null;
 		ObjectOutputStream out = null;

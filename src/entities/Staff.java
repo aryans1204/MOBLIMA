@@ -15,16 +15,16 @@ public class Staff implements Client, Serializable {
 	this.password = password;
 	this.cinema = cinema;
     }
-    public boolean login(ArrayList<Staff> staffDB) throws IOException {
+    public boolean login(ArrayList<Object> staffDB) throws IOException {
 	System.out.println("Enter username: ");
-	BufferedReader reader = new BufferedReader(new InputStreamreader(System.in));
+	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	String username = reader.readLine();
 	System.out.println("Enter password: ");
 	String password = reader.readLine();
-	ArrayList<Staff> staffs = staffDB;
+	ArrayList<Object> staffs = staffDB;
 
-	for (Staff s : staffs) {
-		if (s.getUsername(.equals(username) && s.getPassword().equals(password)) {
+	for (Object s : staffs) {
+		if (s.getUsername().equals(username) && s.getPassword().equals(password)) {
 			System.out.println("Authenticated successfully");
 			auth = true;
 		}
@@ -32,7 +32,7 @@ public class Staff implements Client, Serializable {
 	return false;
     }
 
-    public boolean createAccount(ArrayList<Staff> staffDB) throws IOException {
+    public boolean createAccount(ArrayList<Object> staffDB) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         int tries = 9;  //9 tries before system shuts;
 	String tempUsername;
@@ -113,7 +113,7 @@ public class Staff implements Client, Serializable {
 				System.out.println("Enter Input: ");
 				String searchInput = sc.nextLine();
 				ArrayList<Movie> matchedMovies = null;
-				matchedMovies = mvc.searchMovies(searchInput);
+				matchedMovies = mvc.searchMovies(searchInput); //Still using movie controller. Not sure how to go around this.
 				for(Movie movie : matchedMovies)
 					System.out.println(movie);
 				break;
@@ -156,7 +156,7 @@ public class Staff implements Client, Serializable {
     
     private void createMovieListing() {
 	Scanner sc = new Scanner(System.in);
-	int runtime, option;
+	int runtime, option, id;
 	String title, synopsis, director, rating;
 	boolean exit = false;
 	LocalDate releaseDate = null;
@@ -165,6 +165,9 @@ public class Staff implements Client, Serializable {
 	ArrayList<String> casts = new ArrayList<String>();
 	try {
 		System.out.println("\nCREATE MOVIE");
+
+		System.out.println("Enter movie id: ");
+		id = sc.nextInt();
 
 		System.out.println("Enter movie title: ");
 		title = sc.nextLine();
@@ -273,8 +276,7 @@ public class Staff implements Client, Serializable {
 				System.out.println("Invalid date format, Please try again");
 			}
 		}
-
-		Movie newMovie = new Movie(title, type, status, synopsis, director, casts, rating, runtime, releaseDate);
+		Movie newMovie = new Movie(id, title, type, status, synopsis, director, casts, rating, runtime, releaseDate, 0);
 		this.cinema.updateMovies(newMovie);
 		System.out.println("Movie List Created.. Going back to previous menu");
 	}catch(Exception e) {

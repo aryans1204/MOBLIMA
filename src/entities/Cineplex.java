@@ -1,4 +1,4 @@
-package entities;
+package src.entities;
 
 public class Cineplex {
 	Cinema c1;

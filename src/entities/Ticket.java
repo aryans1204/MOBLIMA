@@ -18,15 +18,14 @@ public class Ticket implements Serializable {
     ArrayList<LocalDate>Holidays = null;
     Scanner sc= new Scanner(System.in);
 
-    public Ticket(Movie a, Cinema b, Customer c, LocalDate d, Seat seat, String TID, String custName, String custEmail, String custMobileNumber,ArrayList<LocalDate>Holiday) {
-    	movie = a;
-    	cinema = b;
-    	customer = c;
-    	showtime = d;
+    public Ticket(Movie movie, Cinema cinema, Customer customer, LocalDate showtime, Seat seat, String TID, String custName, String custEmail, String custMobileNumber) {
+    	this.movie = movie;
+    	this.cinema = cinema;
+    	this.customer = customer;
+    	this.showtime = showtime;
     	this.seat = seat;
-	    Holidays = Holiday;
-    	transaction = new Transaction(TID, custName, custEmail, custMobileNumber); 	
-	    double priceL = b.getTicketPrice(a.getTitle());
+    	transaction = new Transaction(TID, custName, custEmail, custMobileNumber);
+	    double priceL = cinema.getTicketPrice(movie.getTitle());
 	    if (priceL == 0) {
 	    	price = 0;
 	    	calculatePrice();
@@ -60,9 +59,11 @@ public class Ticket implements Serializable {
     	seatType = seat.getType();
 
         //update multiplier for different days of week
-	    //need to create class to calculate holiday
-	    day = showtime.getDayOfWeek().toString()
-    	if ("SATURDAY".equalsIgnoreCase(day)||"SUNDAY".equalsIgnoreCase(day)||this.isAHoliday()) {
+
+	    //need to create class to calculate holidays
+    	HolidayController a = new HolidayController(holidayFileName);
+	    day = showtime.getDayOfWeek().toString();
+    	if ("SATURDAY".equalsIgnoreCase(day)||"SUNDAY".equalsIgnoreCase(day)||a.isAHoliday(showtime)) {
     		multiplier = multiplier*1.5;
     	}
 
@@ -104,11 +105,8 @@ public class Ticket implements Serializable {
         else if (customerAge>=56)multiplier = 0.7*multiplier;
               
 
-       
-              
     	//by the end of all the multipliers, the formula will look like this:
     	//multiplier = multiplier * movieType * clientAge * cinemaType * date;
-    	
     	price = moviePrice * multiplier;
     	
 
