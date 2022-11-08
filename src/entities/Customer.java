@@ -181,7 +181,7 @@ public class Customer implements Client, Serializable{
 				}
 			}
 			String TID = Integer.toString(cinema.getName().hashCode()%1000) + showtime.toString();
-			Ticket newTicket = new Ticket(mov, cinema, this, cinema.getSeat(title+showtime.toString(), index), TID, this.username, this.email, this.mobileNumber);
+			Ticket newTicket = new Ticket(mov, cinema, this, showtime, cinema.getSeat(title+showtime.toString(), index), TID, this.username, this.email, this.mobileNumber);
 			this.bookings.add(newTicket);
 			System.out.println("The price of your ticket is: " + newTicket.getPrice());
 			System.out.println("Ticket booked successfully. A confirmation has been sent to the provided email and phone number");
