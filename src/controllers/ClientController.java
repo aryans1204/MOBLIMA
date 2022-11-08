@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.time.*;
 
-import entities.Client, entities.Customer, entities.Staff, entities.Cinema;
+import src.entities.*;
 
 public class ClientController {
     private String fileName;
