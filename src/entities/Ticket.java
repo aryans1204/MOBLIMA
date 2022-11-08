@@ -45,6 +45,7 @@ public class Ticket implements Serializable {
 	SeatType seatType;
     	int date;
     	double multiplier = 1;
+	string day;
     	
     	
     	if (price==0)
@@ -58,8 +59,9 @@ public class Ticket implements Serializable {
     	seatType = seat.getType();
 
         //update multiplier for different days of week
-    	if (showtime.compareTo("Sunday")==1||showtime.compareTo("Saturday")==1||
-    			showtime.compareTo("Holiday")==1) {
+	//need to create class to calculate holidays
+	day = showtime.getDayOfWeek().toString()
+    	if (day.compareTo("Sunday")==1||day.compareTo("Saturday")==1) {
     		multiplier = multiplier*1.5;
     	}
 
@@ -111,7 +113,7 @@ public class Ticket implements Serializable {
 
     }
     
-    public int[] getPricesFromDB() {
+    /*public int[] getPricesFromDB() {
 		int[] prices = null;
 		FileInputStream fis = null;
 		ObjectInputStream in = null;
@@ -127,7 +129,7 @@ public class Ticket implements Serializable {
 			ex.printStackTrace();
 		}
 		return prices;
-	}
+	}*/
 	
     public Customer getCustomer(){
          return customer;
