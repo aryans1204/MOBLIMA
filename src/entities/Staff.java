@@ -1,4 +1,4 @@
-package entities;
+package src.entities;
 
 import java.util.*;
 import java.io.*;
@@ -25,7 +25,7 @@ public class Staff implements Client, Serializable {
 
 	for (Staff s : staffs) {
 		if (s.getUsername(.equals(username) && s.getPassword().equals(password)) {
-			System.out.println("Authenticated succesfully");
+			System.out.println("Authenticated successfully");
 			auth = true;
 		}
 	}
@@ -121,9 +121,9 @@ public class Staff implements Client, Serializable {
 				exit = true;
 				break;
 			case 8:
-				List<Movie> listMovies = movieDB;
+				List<Movie> listMoviesSales = movieDB;
 
-				Collections.sort(listMovies, new Comparator<Movie>(){
+				Collections.sort(listMoviesSales, new Comparator<Movie>(){
 
 					public int compare(Movie o1, Movie o2)
 					{
@@ -131,17 +131,17 @@ public class Staff implements Client, Serializable {
 					}
 				});
 
-				ArrayList<Movie> sortedMovies = new ArrayList<Movie>(listMovies);
+				ArrayList<Movie> sortedMoviesSales = new ArrayList<Movie>(listMoviesSales);
 				System.out.println("Top 5 Movies by Total Sales\n");
 				System.out.println("Overall Rating\tTitle");
 				System.out.println("--------------\t-----");
 				for(int i = 0; i < 5; i ++)
-				System.out.println("\t" + sortedMovies.get(i).getTotalSales() + "\t" + sortedMovies.get(i).getTitle());
+				System.out.println("\t" + sortedMoviesSales.get(i).getTotalSales() + "\t" + sortedMoviesSales.get(i).getTitle());
 				break;
 			case 9:
 				System.out.println("Enter Movie title for which you would like to update the prices");
 				String title = sc.nextLine();
-				System.out..println("Enter the price you want to set for this ticket");
+				System.out.println("Enter the price you want to set for this ticket");
 				double price = Double.parseDouble(sc.nextLine());
 				this.cinema.setTicketPrice(title, price);
 				break;
@@ -292,11 +292,10 @@ public class Staff implements Client, Serializable {
 
 		try {
 			System.out.println("\nMOVIE UPDATE");
-
+			int index = 0;
 			while(!exit) {
 				System.out.println("Enter the Movie title which you need to update: ");
 				String title = sc.nextLine();
-				int index;
 				for (int i = 0; i < movieDB.size(); i++) {
 					if (movieDB.get(i).getTitle() == title) {
 						index = i;
