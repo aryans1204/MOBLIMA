@@ -15,6 +15,7 @@ public class Ticket implements Serializable {
     LocalDate showtime;
     Seat seat;
     double price;
+    String holidayFileName;
     Scanner sc= new Scanner(System.in);
 
     public Ticket(Movie a, Cinema b, Customer c, LocalDate d, Seat seat, String TID, String custName, String custEmail, String custMobileNumber,String holidayFileName) {
@@ -23,6 +24,7 @@ public class Ticket implements Serializable {
     	customer = c;
     	showtime = d;
     	this.seat = seat;
+	this.holidayFileName = holidayFileName;
     	transaction = new Transaction(TID, custName, custEmail, custMobileNumber); 	
 	    double priceL = b.getTicketPrice(a.getTitle());
 	    if (priceL == 0) {
