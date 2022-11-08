@@ -63,7 +63,7 @@ public class Ticket implements Serializable {
 	//need to create class to calculate holidays
     	HolidayController a = new HolidayController(holidayFileName);
 	day = showtime.getDayOfWeek().toString()
-    	if (day.compareTo("Sunday")==1||day.compareTo("Saturday")==1||a.isAHoliday(showtime)) {
+    	if ("SATURDAY".equalsIgnoreCase(day)||"SUNDAY".equalsIgnoreCase(day)||a.isAHoliday(showtime)) {
     		multiplier = multiplier*1.5;
     	}
 
