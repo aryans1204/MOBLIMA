@@ -32,7 +32,7 @@ public class Staff implements Client, Serializable {
 	return false;
     }
 
-    public void createAccount(ArrayList<Staff> staffDB) throws IOException {
+    public boolean createAccount(ArrayList<Staff> staffDB) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         int tries = 9;  //9 tries before system shuts;
 	String tempUsername;
