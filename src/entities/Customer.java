@@ -27,7 +27,7 @@ public class Customer implements Client, Serializable{
     }
 
 
-    public boolean login(ArrayList<Object> customerDB) throws IOException {
+    public static boolean login(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException {
         int tries = 9;
         String tempUsername;
         String tempPassword;
@@ -38,7 +38,7 @@ public class Customer implements Client, Serializable{
         System.out.println("Please enter your password: ");
         tempPassword = reader.readLine();
 
-        ArrayList<Object> customers = new ArrayList<>();
+        ArrayList<Customer> customers = new ArrayList<>();
         customers = customerDB;  //Fetch all customers details from DB
         for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getUsername().equals(tempUsername) && customers.get(i).getPassword().equals(tempPassword)) {
@@ -50,7 +50,7 @@ public class Customer implements Client, Serializable{
         return false;
     }
 
-    public boolean createAccount(ArrayList<Object> customerDB) throws IOException{
+    public boolean createAccount(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException{
         int tries = 9;  //9 tries before system shuts;
         String tempUsername;
         String tempPassword;

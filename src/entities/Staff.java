@@ -15,24 +15,26 @@ public class Staff implements Client, Serializable {
 	this.password = password;
 	this.cinema = cinema;
     }
-    public boolean login(ArrayList<Object> staffDB) throws IOException {
+    public static boolean login(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException {
 	System.out.println("Enter username: ");
 	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	String username = reader.readLine();
 	System.out.println("Enter password: ");
 	String password = reader.readLine();
-	ArrayList<Object> staffs = staffDB;
+	ArrayList<Staff> staffs = staffDB;
 
-	for (Object s : staffs) {
+	for (Staff s : staffs) {
 		if (s.getUsername().equals(username) && s.getPassword().equals(password)) {
 			System.out.println("Authenticated successfully");
 			auth = true;
+			return true;
 		}
 	}
+	System.out.println("Username or password incorrect. Please try again later");
 	return false;
     }
 
-    public boolean createAccount(ArrayList<Object> staffDB) throws IOException {
+    public boolean createAccount(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         int tries = 9;  //9 tries before system shuts;
 	String tempUsername;
@@ -51,6 +53,7 @@ public class Staff implements Client, Serializable {
         String password = reader.readLine();
         setPassword(password);
 	System.out.println("Account created successfully");
+	staffDB.add(this);
         return true;
     }
 
