@@ -7,17 +7,57 @@ import java.io.Serializable;
 import java.util.*;
 import java.time.*;
 
+/**
+ * Represents a ticket containing all information of customer's bookings
+ * @author Xi Chen
+ */
 public class Ticket implements Serializable {
+    /**
+     * Associated movie object
+     */
     Movie movie;  //associated movie with the ticket
+    /**
+     * Associated cinema object
+     */
     Cinema cinema; //associated cinema of the movie, this will also provide seat number
+    /**
+     * Purchasing customer object
+     */
     Customer customer;  //purchasing customer details
+    /**
+     * Transaction object for this ticket
+     */
     Transaction transaction;
+    /**
+     * LocalDate object
+     */
     LocalDate showtime;
+    /**
+     * Seat object for the seat of purchased by customer
+     */
     Seat seat;
+    /**
+     * Price of this ticket
+     */
     double price;
+    /**
+     * Array list of local date object to keep track of holiday periods
+     */
     ArrayList<LocalDate>Holidays = null;
     Scanner sc= new Scanner(System.in);
 
+    /**
+     * Creates a new Ticket with the given attributes
+     * @param movie             This Ticket's movie
+     * @param cinema            This Ticket's cinema
+     * @param customer          This Ticket's customer
+     * @param showtime          This Ticket's showtime
+     * @param seat              This Ticket's seat
+     * @param TID               This Ticket's transaction ID
+     * @param custName          This Ticket's customer name
+     * @param custEmail         This Ticket's customer email
+     * @param custMobileNumber  This Ticket's customer mobile number
+     */
     public Ticket(Movie movie, Cinema cinema, Customer customer, LocalDate showtime, Seat seat, String TID, String custName, String custEmail, String custMobileNumber) {
     	this.movie = movie;
     	this.cinema = cinema;
@@ -35,7 +75,10 @@ public class Ticket implements Serializable {
 	    	calculatePrice();
 	    }
     }
-    
+
+    /**
+     * A method to calculate the prices of this Ticket
+     */
     public void calculatePrice() {
     	//gets price from prices database and does algorithm on it.
     	//prices database stores default values for this particular movie and cinema and showtime
@@ -129,7 +172,11 @@ public class Ticket implements Serializable {
 		}
 		return prices;
 	}*/
-    
+
+    /**
+     * A method to check if Ticket is purchased during a Holiday
+     * @return  True for Holiday, False for not a Holiday
+     */
     public boolean isAHoliday() {
     	for (int i=0;i<Holidays.size();i++) {
     		if(Holidays.get(i) == showtime)
@@ -137,40 +184,78 @@ public class Ticket implements Serializable {
     	}
     	return false;
     }
-	
+
+    /**
+     * Gets Customer object of this Ticket
+     * @return  This Ticket's Customer object
+     */
     public Customer getCustomer(){
          return customer;
     }
-   
+
+    /**
+     * Gets the Price of this Ticket
+     * @return  This Ticket's Price
+     */
     public double getPrice(){
     	return price;
     }
-	
+
+    /**
+     * Gets the Seat object of this Ticket
+     * @return  This Ticket's Seat object
+     */
     public Seat getSeat() {
 	return seat;
     }
-	
+
+    /**
+     * Gets the Transaction object of this Ticket
+     * @return  This Ticket's Transaction object
+     */
     public Transaction getTransaction() {
 	return this.transaction;
     }
-    
+
+    /**
+     * Gets the Cinema Object of this Ticket
+     * @return  This Ticket's Cinema object
+     */
     public Cinema getCinema() {
     	//method to return cinema associated with the ticket.
     	return cinema;
     }
+
+    /**
+     * Gets the Movie object of this Ticket
+     * @return  This Ticket's Movie object
+     */
     public Movie getMovie() {
     	//method to return the movie for the ticket
     	return movie;
     }
+
+    /**
+     * Gets the LocalDate object of this Ticket
+     * @return  This Ticket's LocalDate object
+     */
     public LocalDate getShowtime() {
     	//method to return showtime of the ticket.
     	return showtime;
     }
-    
+
+    /**
+     * Changes the price of this Ticket
+     * @param newPrice  The new price of Ticket
+     */
     public void setPrice(double newPrice){
     	price = newPrice;
     }
 
+    /**
+     * Overrides toString method to store Ticket in a specific format
+     * @return a string of Ticket details
+     */
     @Override
     public String toString() {
 	return "Date of Movie: " + showtime.toString() + "\n" + 

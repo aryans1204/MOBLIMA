@@ -5,18 +5,54 @@ import java.io.*;
 import java.time.format.*;
 import java.time.*;
 
-
+/**
+ * Represents a Customer/Movie-goer in the system
+ * @author Darren
+ */
 public class Customer implements Client, Serializable{
+	/**
+	 * Customer's email
+	 */
     private String email;
+	/**
+	 * Customer's mobile number
+	 */
     private int mobileNumber;
+	/**
+	 * Customer's name
+	 */
     private String name;
+	/**
+	 * Customer's age
+	 */
     private int age;
+	/**
+	 * Customer's authentication status (If false, features will be locked)
+	 */
     private boolean auth = false;  //authentication indicator. Whether customer is authenticated or not. All methods must check for authentication.
-    private String username;
+	/**
+	 * Customer's username
+	 */
+	private String username;
+	/**
+	 * Customer's password
+	 */
     private String password;
+	/**
+	 * Array list of Ticket Object to store customer's purchased tickets
+	 */
     private ArrayList<Ticket> bookings = new ArrayList<>();
 
-    //Constructor for Customer object.
+
+	/**
+	 * Creates a Customer/Movie-goer with the given attributes
+	 * @param name			This Customer's name
+	 * @param age			This Customer's age
+	 * @param username		This Customer's username
+	 * @param password		This Customer's password
+	 * @param email			This Customer's email
+	 * @param mobileNumber	This Customer's mobile number
+	 */
     public Customer(String name, int age, String username, String password, String email, int mobileNumber){
         this.name = name;
         this.age = age;
@@ -84,6 +120,13 @@ public class Customer implements Client, Serializable{
         return true;
     }
 
+
+	/**
+	 * This will print out the Customer's User Interface
+	 * @param cinemaDB		Cinema database stored in an array list of Cinema Object
+	 * @param movieDB		Movie database stored in an array list of Movie Object
+	 * @throws Exception	Exception handler
+	 */
     public void customerUI(ArrayList<Cinema> cinemaDB, ArrayList<Movie> movieDB) throws Exception {
 	if (!auth) return;
 	boolean exit = false;
@@ -145,6 +188,13 @@ public class Customer implements Client, Serializable{
 	}
     }
 
+	/**
+	 * A method for customer to make bookings for movies
+	 * @param cinemaDB		Cinema database to extract out the specific Cinema
+	 * @param movieDB		Movie database to extract out specific Movie
+	 * @return				Returns a confirmation message upon successful booking
+	 * @throws Exception	Exception handler
+	 */
     private String makeBooking(ArrayList<Cinema> cinemaDB, ArrayList<Movie> movieDB) throws Exception {
 	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	System.out.println("Enter movie title to make booking");
@@ -195,6 +245,11 @@ public class Customer implements Client, Serializable{
 
     }
 
+	/**
+	 * A method for customer to list down movies available in the Cinema
+	 * @param cinemaname	The specific Cinema name
+	 * @param cinemaDB		Looks through Cinema database for the specific Cinema
+	 */
     private void listMovie(String cinemaname, ArrayList<Cinema> cinemaDB) {
 	for (Cinema cinema: cinemaDB) {
 		if (cinema.getName() == cinemaname) {
@@ -207,6 +262,13 @@ public class Customer implements Client, Serializable{
 	}
     }
 
+
+	/**
+	 * A method for customer to check seat availability
+	 * @param cinemaDB		Cinema database to locate specific Cinema
+	 * @param movieDB		Movie database to locate specific movie to check seat availability
+	 * @throws IOException	IOException handler
+	 */
     private void checkSeatAvailability(ArrayList<Cinema> cinemaDB, ArrayList<Movie> movieDB) throws IOException {
 	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	System.out.println("Enter the name of the Cinema you would like to check seat availability for");
@@ -235,7 +297,11 @@ public class Customer implements Client, Serializable{
 	}
 	}
 
-
+	/**
+	 * A method for searching for specific movies in our Movie database
+	 * @param movieTitle	Title of the movie
+	 * @param moviesDB		Movie database to look for specific movie
+	 */
     private void searchMovie(String movieTitle, ArrayList<Movie> moviesDB) {
 		for (Movie movie : moviesDB) {
 			if (movie.getTitle() == movieTitle) {
@@ -245,6 +311,9 @@ public class Customer implements Client, Serializable{
 		}
 	}
 
+	/**
+	 * A method for customer to view their bookings
+	 */
     private void viewBookings(){
 		System.out.println("Your past bookings are available here");
 		for (Ticket ticket : this.bookings) {
@@ -252,12 +321,17 @@ public class Customer implements Client, Serializable{
 		}
     }
 
+	//Is this no longer in use since there is a check seat availability method above?
     private void checkSeats(Cinema cinema, String showtime) {
         if (!auth) return;
 	    cinema.printLayout(this, showtime); //simple wrapper to print layout
     }
 
-
+	/**
+	 * A method for customers to add their own reviews to movies
+	 * @param movieDB		To store the customer's review in the database
+	 * @throws Exception	Exception handler
+	 */
     private void addReview(ArrayList<Movie> movieDB) throws Exception {
 	System.out.println("Enter the title of the Movie you would like to add a review for");
 	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -277,53 +351,111 @@ public class Customer implements Client, Serializable{
 	movieDB.get(i).addReview(newReview);
 	System.out.println("You're review was added successfully");
     }
+
+	/**
+	 * Gets the name of this Customer
+	 * @return this Customer's name
+	 */
     //Getters
     public String getName(){
         return name;
     }
+
+	/**
+	 * Gets the age of this Customer
+	 * @return	this Customer's age
+	 */
     public int getAge(){
         return age;
     }  //method to get the age of the client, as an int.
+
+	/**
+	 * Gets the username of this Customer
+	 * @return	this Customer's username
+	 */
     public String getUsername(){
         return username;
     }
+
+	/**
+	 * Gets the password of this Customer
+	 * @return	this Customer's password
+	 */
     public String getPassword() {
         return password;
     }
 
+	/**
+	 * Gets the mobile number of this Customer
+	 * @return	this Customer's mobile number
+	 */
     public int getMobileNumber() {
 	return this.mobileNumber;
     }
 
+	/**
+	 * Gets the email of this Customer
+	 * @return	this Customer's email
+	 */
     public String getEmail() {
 	return this.email;
     }
 
+
     //Setters
+
+	/**
+	 * Changes the name of this Customer
+	 * @param name	This Customer's new name
+	 */
     public void setName(String name){
         this.name = name;
     }
 
+	/**
+	 * Changes the age of this Customer
+	 * @param age	This Customer's new age
+	 */
     public void setAge(int age){
         this.age = age;
     }
 
+	/**
+	 * Changes the username of this Customer
+	 * @param username	This Customer's new username
+	 */
     public void setUsername(String username) {
         this.username = username;
     }
 
+	/**
+	 * Changes the password of this Customer
+	 * @param password	This Customer's new password
+	 */
     public void setPassword(String password) {
         this.password = password;
     }
 
+	/**
+	 * Changes the email of this Customer
+	 * @param email	This Customer's new email
+	 */
     public void setEmail(String email) {
 	this.email = email;
     }
 
+	/**
+	 * Changes the mobile number of this Customer
+	 * @param mobileNumber	This Customer's new mobile number
+	 */
     public void setNumber(int mobileNumber) {
 	this.mobileNumber = mobileNumber;
     }
 
+	/**
+	 * Overrides toString method to store Customer detail in a specific format
+	 * @return	a string of Customer details
+	 */
     @Override
     public String toString() {
         String customerDetail;

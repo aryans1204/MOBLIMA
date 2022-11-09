@@ -4,12 +4,35 @@ import java.util.*;
 import java.io.*;
 import java.time.*;
 
+
+/**
+ * Represents a Staff in the system
+ * @author Aryan
+ */
 public class Staff implements Client, Serializable {
+	/**
+	 * Staff's username
+	 */
     private String username;
+	/**
+	 * Staff's password
+	 */
     private String password;
+	/**
+	 * Staff's authentication status (If false, features will be locked)
+	 */
     private boolean auth = false;
+	/**
+	 * Cinema object for Staff to make changes
+	 */
     private Cinema cinema;   //associated cinema of the staff. Where the staff works
 
+	/**
+	 * Creates a Staff with the given attribute
+	 * @param username	This Staff's username
+	 * @param password	This Staff's password
+	 * @param cinema	Cinema managed by this Staff
+	 */
     public Staff(String username, String password, Cinema cinema) {
 	this.username = username;
 	this.password = password;
@@ -57,6 +80,10 @@ public class Staff implements Client, Serializable {
         return true;
     }
 
+	/**
+	 * This will print out the Staff's User Interface
+	 * @param movieDB	Movie database for Staff to make changes
+	 */
     public void staffUI(ArrayList<Movie> movieDB){
 	if (!auth) return;
 	Scanner sc = new Scanner(System.in);
@@ -156,8 +183,11 @@ public class Staff implements Client, Serializable {
 
 	sc.close();
     }
-    
-    private void createMovieListing() {
+
+	/**
+	 * A method for Staff to create movie listings
+	 */
+	private void createMovieListing() {
 	Scanner sc = new Scanner(System.in);
 	int runtime, option, id;
 	String title, synopsis, director, rating;
@@ -289,6 +319,10 @@ public class Staff implements Client, Serializable {
 	}
     }
 
+	/**
+	 * A method for Staff to update movie listings
+	 * @param movieDB	Movie database for Staff to make changes
+	 */
     private void updateMovieListing(ArrayList<Movie> movieDB) {
 		//Instead of updating release date, give an option to update a showtime, based on a Cinema.
 		Scanner sc = new Scanner(System.in);
@@ -470,6 +504,10 @@ public class Staff implements Client, Serializable {
 		}
 	}
 
+	/**
+	 * A method for Staff to remove movie listing
+	 * @param movieDB	Movie database for Staff to make changes
+	 */
 	private void removeMovieListing(ArrayList<Movie> movieDB) {
 		Scanner sc = new Scanner(System.in);
 		boolean exit = false;
@@ -493,27 +531,53 @@ public class Staff implements Client, Serializable {
 	}
 
     //Getters
+
+	/**
+	 * Gets the username of this Staff
+	 * @return	this Staff's username
+	 */
     public String getUsername() {
 	return this.username;
     }
 
+	/**
+	 * Gets the password of this Staff
+	 * @return	this Staff's password
+	 */
     public String getPassword() {
 	return this.password;
     }
 
+	/**
+	 * Gets the Cinema object that the Staff is assigned to
+	 * @return	Cinema object
+	 */
     public Cinema getCinema() {
 	return this.cinema;
     }
 
     //Setters
+
+	/**
+	 * Changes the username of this Staff
+	 * @param username	This Staff's new username
+	 */
     public void setUsername(String username) {
 	this.username = username;
     }
 
+	/**
+	 * Changes the password of this Staff
+	 * @param password This Staff's new password
+	 */
     public void setPassword(String password) {
 	this.password = password;
     }
 
+	/**
+	 * Changes the Cinema object of this staff
+	 * @param cinema	This Staff's new Cinema object
+	 */
     public void setCinema(Cinema cinema) {
 	this.cinema = cinema;
     }
