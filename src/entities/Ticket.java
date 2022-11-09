@@ -18,13 +18,13 @@ public class Ticket implements Serializable {
     ArrayList<LocalDate>Holidays = null;
     Scanner sc= new Scanner(System.in);
 
-    public Ticket(Movie a, Cinema b, Customer c, LocalDate d, Seat seat, String TID, String custName, String custEmail, String custMobileNumber,ArrayList<LocalDate>Holiday) {
-    	movie = a;
-    	cinema = b;
-    	customer = c;
-    	showtime = d;
+    public Ticket(Movie movie, Cinema cinema, Customer customer, LocalDate showtime, Seat seat, String TID, String custName, String custEmail, String custMobileNumber,ArrayList<LocalDate>Holiday) {
+    	this.movie = movie;
+    	this.cinema = cinema;
+    	this.customer = customer;
+    	this.showtime = showtime;
     	this.seat = seat;
-	    Holidays = Holiday;
+	Holidays = Holiday;
     	transaction = new Transaction(TID, custName, custEmail, custMobileNumber); 	
 	    double priceL = b.getTicketPrice(a.getTitle());
 	    if (priceL == 0) {
@@ -44,10 +44,10 @@ public class Ticket implements Serializable {
     	double moviePrice;
     	MovieType movieType;
     	int customerAge;
-	    SeatType seatType;
+	SeatType seatType;
     	int date;
     	double multiplier = 1;
-	    String day;
+	String day;
     	
     	
     	if (price==0)
@@ -60,9 +60,7 @@ public class Ticket implements Serializable {
     	seatType = seat.getType();
 
         //update multiplier for different days of week
-
-	    //need to create class to calculate holidays
-	    day = showtime.getDayOfWeek().toString()
+	day = showtime.getDayOfWeek().toString()
     	if ("SATURDAY".equalsIgnoreCase(day)||"SUNDAY".equalsIgnoreCase(day)||this.isAHoliday()) {
     		multiplier = multiplier*1.5;
     	}
