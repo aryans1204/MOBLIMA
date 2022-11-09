@@ -444,13 +444,13 @@ public class Staff implements Client, Serializable {
 					break;
 
 				case 9:
-					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mm:ss a");
-					LocalDate showtime = null;
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mma");
+					LocalDateTime showtime = null;
 					exit = false;
 					while(!exit) {
 						try {
-							System.out.println("Enter new movie release date e.g (Saturday, Jul 14, 2018 14:31:06 PM) : ");
-							showtime = LocalDate.parse(sc.nextLine(), formatter);
+							System.out.println("Enter new movie release date e.g (Saturday, Jul 14, 2018 14:30PM) : ");
+							showtime = LocalDateTime.parse(sc.nextLine(), formatter);
 							exit = true;
 						}catch(DateTimeParseException e) {
 							System.out.println("Invalid date format, Please try again");
