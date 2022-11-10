@@ -1,10 +1,13 @@
 package src.controllers;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -17,8 +20,8 @@ public class HolidayController {
 		this.fileName = fileName;
 	}
 	
-	public void updateHolidayToDB(LocalDateTime a) {
-		ArrayList<LocalDateTime> holidays = null;
+	public void updateHolidayToDB(LocalDate a) {
+		ArrayList<LocalDate> holidays = null;
 		FileOutputStream fos = null;
 		ObjectOutputStream out = null;
 		File f = new File(fileName);
@@ -43,15 +46,15 @@ public class HolidayController {
 	
 	
 	@SuppressWarnings("unchecked")
-	public ArrayList<LocalDateTime> getAllHolidaysFromDB() {
-		ArrayList<LocalDateTime> holidays = null;
+	public ArrayList<LocalDate> getAllHolidaysFromDB() {
+		ArrayList<LocalDate> holidays = null;
 		FileInputStream fis = null;
 		ObjectInputStream in = null;
 		
 		try {
 			fis = new FileInputStream(fileName);
 			in = new ObjectInputStream(fis);
-			holidays = (ArrayList<LocalDateTime>) in.readObject();
+			holidays = (ArrayList<LocalDate>) in.readObject();
 			in.close();
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -61,8 +64,8 @@ public class HolidayController {
 		return holidays;
 	}
 	
-	public boolean isAHoliday(LocalDateTime a) {
-		ArrayList<LocalDateTime> holidays = null;
+	/*public boolean isAHoliday(LocalDate a) {
+		ArrayList<LocalDate> holidays = null;
 		holidays = getAllHolidaysFromDB();
 		for (int i = 0; i < holidays.size(); i++) {
 			if (a == holidays.get(i))
@@ -70,7 +73,7 @@ public class HolidayController {
 		}
 		return false;
 		
-	}
+	}*/
 	
 	 public String getFileName() {
 	        return fileName;
@@ -79,8 +82,8 @@ public class HolidayController {
 	 public void setFileName(String fileName){
 	        this.fileName = fileName;
 	 }
-	 public boolean removeHoliday(LocalDateTime a) {
-		 ArrayList<LocalDateTime> holidays = null;
+	 public boolean removeHoliday(LocalDate a) {
+		 ArrayList<LocalDate> holidays = null;
 	     File f = new File(fileName);
 	     if(f.exists()){
 	            holidays = this.getAllHolidaysFromDB();
