@@ -275,7 +275,7 @@ public class Customer implements Client, Serializable{
 	Review newReview = new Review(this.username, rating, comment);
 	    
 	//is this 'i' supposed to be 'index'? variable 'i' was not created
-	movieDB.get(i).addReview(newReview);
+	movieDB.get(index).addReview(newReview);
 	System.out.println("You're review was added successfully");
     }
     //Getters
