@@ -4,6 +4,8 @@ import java.util.*;
 import java.io.*;
 import java.time.*;
 
+//ide suggested @SuppressWarnings("serial")
+@SuppressWarnings("serial")
 public class Staff implements Client, Serializable {
     private String username;
     private String password;
@@ -15,7 +17,7 @@ public class Staff implements Client, Serializable {
 	this.password = password;
 	this.cinema = cinema;
     }
-    public static boolean login(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException {
+    public boolean login(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException {
 	System.out.println("Enter username: ");
 	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	String username = reader.readLine();
@@ -26,6 +28,8 @@ public class Staff implements Client, Serializable {
 	for (Staff s : staffs) {
 		if (s.getUsername().equals(username) && s.getPassword().equals(password)) {
 			System.out.println("Authenticated successfully");
+			
+			//same as customer class, auth has to be static in a static method. either that or method becomes non static
 			auth = true;
 			return true;
 		}
@@ -42,11 +46,13 @@ public class Staff implements Client, Serializable {
 		System.out.println("Enter username: ");
 		String username = reader.readLine();
 	    	tempUsername = username;
-	    	if (staffDB.contains(tempUsername)) System.out.println("Username already exists, try another one!");
+		
+		
+	    	if (usernameChecker(tempUsername, staffDB)) System.out.println("Username already exists, try another one!");
             	if (tries == 0) System.out.println("Too many tries. System quitting now");
             	tries--;
 	}
-	while (staffDB.contains(tempUsername) && tries != 0);
+	while (usernameChecker(tempUsername, staffDB) && tries != 0);
 	if (tries == 0) return false;
 	setUsername(tempUsername);
         System.out.println("Enter password: ");
@@ -56,8 +62,13 @@ public class Staff implements Client, Serializable {
 	staffDB.add(this);
         return true;
     }
+    private boolean usernameChecker(String username, ArrayList<Staff> staffDB) {
+    	for (Staff s : staffDB) {
+		if (s.getUsername() == username) return true;
+	}
+	return false;
 
-    public void staffUI(ArrayList<Movie> movieDB){
+    public void staffUI(ArrayList<Movie> movieDB, ArrayList<LocalDate>Holidays){
 	if (!auth) return;
 	Scanner sc = new Scanner(System.in);
 
@@ -73,6 +84,7 @@ public class Staff implements Client, Serializable {
 							"7. Return\n" +
 							"8. List Top 5 Movies by TotalSales\n"+
 							"9. Configure Ticket Prices for a Movie\n"+
+							"10.Configure holidays" +
 							"Select option: ");
 		int option = Integer.valueOf(sc.nextLine());
 		switch(option) {
@@ -113,12 +125,7 @@ public class Staff implements Client, Serializable {
 
 				break;
 			case 6:
-				System.out.println("Enter Input: ");
-				String searchInput = sc.nextLine();
-				ArrayList<Movie> matchedMovies = null;
-				matchedMovies = mvc.searchMovies(searchInput); //Still using movie controller. Not sure how to go around this.
-				for(Movie movie : matchedMovies)
-					System.out.println(movie);
+				searchMovie(movieDB);
 				break;
 			case 7:
 				exit = true;
@@ -148,6 +155,46 @@ public class Staff implements Client, Serializable {
 				double price = Double.parseDouble(sc.nextLine());
 				this.cinema.setTicketPrice(title, price);
 				break;
+			case 10:
+				int choice=0;
+				String date_input;
+				LocalDate localDate = null;
+				boolean quit = false;
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+				while (choice<3 && choice>=1) {
+					System.out.println("Print choice: "+
+			                   "1. Add Holiday" +
+					   "2. Remove holiday" +
+			                   "3. Exit");
+					choice = sc.nextInt();
+					if (choice ==1) {
+						while(!quit) {
+							try {
+								System.out.println("Enter the holiday date to add in this pattern: d/MM/yyyy:");
+								date_input = sc.nextLine();
+								localDate = LocalDate.parse(date_input, formatter);
+								quit = true;
+							}catch(Exception e) {
+								System.out.println("Invalid date format, Please try again");
+							}
+						}
+						Holidays.add(localDate);
+					}
+					else if (choice ==2) {
+						while(!quit) {
+							try {
+								System.out.println("Enter the holiday date to remove in this pattern: d/MM/yyyy:");
+								date_input = sc.nextLine();
+								localDate = LocalDate.parse(date_input, formatter);
+								quit = true;
+							}catch(Exception e) {
+								System.out.println("Invalid date format, Please try again");
+							     }
+							}
+						Holidays.remove(localDate);
+					}
+				}
+				break;//break for case 10
 
 			default:
 				System.out.println("Invalid input!\n Please try again");
@@ -156,7 +203,18 @@ public class Staff implements Client, Serializable {
 
 	sc.close();
     }
-    
+    private void searchMovie(ArrayList<Movie> movieDB) throws Exception {
+    	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+	System.out.println("Enter Movie title you would like to search");
+	String title = reader.readLine();
+	for (Movie mov : movieDB) {
+		if (mov.getTitle() == title) {
+			System.out.println(mov);
+			return;
+		}
+	}
+	System.out.println("Sorry, movie not found. Try again");
+    }
     private void createMovieListing() {
 	Scanner sc = new Scanner(System.in);
 	int runtime, option, id;

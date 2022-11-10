@@ -6,6 +6,7 @@ import java.time.format.*;
 import java.time.*;
 
 
+@SuppressWarnings("serial")
 public class Customer implements Client, Serializable{
     private String email;
     private int mobileNumber;
@@ -27,7 +28,7 @@ public class Customer implements Client, Serializable{
     }
 
 
-    public static boolean login(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException {
+    public boolean login(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException {
         int tries = 9;
         String tempUsername;
         String tempPassword;
@@ -43,6 +44,8 @@ public class Customer implements Client, Serializable{
         for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getUsername().equals(tempUsername) && customers.get(i).getPassword().equals(tempPassword)) {
                 System.out.println("Authenticated successfully");
+		 
+		//auth is non static, cannot be used in a static method. IDE suggests declaring auth as static or make method 'non-static'
                 auth = true;
                 return true;
             }
@@ -185,6 +188,8 @@ public class Customer implements Client, Serializable{
 				}
 			}
 			String TID = Integer.toString(cinema.getName().hashCode()%1000) + showtime.toString();
+			
+			//Constructor has been updated, creation of ticket here need to match constructor
 			Ticket newTicket = new Ticket(mov, cinema, this, showtime, cinema.getSeat(title+showtime.toString(), index), TID, this.username, this.email, this.mobileNumber);
 			this.bookings.add(newTicket);
 			System.out.println("The price of your ticket is: " + newTicket.getPrice());
@@ -243,7 +248,7 @@ public class Customer implements Client, Serializable{
 				break;
 			}
 		}
-	}
+    }
 
     private void viewBookings(){
 		System.out.println("Your past bookings are available here");
@@ -251,13 +256,7 @@ public class Customer implements Client, Serializable{
 			System.out.println(ticket.toString());
 		}
     }
-
-    private void checkSeats(Cinema cinema, String showtime) {
-        if (!auth) return;
-	    cinema.printLayout(this, showtime); //simple wrapper to print layout
-    }
-
-
+    
     private void addReview(ArrayList<Movie> movieDB) throws Exception {
 	System.out.println("Enter the title of the Movie you would like to add a review for");
 	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -274,7 +273,9 @@ public class Customer implements Client, Serializable{
 	System.out.println("Enter your review for the movie");
 	String comment = reader.readLine();
 	Review newReview = new Review(this.username, rating, comment);
-	movieDB.get(i).addReview(newReview);
+	    
+	//is this 'i' supposed to be 'index'? variable 'i' was not created
+	movieDB.get(index).addReview(newReview);
 	System.out.println("You're review was added successfully");
     }
     //Getters

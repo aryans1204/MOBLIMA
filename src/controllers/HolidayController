@@ -16,27 +16,32 @@ import java.util.ArrayList;
 public class HolidayController {
 	private String fileName;
   
-	HolidayController(String fileName){
+	public HolidayController(String fileName){
 		this.fileName = fileName;
 	}
 	
-	public void updateHolidayToDB(LocalDate a) {
-		ArrayList<LocalDate> holidays = null;
+	public boolean searchHolidayinDB(LocalDate a) {
+		ArrayList<LocalDate>Holidays = getAllHolidaysFromDB();
+		for (int i=0;i<Holidays.size();i++) {
+			if (Holidays.get(i)==a) return true;
+		}
+		return false;
+	}
+	
+	
+	public void updateHolidayToDB(ArrayList<LocalDate> a) {
 		FileOutputStream fos = null;
 		ObjectOutputStream out = null;
 		File f = new File(fileName);
 		
-		if(f.exists())
-			holidays = this.getAllHolidaysFromDB();//Read in existing data in db
-		else {
+		if(!f.exists()){
 			System.out.println("File: " + fileName + " does not exist");
 			System.out.println("Creating new DB");
 		}
-		holidays.add(a);
 		try {
 			fos = new FileOutputStream(fileName);
 			out = new ObjectOutputStream(fos);
-			out.writeObject(holidays);
+			out.writeObject(a);
 			out.close();
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -64,7 +69,7 @@ public class HolidayController {
 		return holidays;
 	}
 	
-	public boolean isAHoliday(LocalDate a) {
+	/*public boolean isAHoliday(LocalDate a) {
 		ArrayList<LocalDate> holidays = null;
 		holidays = getAllHolidaysFromDB();
 		for (int i = 0; i < holidays.size(); i++) {
@@ -73,7 +78,7 @@ public class HolidayController {
 		}
 		return false;
 		
-	}
+	}*/
 	
 	 public String getFileName() {
 	        return fileName;
@@ -82,7 +87,7 @@ public class HolidayController {
 	 public void setFileName(String fileName){
 	        this.fileName = fileName;
 	 }
-	 public boolean removeHoliday(LocalDate a) {
+	 /*public boolean removeHoliday(LocalDate a) {
 		 ArrayList<LocalDate> holidays = null;
 	     File f = new File(fileName);
 	     if(f.exists()){
@@ -99,6 +104,6 @@ public class HolidayController {
 	            System.out.println("File: " + fileName + " does not exist");
 
 	        return false;
-	   }
+	   }*/
 
 }

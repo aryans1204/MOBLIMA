@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.*;
 import java.time.*;
 
+@SuppressWarnings("serial")
 public class Ticket implements Serializable {
     Movie movie;  //associated movie with the ticket
     Cinema cinema; //associated cinema of the movie, this will also provide seat number
@@ -15,19 +16,18 @@ public class Ticket implements Serializable {
     LocalDateTime showtime;
     Seat seat;
     double price;
-    ArrayList<LocalDate>Holidays = null;
+    static ArrayList<LocalDate>Holidays = null;
     Scanner sc= new Scanner(System.in);
-    
-    public Ticket(Movie movie, Cinema cinema, Customer customer, LocalDate showtime, Seat seat, String TID, String custName, String custEmail, String custMobileNumber,ArrayList<LocalDate>Holiday) {
 
+    public Ticket(Movie movie, Cinema cinema, Customer customer, LocalDateTime showtime, Seat seat, String TID, String custName, String custEmail, int custMobileNumber) {
     	this.movie = movie;
     	this.cinema = cinema;
     	this.customer = customer;
     	this.showtime = showtime;
     	this.seat = seat;
-	Holidays = Holiday;
-    	transaction = new Transaction(TID, custName, custEmail, custMobileNumber); 	
-	    double priceL = b.getTicketPrice(a.getTitle());
+    	this.Holidays = Holidays;
+    	transaction = new Transaction(TID, custName, custEmail, Integer.toString(custMobileNumber));
+	    double priceL = cinema.getTicketPrice(movie.getTitle());
 	    if (priceL == 0) {
 	    	price = 0;
 	    	calculatePrice();
@@ -45,10 +45,10 @@ public class Ticket implements Serializable {
     	double moviePrice;
     	MovieType movieType;
     	int customerAge;
-	SeatType seatType;
+	    SeatType seatType;
     	int date;
     	double multiplier = 1;
-	String day;
+	    String day;
     	
     	
     	if (price==0)
@@ -61,7 +61,9 @@ public class Ticket implements Serializable {
     	seatType = seat.getType();
 
         //update multiplier for different days of week
-	day = showtime.getDayOfWeek().toString()
+
+	    //need to create class to calculate holidays
+	    day = showtime.getDayOfWeek().toString();
     	if ("SATURDAY".equalsIgnoreCase(day)||"SUNDAY".equalsIgnoreCase(day)||this.isAHoliday()) {
     		multiplier = multiplier*1.5;
     	}
@@ -129,9 +131,23 @@ public class Ticket implements Serializable {
 		return prices;
 	}*/
     
+    public boolean setHolidaysArray(ArrayList<LocalDate>a) {
+    	if (a== null) {
+    		return false;
+    	}
+    	else {
+    	    Holidays = a;
+    	}
+    	return true;
+    }
+    
     public boolean isAHoliday() {
+    	
+    	if (Holidays==null) return false;
+    	
+    	LocalDate show_date = showtime.toLocalDate();
     	for (int i=0;i<Holidays.size();i++) {
-    		if(Holidays.get(i) == showtime)
+    		if(Holidays.get(i) == show_date)
     			return true;
     	}
     	return false;
