@@ -15,7 +15,7 @@ public class TestingClient {
         MovieController mvc = new MovieController("movies.dat");
         ClientController cl = new ClientController("customer.dat", "staff.dat");
 	//invalid constructor for ci controller, need two parameters 
-        CinemaController ci = new CinemaController("cinema.dat");
+        CinemaController ci = new CinemaController("cinema.dat", "seat.dat");
 
         ArrayList<Movie> movieDB = mvc.getAllMoviesFromDB();
         ArrayList<Customer> customerDB = cl.getCustomerFromDB();
