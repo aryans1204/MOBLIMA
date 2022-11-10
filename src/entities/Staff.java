@@ -159,6 +159,7 @@ public class Staff implements Client, Serializable {
 				int choice=0;
 				String date_input;
 				LocalDate localDate = null;
+				boolean quit = false;
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
 				while (choice<3 && choice>=1) {
 					System.out.println("Print choice: "+
@@ -167,21 +168,33 @@ public class Staff implements Client, Serializable {
 			                   "3. Exit");
 					choice = sc.nextInt();
 					if (choice ==1) {
-						System.out.println("Enter the holiday date to add in this pattern: d/MM/yyyy:");
-						date_input = sc.nextLine();
-						localDate = LocalDate.parse(date_input, formatter);
+						while(!quit) {
+							try {
+								System.out.println("Enter the holiday date to add in this pattern: d/MM/yyyy:");
+								date_input = sc.nextLine();
+								localDate = LocalDate.parse(date_input, formatter);
+								quit = true;
+							}catch(Exception e) {
+								System.out.println("Invalid date format, Please try again");
+							}
+						}
 						Holidays.add(localDate);
 					}
 					else if (choice ==2) {
-						System.out.println("Enter the holiday date to remove in this pattern: d/MM/yyyy:");
-						date_input = sc.nextLine();
-						localDate = LocalDate.parse(date_input, formatter);
+						while(!quit) {
+							try {
+								System.out.println("Enter the holiday date to remove in this pattern: d/MM/yyyy:");
+								date_input = sc.nextLine();
+								localDate = LocalDate.parse(date_input, formatter);
+								quit = true;
+							}catch(Exception e) {
+								System.out.println("Invalid date format, Please try again");
+							     }
+							}
 						Holidays.remove(localDate);
 					}
-					else break;
-					
 				}
-				break;
+				break;//break for case 10
 
 			default:
 				System.out.println("Invalid input!\n Please try again");
