@@ -28,7 +28,7 @@ public class Customer implements Client, Serializable{
     }
 
 
-    public static boolean login(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException {
+    public boolean login(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException {
         int tries = 9;
         String tempUsername;
         String tempPassword;
