@@ -4,6 +4,8 @@ import java.util.*;
 import java.io.*;
 import java.time.*;
 
+//ide suggested @SuppressWarnings("serial")
+@SuppressWarnings("serial")
 public class Cinema implements Serializable {
     private HashMap<String, Double> prices = new HashMap<>();  //prices indicator per movie-title for Staff to set.
     private ArrayList<Movie>  movies;  //array of Movies at this cinema;
@@ -13,6 +15,8 @@ public class Cinema implements Serializable {
     public Cinema(String cinemaName, ArrayList<Movie> movies, HashMap<String, ArrayList<LocalDateTime>> showtimes, HashMap<String, ArrayList<Seat>> seats) {
         this.movies = movies;
         this.cinemaName = cinemaName;
+	    
+	 //line 18, was this a typo? object was not used.
         ArrayList<LocalDateTime> showstime = new ArrayList<>();
         this.showtimes = new HashMap<>();
         for (Movie mov : movies) {
