@@ -165,7 +165,7 @@ public class Staff implements Client, Serializable {
 			                   "1. Add Holiday" +
 					   "2. Remove holiday" +
 			                   "3. Exit");
-					choice = sc.nextInt()
+					choice = sc.nextInt();
 					if (choice ==1) {
 						System.out.println("Enter the holiday date to add in this pattern: d/MM/yyyy:");
 						date_input = sc.nextLine();
