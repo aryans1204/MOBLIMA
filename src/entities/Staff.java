@@ -17,7 +17,7 @@ public class Staff implements Client, Serializable {
 	this.password = password;
 	this.cinema = cinema;
     }
-    public static boolean login(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException {
+    public boolean login(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException {
 	System.out.println("Enter username: ");
 	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	String username = reader.readLine();
