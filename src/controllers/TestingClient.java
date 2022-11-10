@@ -14,6 +14,7 @@ public class TestingClient {
     public static void main(String[] args) throws IOException {
         MovieController mvc = new MovieController("movies.dat");
         ClientController cl = new ClientController("customer.dat", "staff.dat");
+	//invalid constructor for ci controller, need two parameters 
         CinemaController ci = new CinemaController("cinema.dat");
 
         ArrayList<Movie> movieDB = mvc.getAllMoviesFromDB();
