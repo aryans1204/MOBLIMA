@@ -5,7 +5,7 @@ import java.io.*;
 import java.time.format.*;
 import java.time.*;
 
-
+//IDE suggested adding @SuppressWarnings("serial") for this class
 public class Customer implements Client, Serializable{
     private String email;
     private int mobileNumber;
@@ -43,6 +43,8 @@ public class Customer implements Client, Serializable{
         for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getUsername().equals(tempUsername) && customers.get(i).getPassword().equals(tempPassword)) {
                 System.out.println("Authenticated successfully");
+		 
+		//auth is non static, cannot be used in a static method. IDE suggests declaring auth as static or make method 'non-static'
                 auth = true;
                 return true;
             }
@@ -185,6 +187,8 @@ public class Customer implements Client, Serializable{
 				}
 			}
 			String TID = Integer.toString(cinema.getName().hashCode()%1000) + showtime.toString();
+			
+			//Constructor has been updated, creation of ticket here need to match constructor
 			Ticket newTicket = new Ticket(mov, cinema, this, showtime, cinema.getSeat(title+showtime.toString(), index), TID, this.username, this.email, this.mobileNumber);
 			this.bookings.add(newTicket);
 			System.out.println("The price of your ticket is: " + newTicket.getPrice());
@@ -255,6 +259,7 @@ public class Customer implements Client, Serializable{
     private void checkSeats(Cinema cinema, String showtime) {
         if (!auth) return;
 	    cinema.printLayout(this, showtime); //simple wrapper to print layout
+	    //the method params here does not match the params declared in cinema 'public void printLayout(String title, LocalDateTime showtime)'
     }
 
 
@@ -274,6 +279,8 @@ public class Customer implements Client, Serializable{
 	System.out.println("Enter your review for the movie");
 	String comment = reader.readLine();
 	Review newReview = new Review(this.username, rating, comment);
+	    
+	//is this 'i' supposed to be 'index'? variable 'i' was not created
 	movieDB.get(i).addReview(newReview);
 	System.out.println("You're review was added successfully");
     }
