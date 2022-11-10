@@ -4,6 +4,8 @@ import java.util.*;
 import java.io.*;
 import java.time.*;
 
+//ide suggested @SuppressWarnings("serial")
+@SuppressWarnings("serial")
 public class Staff implements Client, Serializable {
     private String username;
     private String password;
@@ -26,6 +28,8 @@ public class Staff implements Client, Serializable {
 	for (Staff s : staffs) {
 		if (s.getUsername().equals(username) && s.getPassword().equals(password)) {
 			System.out.println("Authenticated successfully");
+			
+			//same as customer class, auth has to be static in a static method. either that or method becomes non static
 			auth = true;
 			return true;
 		}
@@ -42,6 +46,8 @@ public class Staff implements Client, Serializable {
 		System.out.println("Enter username: ");
 		String username = reader.readLine();
 	    	tempUsername = username;
+		
+		//ide complains that tempUsername should be an object, not string
 	    	if (staffDB.contains(tempUsername)) System.out.println("Username already exists, try another one!");
             	if (tries == 0) System.out.println("Too many tries. System quitting now");
             	tries--;
@@ -116,6 +122,7 @@ public class Staff implements Client, Serializable {
 				System.out.println("Enter Input: ");
 				String searchInput = sc.nextLine();
 				ArrayList<Movie> matchedMovies = null;
+				//mvc object was not created
 				matchedMovies = mvc.searchMovies(searchInput); //Still using movie controller. Not sure how to go around this.
 				for(Movie movie : matchedMovies)
 					System.out.println(movie);
