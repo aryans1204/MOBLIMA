@@ -248,7 +248,7 @@ public class Customer implements Client, Serializable{
 				break;
 			}
 		}
-	}
+    }
 
     private void viewBookings(){
 		System.out.println("Your past bookings are available here");
@@ -256,14 +256,7 @@ public class Customer implements Client, Serializable{
 			System.out.println(ticket.toString());
 		}
     }
-
-    private void checkSeats(Cinema cinema, String showtime) {
-        if (!auth) return;
-	    cinema.printLayout(this, showtime); //simple wrapper to print layout
-	    //the method params here does not match the params declared in cinema 'public void printLayout(String title, LocalDateTime showtime)'
-    }
-
-
+    
     private void addReview(ArrayList<Movie> movieDB) throws Exception {
 	System.out.println("Enter the title of the Movie you would like to add a review for");
 	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
