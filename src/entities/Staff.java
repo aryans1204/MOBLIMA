@@ -68,7 +68,7 @@ public class Staff implements Client, Serializable {
 	}
 	return false;
 
-    public void staffUI(ArrayList<Movie> movieDB){
+    public void staffUI(ArrayList<Movie> movieDB, ArrayList<LocalDate>Holidays){
 	if (!auth) return;
 	Scanner sc = new Scanner(System.in);
 
@@ -84,6 +84,7 @@ public class Staff implements Client, Serializable {
 							"7. Return\n" +
 							"8. List Top 5 Movies by TotalSales\n"+
 							"9. Configure Ticket Prices for a Movie\n"+
+							"10.Configure holidays" +
 							"Select option: ");
 		int option = Integer.valueOf(sc.nextLine());
 		switch(option) {
@@ -153,6 +154,33 @@ public class Staff implements Client, Serializable {
 				System.out.println("Enter the price you want to set for this ticket");
 				double price = Double.parseDouble(sc.nextLine());
 				this.cinema.setTicketPrice(title, price);
+				break;
+			case 10:
+				int choice=0;
+				String date_input;
+				LocalDate localDate = null;
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+				while (choice<3 && choice>=1) {
+					System.out.println("Print choice: "+
+			                   "1. Add Holiday" +
+					   "2. Remove holiday" +
+			                   "3. Exit");
+					choice = sc.nextInt()
+					if (choice ==1) {
+						System.out.println("Enter the holiday date to add in this pattern: d/MM/yyyy:");
+						date_input = sc.nextLine();
+						localDate = LocalDate.parse(date_input, formatter);
+						Holidays.add(localDate);
+					}
+					else if (choice ==2) {
+						System.out.println("Enter the holiday date to remove in this pattern: d/MM/yyyy:");
+						date_input = sc.nextLine();
+						localDate = LocalDate.parse(date_input, formatter);
+						Holidays.remove(localDate);
+					}
+					else break;
+					
+				}
 				break;
 
 			default:
