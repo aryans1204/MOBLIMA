@@ -17,12 +17,10 @@ public class Cinema implements Serializable {
         this.cinemaName = cinemaName;
 	    
 	 //line 18, was this a typo? object was not used.
-        ArrayList<LocalDateTime> showstime = new ArrayList<>();
-        this.showtimes = new HashMap<>();
+        this.showtimes = showtimes;
         for (Movie mov : movies) {
-            this.showtimes.put(mov.getTitle(), showtimes.get(mov));
             this.prices.put(mov.getTitle(), 0.0);  //0 is a sign that Staff hasn't configured prices yet
-	    }
+	}
 	this.seats = seats;
     }
 
