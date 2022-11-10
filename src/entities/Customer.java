@@ -5,7 +5,8 @@ import java.io.*;
 import java.time.format.*;
 import java.time.*;
 
-//IDE suggested adding @SuppressWarnings("serial") for this class
+
+@SuppressWarnings("serial")
 public class Customer implements Client, Serializable{
     private String email;
     private int mobileNumber;
