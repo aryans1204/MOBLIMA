@@ -47,12 +47,12 @@ public class Staff implements Client, Serializable {
 		String username = reader.readLine();
 	    	tempUsername = username;
 		
-		//ide complains that tempUsername should be an object, not string
-	    	if (staffDB.contains(tempUsername)) System.out.println("Username already exists, try another one!");
+		
+	    	if (usernameChecker(tempUsername, staffDB)) System.out.println("Username already exists, try another one!");
             	if (tries == 0) System.out.println("Too many tries. System quitting now");
             	tries--;
 	}
-	while (staffDB.contains(tempUsername) && tries != 0);
+	while (usernameChecker(tempUsername, staffDB) && tries != 0);
 	if (tries == 0) return false;
 	setUsername(tempUsername);
         System.out.println("Enter password: ");
@@ -62,6 +62,11 @@ public class Staff implements Client, Serializable {
 	staffDB.add(this);
         return true;
     }
+    private boolean usernameChecker(String username, ArrayList<Staff> staffDB) {
+    	for (Staff s : staffDB) {
+		if (s.getUsername() == username) return true;
+	}
+	return false;
 
     public void staffUI(ArrayList<Movie> movieDB){
 	if (!auth) return;
