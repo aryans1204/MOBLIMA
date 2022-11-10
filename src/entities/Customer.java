@@ -27,7 +27,7 @@ public class Customer implements Client, Serializable{
     }
 
 
-    public boolean login(ArrayList<Object> customerDB) throws IOException {
+    public static boolean login(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException {
         int tries = 9;
         String tempUsername;
         String tempPassword;
@@ -38,7 +38,7 @@ public class Customer implements Client, Serializable{
         System.out.println("Please enter your password: ");
         tempPassword = reader.readLine();
 
-        ArrayList<Object> customers = new ArrayList<>();
+        ArrayList<Customer> customers = new ArrayList<>();
         customers = customerDB;  //Fetch all customers details from DB
         for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getUsername().equals(tempUsername) && customers.get(i).getPassword().equals(tempPassword)) {
@@ -50,7 +50,7 @@ public class Customer implements Client, Serializable{
         return false;
     }
 
-    public boolean createAccount(ArrayList<Object> customerDB) throws IOException{
+    public boolean createAccount(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException{
         int tries = 9;  //9 tries before system shuts;
         String tempUsername;
         String tempPassword;
@@ -152,13 +152,13 @@ public class Customer implements Client, Serializable{
 	System.out.println("Enter cinema name you would like to make booking at");
 	String cinemaName = reader.readLine();
 
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mm:ss a");
-	LocalDate showtime = null;
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mma");
+	LocalDateTime showtime = null;
 	boolean e = false;
 	while(!e) {
 		try {
-			System.out.println("Enter showtime e.g (Saturday, Jul 14, 2018 14:31:06 PM) : ");
-			showtime = LocalDate.parse(reader.readLine(), formatter);
+			System.out.println("Enter showtime e.g (Saturday, Jul 14, 2018 14:30PM) : ");
+			showtime = LocalDateTime.parse(reader.readLine(), formatter);
 			e = true;
 		}catch(DateTimeParseException d) {
 			System.out.println("Invalid date format, Please try again");
@@ -214,13 +214,13 @@ public class Customer implements Client, Serializable{
 	System.out.println("Enter the Movie for which you would like to check availability");
 	String moviename = reader.readLine();
 
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mm:ss a");
-	LocalDate showtime = null;
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mma");
+	LocalDateTime showtime = null;
 	boolean e = false;
 	while(!e) {
 		try {
-			System.out.println("Enter showtime e.g (Saturday, Jul 14, 2018 14:31:06 PM) : ");
-			showtime = LocalDate.parse(reader.readLine(), formatter);
+			System.out.println("Enter showtime e.g (Saturday, Jul 14, 2018 14:30PM) : ");
+			showtime = LocalDateTime.parse(reader.readLine(), formatter);
 			e = true;
 		}catch(DateTimeParseException d) {
 			System.out.println("Invalid date format, Please try again");

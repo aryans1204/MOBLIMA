@@ -70,18 +70,18 @@ public class ClientController {
         Staff newStaff = new Staff(username, password, cinema);
         FileOutputStream fos = null;
         ObjectOutputStream out = null;
-        File f = new File(fileName);
+        File f = new File(fileNameStaff);
         if(f.exists()) {
             staffs = this.getStaffFromDB();
             staffs.add(newStaff);
         }
         else{
-            System.out.println("File: " + fileName + " does not exist");
+            System.out.println("File: " + fileNameStaff + " does not exist");
             System.out.println("Creating new DB");
         }
 
         try {
-            fos = new FileOutputStream(fileName);
+            fos = new FileOutputStream(fileNameStaff);
             out = new ObjectOutputStream(fos);
             out.writeObject(staffs);
             out.close();
@@ -117,7 +117,7 @@ public class ClientController {
         ObjectInputStream in = null;
 
         try{
-            fis = new FileInputStream(fileName);
+            fis = new FileInputStream(fileNameStaff);
             in = new ObjectInputStream(fis);
             staffs = (ArrayList<Staff>) in.readObject();
             in.close();
