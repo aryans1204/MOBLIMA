@@ -124,13 +124,7 @@ public class Staff implements Client, Serializable {
 
 				break;
 			case 6:
-				System.out.println("Enter Input: ");
-				String searchInput = sc.nextLine();
-				ArrayList<Movie> matchedMovies = null;
-				//mvc object was not created
-				matchedMovies = mvc.searchMovies(searchInput); //Still using movie controller. Not sure how to go around this.
-				for(Movie movie : matchedMovies)
-					System.out.println(movie);
+				searchMovie(movieDB);
 				break;
 			case 7:
 				exit = true;
@@ -168,7 +162,18 @@ public class Staff implements Client, Serializable {
 
 	sc.close();
     }
-    
+    private void searchMovie(ArrayList<Movie> movieDB) throws Exception {
+    	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+	System.out.println("Enter Movie title you would like to search");
+	String title = reader.readLine();
+	for (Movie mov : movieDB) {
+		if (mov.getTitle() == title) {
+			System.out.println(mov);
+			return;
+		}
+	}
+	System.out.println("Sorry, movie not found. Try again");
+    }
     private void createMovieListing() {
 	Scanner sc = new Scanner(System.in);
 	int runtime, option, id;
