@@ -8,7 +8,7 @@ public interface Client {
     String password = null;
 
     //not allowed to use static in interface, ide suggested using public boolean login()
-    boolean login(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException;
+    boolean login(String username) throws IOException;
 
     boolean createAccount(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException;
 

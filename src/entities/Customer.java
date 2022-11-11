@@ -1,15 +1,14 @@
 package src.entities;
 
+import src.boundaries.BookingUI;
+import src.boundaries.MovieListing;
+import src.controllers.ClientController;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 
 @SuppressWarnings("serial")
@@ -22,6 +21,7 @@ public class Customer implements Client, Serializable {
     private String username;
     private String password;
     private ArrayList<Ticket> bookings = new ArrayList<>();
+    private static ClientController cl;
 
     //Constructor for Customer object.
     public Customer(String name, int age, String username, String password, String email, int mobileNumber) {
@@ -34,19 +34,15 @@ public class Customer implements Client, Serializable {
     }
 
 
-    public boolean login(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException {
+    public boolean login(String tempUsername) throws IOException {
         int tries = 9;
-        String tempUsername;
         String tempPassword;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-        System.out.println("Please enter your login username: ");
-        tempUsername = reader.readLine();
         System.out.println("Please enter your password: ");
         tempPassword = reader.readLine();
 
         ArrayList<Customer> customers = new ArrayList<>();
-        customers = customerDB;  //Fetch all customers details from DB
+        customers = cl.getCustomerFromDB();  //Fetch all customers details from DB
         for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getUsername().equals(tempUsername) && customers.get(i).getPassword().equals(tempPassword)) {
                 System.out.println("Authenticated successfully");
@@ -67,10 +63,10 @@ public class Customer implements Client, Serializable {
         do {
             System.out.println("Enter username: ");
             tempUsername = reader.readLine();
-            if (usernameChecker(tempUsername, customerDB)) System.out.println("Username already taken");
+            if (cl.checkUsernameExist(tempUsername)) System.out.println("Username already taken");
             tries--;
             if (tries == 0) System.out.println("Too many tries. System quitting now");
-        } while (usernameChecker(tempUsername, customerDB) && tries != 0);
+        } while (cl.checkUsernameExist(tempUsername) && tries != 0);
         if (tries == 0) return false;
         setUsername(tempUsername);
         System.out.println("Enter password: ");
@@ -93,14 +89,16 @@ public class Customer implements Client, Serializable {
         return true;
     }
 
-    private boolean usernameChecker(String username, ArrayList<Customer> customerDB) {
-        for (Customer s : customerDB) {
-            if (Objects.equals(s.getUsername(), username)) return true;
-        }
-        return false;
+    public static ClientController getCl() {
+        return cl;
     }
 
-    public void customerUI(ArrayList<Cinema> cinemaDB, ArrayList<Movie> movieDB) throws Exception {
+    public static void setCl(ClientController cl) {
+        Customer.cl = cl;
+    }
+
+
+    public void customerUI() throws Exception {
         if (!auth) return;
         boolean exit = false;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -117,142 +115,29 @@ public class Customer implements Client, Serializable {
             int option = Integer.parseInt(reader.readLine());
             switch (option) {
                 case 1:
-                    System.out.println("Enter movie title you would like to search about");
-                    String title = reader.readLine();
-                    searchMovie(title, movieDB);
+                    MovieListing.searchMovie();
                     break;
                 case 2:
-                    System.out.println("Enter the name of the Cinema you would like to search");
-                    String cinemaName = reader.readLine();
-                    listMovie(cinemaName, cinemaDB);
+                    MovieListing.listMoviesByCinema();
                     break;
                 case 3:
-                    checkSeatAvailability(cinemaDB, movieDB);
+                    BookingUI.checkSeatAvailability();
                     break;
                 case 4:
-                    makeBooking(cinemaDB, movieDB);
+                    this.bookings.add(BookingUI.makeBooking(this));
                     break;
                 case 5:
                     viewBookings();
                     break;
                 case 6:
-                    List<Movie> listMovies = movieDB;
-                    listMovies.sort((o1, o2) -> Double.compare(o2.getTotalSales(), o1.getTotalSales()));
-
-                    ArrayList<Movie> sortedMovies = new ArrayList<Movie>(listMovies);
-                    System.out.println("Top 5 Movies by Total Sales\n");
-                    System.out.println("Overall Rating\tTitle");
-                    System.out.println("--------------\t-----");
-                    for (int i = 0; i < 5; i++)
-                        System.out.println("\t" + sortedMovies.get(i).getTotalSales() + "\t" + sortedMovies.get(i).getTitle());
+                    MovieListing.listBySales();
                     break;
                 case 7:
-                    addReview(movieDB);
+                    BookingUI.addReview(this);
                     break;
                 case 8:
                     exit = true;
                     break;
-            }
-        }
-    }
-
-    private void makeBooking(ArrayList<Cinema> cinemaDB, ArrayList<Movie> movieDB) throws Exception {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Enter movie title to make booking");
-        String title = reader.readLine();
-        System.out.println("Enter cinema name you would like to make booking at");
-        String cinemaName = reader.readLine();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mma");
-        LocalDateTime showtime = null;
-        boolean e = false;
-        while (!e) {
-            try {
-                System.out.println("Enter showtime e.g (Saturday, Jul 14, 2018 14:30PM) : ");
-                showtime = LocalDateTime.parse(reader.readLine(), formatter);
-                e = true;
-            } catch (DateTimeParseException d) {
-                System.out.println("Invalid date format, Please try again");
-            }
-        }
-        for (Cinema cinema : cinemaDB) {
-            if (Objects.equals(cinema.getName(), cinemaName)) {
-                ArrayList<Seat> seats = cinema.getSeats(title + showtime.toString());
-                cinema.printLayout(title, showtime);
-                String seatNo;
-                do {
-                    System.out.println("Which seat would you like to select?: Enter the alphabet along with the column number like so (C6)");
-                    seatNo = reader.readLine();
-                } while (seatNo.charAt(0) > 'J' || seatNo.charAt(0) < 'A');
-                int row = seatNo.charAt(0) % 65;
-                int col = Integer.parseInt(seatNo.substring(1));
-                int index = row * 16 + col;
-                cinema.setCustomer(this, title + showtime.toString(), index);
-                Movie mov = null;
-                for (Movie movie : movieDB) {
-                    if (movie.getTitle() == title) {
-                        mov = movie;
-                        break;
-                    }
-                }
-                String TID = Integer.toString(cinema.getName().hashCode() % 1000) + showtime.toString();
-
-                //Constructor has been updated, creation of ticket here need to match constructor
-                Ticket newTicket = new Ticket(mov, cinema, this, showtime, cinema.getSeat(title + showtime.toString(), index), TID, this.username, this.email, this.mobileNumber);
-                this.bookings.add(newTicket);
-                System.out.println("The price of your ticket is: " + newTicket.getPrice());
-                break;
-            }
-        }
-
-    }
-
-    private void listMovie(String cinemaname, ArrayList<Cinema> cinemaDB) {
-        for (Cinema cinema : cinemaDB) {
-            if (Objects.equals(cinema.getName(), cinemaname)) {
-                ArrayList<Movie> movies = cinema.getMovies();
-                for (Movie movie : movies) {
-                    System.out.println(movie.toString());
-                }
-                break;
-            }
-        }
-    }
-
-    private void checkSeatAvailability(ArrayList<Cinema> cinemaDB, ArrayList<Movie> movieDB) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Enter the name of the Cinema you would like to check seat availability for");
-        String cinemaname = reader.readLine();
-        System.out.println("Enter the Movie for which you would like to check availability");
-        String moviename = reader.readLine();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mma");
-        LocalDateTime showtime = null;
-        boolean e = false;
-        while (!e) {
-            try {
-                System.out.println("Enter showtime e.g (Saturday, Jul 14, 2018 14:30PM) : ");
-                showtime = LocalDateTime.parse(reader.readLine(), formatter);
-                e = true;
-            } catch (DateTimeParseException d) {
-                System.out.println("Invalid date format, Please try again");
-            }
-        }
-
-        for (Cinema cinema : cinemaDB) {
-            if (Objects.equals(cinema.getName(), cinemaname)) {
-                cinema.printLayout(moviename, showtime);
-                break;
-            }
-        }
-    }
-
-
-    private void searchMovie(String movieTitle, ArrayList<Movie> moviesDB) {
-        for (Movie movie : moviesDB) {
-            if (Objects.equals(movie.getTitle(), movieTitle)) {
-                System.out.println(movie.toString());
-                break;
             }
         }
     }
@@ -262,28 +147,6 @@ public class Customer implements Client, Serializable {
         for (Ticket ticket : this.bookings) {
             System.out.println(ticket.toString());
         }
-    }
-
-    private void addReview(ArrayList<Movie> movieDB) throws Exception {
-        System.out.println("Enter the title of the Movie you would like to add a review for");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String title = reader.readLine();
-        int index = 0;
-        for (int i = 0; i < movieDB.size(); i++) {
-            if (Objects.equals(movieDB.get(i).getTitle(), title)) {
-                index = i;
-                break;
-            }
-        }
-        System.out.println("Enter your rating for the movie, on a scale of 1.0 - 5.0 ");
-        int rating = Integer.parseInt(reader.readLine());
-        System.out.println("Enter your review for the movie");
-        String comment = reader.readLine();
-        Review newReview = new Review(this.username, rating, comment);
-
-        //is this 'i' supposed to be 'index'? variable 'i' was not created
-        movieDB.get(index).addReview(newReview);
-        System.out.println("You're review was added successfully");
     }
 
     //Getters

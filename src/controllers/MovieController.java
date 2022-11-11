@@ -13,9 +13,11 @@ import java.util.regex.Pattern;
 
 public class MovieController {
     private String fileName;
+    private static ArrayList<Movie> movieDB;
 
     public MovieController(String fileName) {
         this.fileName = fileName; //Input the directory where your .dat file is located
+        movieDB = this.getAllMoviesFromDB();
     }
 
     public String getFileName() {
@@ -50,6 +52,7 @@ public class MovieController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+
     }
 
     //Read the whole movies.dat and return all objects stored inside
@@ -368,5 +371,17 @@ public class MovieController {
         } else
             System.out.println("File: " + fileName + " does not exist");
         return false;
+    }
+
+    public static ArrayList<Movie> getMovieDB() {
+        return movieDB;
+    }
+
+    public static void setMovieDB(ArrayList<Movie> movies) {
+        movieDB = movies;
+    }
+
+    public static void setMovieDB(Movie newMovie) {
+        movieDB.add(newMovie);
     }
 }

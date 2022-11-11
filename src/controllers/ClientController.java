@@ -10,10 +10,14 @@ import java.util.ArrayList;
 public class ClientController {
     private String fileName;
     private String fileNameStaff;
+    private static ArrayList<Customer> customerDB;
+    private static ArrayList<Staff> staffDB;
 
     public ClientController(String fileNameCustomer, String fileNameStaff) {
         this.fileNameStaff = fileNameStaff;
         this.fileName = fileNameCustomer;
+        customerDB = this.getCustomerFromDB();
+        staffDB = this.getStaffFromDB();
     }
 
     public String getFileName() {
@@ -81,6 +85,7 @@ public class ClientController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+
     }
 
     //Getting all customer's details from the database
@@ -124,7 +129,7 @@ public class ClientController {
         ArrayList<Customer> customers = null;
         File f = new File(fileName);
         if (f.exists()) {
-            customers = this.getCustomerFromDB();//Read in existing data in DB
+            customers = customerDB;//Read in existing data in DB
             if (customers.size() > 0) {
                 for (Customer customer : customers)
                     if (customer.getUsername() == username)
@@ -140,10 +145,9 @@ public class ClientController {
         ArrayList<Customer> customers = null;
         File f = new File(fileName);
         if (f.exists()) {
-            customers = this.getCustomerFromDB();
-            for (int i = 0; i < customers.size(); i++) {
-                if (customers.get(i).getName() == name && customers.get(i).getAge() == age) {
-                    customers.remove(i);
+            for (int i = 0; i < customerDB.size(); i++) {
+                if (customerDB.get(i).getName() == name && customerDB.get(i).getAge() == age) {
+                    customerDB.remove(i);
                     return true;
                 }
             }
@@ -154,4 +158,11 @@ public class ClientController {
         return false;
     }
 
+    public static ArrayList<Customer> getCustomerList() {
+        return customerDB;
+    }
+   
+    public static ArrayList<Staff> getStaffList() {
+        return staffDB;
+    }
 }

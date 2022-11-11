@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 public class HolidayController {
     private String fileName;
+    private static int sync = 0;
+    private static ArrayList<LocalDate> holidays;
 
     public HolidayController(String fileName) {
         this.fileName = fileName;
@@ -36,6 +38,11 @@ public class HolidayController {
             out.close();
         } catch (IOException ex) {
             ex.printStackTrace();
+        }
+        sync++;
+        if (sync == 5) {
+            holidays = this.getAllHolidaysFromDB();
+            sync = 0;
         }
 
     }
@@ -97,4 +104,19 @@ public class HolidayController {
 	        return false;
 	   }*/
 
+    public static ArrayList<LocalDate> getHolidays() {
+        return holidays;
+    }
+
+    public static void setHolidays(ArrayList<LocalDate> holidays) {
+        HolidayController.holidays = holidays;
+    }
+
+    public static void setHolidays(LocalDate holiday) {
+        holidays.add(holiday);
+    }
+
+    public static void removeHolidays(LocalDate holiday) {
+        holidays.remove(holiday);
+    }
 }
