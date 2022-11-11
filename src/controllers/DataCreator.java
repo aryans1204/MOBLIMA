@@ -1,6 +1,6 @@
-package SC2002Link.src.controllers;
+package src.controllers;
 
-import SC2002Link.src.entities.*;
+import src.entities.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,9 +13,9 @@ public class DataCreator {
     public static void main(String[] args) {
         // TODO Auto-generated method stub
     	
-        CinemaController cinema = new CinemaController(Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\cinema.dat", Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\seat.dat");
-        ClientController client = new ClientController(Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\customer.dat", Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\staff.dat");
-        MovieController movie = new MovieController(Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\movie.dat");
+        CinemaController cinema = new CinemaController(Paths.get("").toAbsolutePath().toString() + "\\data\\cinema.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\seat.dat");
+        ClientController client = new ClientController(Paths.get("").toAbsolutePath().toString() + "\\data\\customer.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\staff.dat");
+        MovieController movie = new MovieController(Paths.get("").toAbsolutePath().toString() + "\\data\\movie.dat");
 
         //Create 12 MOVIES
         //Black panther
