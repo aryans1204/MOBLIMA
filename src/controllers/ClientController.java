@@ -41,12 +41,11 @@ public class ClientController {
         File f = new File(fileName);
         if (f.exists()) {
             customers = this.getCustomerFromDB();
-            customers.add(newCustomer);
         } else {
             System.out.println("File: " + fileName + " does not exist");
             System.out.println("Creating new DB");
         }
-
+        customers.add(newCustomer);
         try {
             fos = new FileOutputStream(fileName);
             out = new ObjectOutputStream(fos);
@@ -67,12 +66,11 @@ public class ClientController {
         File f = new File(fileNameStaff);
         if (f.exists()) {
             staffs = this.getStaffFromDB();
-            staffs.add(newStaff);
         } else {
             System.out.println("File: " + fileNameStaff + " does not exist");
             System.out.println("Creating new DB");
         }
-
+        staffs.add(newStaff);
         try {
             fos = new FileOutputStream(fileNameStaff);
             out = new ObjectOutputStream(fos);
