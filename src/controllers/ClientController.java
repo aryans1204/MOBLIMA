@@ -1,8 +1,8 @@
-package SC2002Link.src.controllers;
+package src.controllers;
 
-import SC2002Link.src.entities.Cinema;
-import SC2002Link.src.entities.Customer;
-import SC2002Link.src.entities.Staff;
+import src.entities.Cinema;
+import src.entities.Customer;
+import src.entities.Staff;
 
 import java.io.*;
 import java.util.ArrayList;
