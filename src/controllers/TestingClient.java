@@ -13,11 +13,11 @@ import java.util.Objects;
 
 public class TestingClient {
     public static void main(String[] args) throws Exception {
-        MovieController mvc = new MovieController("../../data/movies.dat");
-        ClientController cl = new ClientController("../../data/customer.dat", "../../data/staff.dat");
+        MovieController mvc = new MovieController("movies.dat");
+        ClientController cl = new ClientController("customers.dat", "staffs.dat");
         //invalid constructor for ci controller, need two parameters
-        CinemaController ci = new CinemaController("../../data/cinema.dat", "../../data/seat.dat");
-        HolidayController h = new HolidayController("../../data/holidays.dat");
+        CinemaController ci = new CinemaController("cinemas.dat", "data/seats.dat");
+        HolidayController h = new HolidayController("holidays.dat");
         ArrayList<Movie> movieDB = mvc.getAllMoviesFromDB();
         ArrayList<Customer> customerDB = cl.getCustomerFromDB();
         ArrayList<Staff> staffDB = cl.getStaffFromDB();
