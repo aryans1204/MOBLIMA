@@ -161,7 +161,7 @@ public class ClientController {
     public static ArrayList<Customer> getCustomerList() {
         return customerDB;
     }
-   
+
     public static ArrayList<Staff> getStaffList() {
         return staffDB;
     }

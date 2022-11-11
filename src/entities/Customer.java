@@ -1,7 +1,5 @@
 package src.entities;
 
-import src.boundaries.BookingUI;
-import src.boundaries.MovieListing;
 import src.controllers.ClientController;
 
 import java.io.BufferedReader;
@@ -96,53 +94,9 @@ public class Customer implements Client, Serializable {
     public static void setCl(ClientController cl) {
         Customer.cl = cl;
     }
+    
 
-
-    public void customerUI() throws Exception {
-        if (!auth) return;
-        boolean exit = false;
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        while (!exit) {
-            System.out.println("How can we help you today\n" +
-                    "1. Search for a Movie\n" +
-                    "2. List Movies by Cinema\n" +
-                    "3. Check seat availability of a movie at a cinema for a given showtime\n" +
-                    "4. Purchase a ticket for a movie\n" +
-                    "5. View Booking History\n" +
-                    "6. List Top 5 Movies by Ticket Sales or Reviewer's rating(as set by Cinema staff)\n" +
-                    "7. Add a review or rating for a movie\n" +
-                    "8. Exit");
-            int option = Integer.parseInt(reader.readLine());
-            switch (option) {
-                case 1:
-                    MovieListing.searchMovie();
-                    break;
-                case 2:
-                    MovieListing.listMoviesByCinema();
-                    break;
-                case 3:
-                    BookingUI.checkSeatAvailability();
-                    break;
-                case 4:
-                    this.bookings.add(BookingUI.makeBooking(this));
-                    break;
-                case 5:
-                    viewBookings();
-                    break;
-                case 6:
-                    MovieListing.listBySales();
-                    break;
-                case 7:
-                    BookingUI.addReview(this);
-                    break;
-                case 8:
-                    exit = true;
-                    break;
-            }
-        }
-    }
-
-    private void viewBookings() {
+    public void viewBookings() {
         System.out.println("Your past bookings are available here");
         for (Ticket ticket : this.bookings) {
             System.out.println(ticket.toString());
@@ -197,6 +151,10 @@ public class Customer implements Client, Serializable {
 
     public void setNumber(int mobileNumber) {
         this.mobileNumber = mobileNumber;
+    }
+
+    public void addBookings(Ticket t) {
+        this.bookings.add(t);
     }
 
     @Override

@@ -41,7 +41,7 @@ public class TestingClient {
                         break;
                     }
                     s.login(username);
-                    s.staffUI();
+                    SessionController.staffUI(s);
                     break;
                 case 2:
                     System.out.println("Please enter your username");
@@ -55,7 +55,7 @@ public class TestingClient {
                         break;
                     }
                     c.login(username);
-                    c.customerUI();
+                    SessionController.customerUI(c);
                     break;
             }
         } while (option != 5);
