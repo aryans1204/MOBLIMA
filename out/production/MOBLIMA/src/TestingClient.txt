@@ -1,0 +1,9 @@
+//pre load movieDB, customerDB, staffDB, and cinemaDB using Controllers getAllFromDB()
+
+//switch with 4 cases- login as customer/staff, register as staff/customer, under a do-while loop, until client exits.
+
+After login, search for staff in staffDB(), and call staffUI(cinemaDB, movieDB).
+search for customer in customerDB, and call customerUI(cinemaDB, movieDB)
+
+
+Also need DataCreator.java, which is a one time thing, to create database using the insertIntoDB() methods, cerate the .dat files under the data folder.

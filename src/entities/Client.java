@@ -1,15 +1,15 @@
 package src.entities;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public interface Client {
-    public String username = null; //client username
-    public String password = null;
-    
-    //not allowed to use static in interface, ide suggested using public boolean login()
-    public static boolean login(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException;
+    String username = null; //client username
+    String password = null;
 
-    public boolean createAccount(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException;
+    //not allowed to use static in interface, ide suggested using public boolean login()
+    boolean login(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException;
+
+    boolean createAccount(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException;
 
 }
