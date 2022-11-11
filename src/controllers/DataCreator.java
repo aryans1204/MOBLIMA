@@ -1,23 +1,21 @@
 package src.controllers;
 
-import src.entities.Cinema;
-import src.entities.Movie;
-import src.entities.MovieStatus;
-import src.entities.MovieType;
+import src.entities.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-
+import java.nio.file.Paths;
 public class DataCreator {
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-        CinemaController cinema = new CinemaController("../../data/cinema.dat", "../../data/seat.dat");
-        ClientController client = new ClientController("../../data/customer.dat", "../..//data/staff.dat");
-        MovieController movie = new MovieController("../../data/movie.dat");
+    	
+        CinemaController cinema = new CinemaController(Paths.get("").toAbsolutePath().toString() + "\\data\\cinema.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\seat.dat");
+        ClientController client = new ClientController(Paths.get("").toAbsolutePath().toString() + "\\data\\customer.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\staff.dat");
+        MovieController movie = new MovieController(Paths.get("").toAbsolutePath().toString() + "\\data\\movie.dat");
 
         //Create 12 MOVIES
         //Black panther
@@ -151,13 +149,9 @@ public class DataCreator {
         //Assign the showtime for each movie
         for (int i = 0; i < 4; i++) {
             cinema1St.put(cinema1Mv.get(i).getTitle(), showtimes);
-            cinema1St.put(cinema2Mv.get(i).getTitle(), showtimes);
-            cinema1St.put(cinema3Mv.get(i).getTitle(), showtimes);
+            cinema2St.put(cinema2Mv.get(i).getTitle(), showtimes);
+            cinema3St.put(cinema3Mv.get(i).getTitle(), showtimes);
         }
-        cinema.insertCinemaIntoDB("CathayTheatre1", cinema1Mv, cinema1St);
-        cinema.insertCinemaIntoDB("CathayTheatre2", cinema2Mv, cinema2St);
-        cinema.insertCinemaIntoDB("CathayTheatre3", cinema3Mv, cinema3St);
-
         //Create CUSTOMERS
         client.insertCustomerToDB("John", 19, "john", "test123", "john111@gmail.com", 84324783);
         client.insertCustomerToDB("Mary", 56, "mary", "test123", "mary222@gmail.com", 81357852);
@@ -167,6 +161,12 @@ public class DataCreator {
 
         //Create Seats
         //Not sure how this will be done
+        cinema.insertSeatIntoDB(SeatType.GOLD, client.getCustomerFromDB().get(0), "C01");
+        
+        cinema.insertCinemaIntoDB("CathayTheatre1", cinema1Mv, cinema1St);
+        cinema.insertCinemaIntoDB("CathayTheatre2", cinema2Mv, cinema2St);
+        cinema.insertCinemaIntoDB("CathayTheatre3", cinema3Mv, cinema3St);
+
 
         //Create STAFF
         ArrayList<Cinema> cinemas = cinema.getAllCinemasFromDB();

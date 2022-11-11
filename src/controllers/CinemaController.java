@@ -83,13 +83,44 @@ public class CinemaController {
 		}
 		return cinemas;
 	}
+	
+	public ArrayList<Seat> getAllSeatsFromDB() {
+		ArrayList<Seat> seats = null;
+		FileInputStream fis = null;
+		ObjectInputStream in = null;
+		try {
+			fis = new FileInputStream(seatFileName);
+			in = new ObjectInputStream(fis);
+			seats = (ArrayList<Seat>) in.readObject();
+			in.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} catch (ClassNotFoundException ex) {
+			ex.printStackTrace();
+		}
+		return seats;
+	}
 
 	public void insertSeatIntoDB(SeatType type, Customer customer, String seatNo) {
+		ArrayList<Seat> seats = new ArrayList<Seat>();
+		Seat newSeat = new Seat(type, customer, seatNo);
+
+        FileOutputStream fos = null;
+        ObjectOutputStream out = null;
+        File f = new File(seatFileName);
+        
+        if (f.exists())
+        	seats = this.getAllSeatsFromDB();//Read in existing data in db
+        else {
+            System.out.println("File: " + seatFileName + " does not exist");
+            System.out.println("Creating new DB");
+        }
+        seats.add(newSeat);
 		try {
-			FileOutputStream fos = new FileOutputStream(seatFileName);
-			ObjectOutputStream out = new ObjectOutputStream(fos);
-			Seat newSeat = new Seat(type, customer, seatNo);
-			out.writeObject(newSeat);
+			fos = new FileOutputStream(seatFileName);
+			out = new ObjectOutputStream(fos);
+			out.writeObject(seats);
+			out.close();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
