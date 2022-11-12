@@ -13,9 +13,9 @@ public class DataCreator {
     public static void main(String[] args) {
         // TODO Auto-generated method stub
     	
-        CinemaController cinema = new CinemaController(Paths.get("").toAbsolutePath().toString() + "\\data\\cinema.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\seat.dat");
-        ClientController client = new ClientController(Paths.get("").toAbsolutePath().toString() + "\\data\\customer.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\staff.dat");
-        MovieController movie = new MovieController(Paths.get("").toAbsolutePath().toString() + "\\data\\movie.dat");
+        CinemaController cinema = new CinemaController(Paths.get("").toAbsolutePath().toString() + "\\data\\cinemas.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\seats.dat");
+        ClientController client = new ClientController(Paths.get("").toAbsolutePath().toString() + "\\data\\customers.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\staffs.dat");
+        MovieController movie = new MovieController(Paths.get("").toAbsolutePath().toString() + "\\data\\movies.dat");
 
         //Create 12 MOVIES
         //Black panther
@@ -272,6 +272,8 @@ public class DataCreator {
         client.insertStaffToDB("jake", "test123", cinemas.get(0));
         client.insertStaffToDB("henry", "test123", cinemas.get(1));
         client.insertStaffToDB("jane", "test123", cinemas.get(2));
+        
+        System.out.println("DATA GENERATED");
     }
 
 }

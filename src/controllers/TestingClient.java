@@ -5,15 +5,16 @@ import src.entities.Staff;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 public class TestingClient {
     public static void main(String[] args) throws Exception {
-        MovieController mvc = new MovieController("movies.dat");
-        ClientController cl = new ClientController("customers.dat", "staffs.dat");
+        MovieController mvc = new MovieController(Paths.get("").toAbsolutePath().toString() + "\\data\\movies.dat");
+        ClientController cl = new ClientController(Paths.get("").toAbsolutePath().toString() + "\\data\\customers.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\staffs.dat");
         //invalid constructor for ci controller, need two parameters
-        CinemaController ci = new CinemaController("cinemas.dat", "data/seats.dat");
-        HolidayController h = new HolidayController("holidays.dat");
+        CinemaController ci = new CinemaController(Paths.get("").toAbsolutePath().toString() + "\\data\\cinemas.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\seats.dat");
+        HolidayController h = new HolidayController(Paths.get("").toAbsolutePath().toString() + "\\data\\holidays.dat");
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         TestingClient.welcomeScreen();
