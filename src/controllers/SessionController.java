@@ -98,6 +98,7 @@ public class SessionController {
                     Ticket t = BookingUI.makeBooking(c);
                     if (t != null) {
                         c.addBookings(t);
+
                         System.out.println("Ticket booked successfully");
                     } else {
                         System.out.println("There was an error in booking your ticket. please try again");

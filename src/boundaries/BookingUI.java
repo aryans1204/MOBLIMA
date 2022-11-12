@@ -22,12 +22,12 @@ public class BookingUI {
         System.out.println("Enter the Movie for which you would like to check availability");
         String moviename = reader.readLine();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mma");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mma");
         LocalDateTime showtime = null;
         boolean e = false;
         while (!e) {
             try {
-                System.out.println("Enter showtime e.g (Saturday, Jul 14, 2018 14:30PM) : ");
+                System.out.println("Enter showtime e.g (20/11/2022 09:00AM): ");
                 showtime = LocalDateTime.parse(reader.readLine(), formatter);
                 e = true;
             } catch (DateTimeParseException d) {
@@ -52,12 +52,12 @@ public class BookingUI {
         System.out.println("Enter cinema name you would like to make booking at");
         String cinemaName = reader.readLine();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mma");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mma");
         LocalDateTime showtime = null;
         boolean e = false;
         while (!e) {
             try {
-                System.out.println("Enter showtime e.g (Saturday, Jul 14, 2018 14:30PM) : ");
+                System.out.println("Enter showtime e.g (20/11/2022 09:00AM): ");
                 showtime = LocalDateTime.parse(reader.readLine(), formatter);
                 e = true;
             } catch (DateTimeParseException d) {

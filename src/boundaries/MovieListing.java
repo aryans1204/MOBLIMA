@@ -316,21 +316,39 @@ public class MovieListing {
                     break;
 
                 case 9:
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mma");
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mma");
                     LocalDateTime showtime = null;
+                    LocalDateTime newShowTime = null;
                     exit = false;
+                    String selectedTitle = movieDB.get(index).getTitle();
+                    //Prints showtimes of the movie
+                    cinema.printShowtimes(selectedTitle);
                     while (!exit) {
                         try {
-                            System.out.println("Enter the showtime you would like to change e.g (Saturday, Jul 14, 2018 14:30PM) : ");
+                            System.out.println("Enter the showtime you would like to change e.g (20/11/2022 09:00AM): ");
                             showtime = LocalDateTime.parse(sc.nextLine(), formatter);
                             exit = true;
                         } catch (DateTimeParseException e) {
                             System.out.println("Invalid date format, Please try again");
                         }
                     }
-
-
-                    cinema.setShowtime(movieDB.get(index).getTitle(), showtime);
+                    ArrayList<LocalDateTime> showtimes = cinema.getShowtimes(selectedTitle);
+                    for(int i = 0; i < showtimes.size(); i++) {
+                    	if(showtimes.get(i).isEqual(showtime)) {
+                    		exit = false;
+                            while (!exit) {
+                                try {
+                                    System.out.println("Enter the new showtime e.g (20/11/2022 09:00AM): ");
+                                    newShowTime = LocalDateTime.parse(sc.nextLine(), formatter);
+                                    exit = true;
+                                } catch (DateTimeParseException e) {
+                                    System.out.println("Invalid date format, Please try again");
+                                }
+                            }
+                    		showtimes.set(i, newShowTime);
+                    	}
+                    }
+                    cinema.updateShowtime(selectedTitle, showtimes);
                     ArrayList<Cinema> cinemaDB = CinemaController.getCinemaDB();
                     for (int i = 0; i < cinemaDB.size(); i++) {
                         if (cinemaDB.get(i).getName().equals(cinema.getName())) cinemaDB.set(i, cinema);
@@ -343,11 +361,11 @@ public class MovieListing {
             }
             System.out.println("Movie is successfully updated");
 
-            System.out.println("Title: " + movieDB.get(index).getTitle());
+            System.out.println("\nTitle: " + movieDB.get(index).getTitle());
             System.out.println("Type: " + movieDB.get(index).getType());
             System.out.println("Date: " + movieDB.get(index).getMovieReleaseDateToString());
             System.out.println("Duration: " + movieDB.get(index).getRuntime());
-            System.out.println("\n" + movieDB.get(index));
+            System.out.println(movieDB.get(index));
 
         } catch (Exception e) {
             e.printStackTrace();
