@@ -38,8 +38,8 @@ public class Customer implements Client, Serializable {
         Scanner sc = new Scanner(System.in);
         System.out.println("Please enter your password: ");
         tempPassword = sc.nextLine();
-
         ArrayList<Customer> customers;
+
         customers = ClientController.getCustomerList();  //Fetch all customers details from DB
         for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getUsername().equals(tempUsername) && customers.get(i).getPassword().equals(tempPassword)) {
@@ -100,7 +100,7 @@ public class Customer implements Client, Serializable {
     public void viewBookings() {
         System.out.println("Your past bookings are available here");
         for (Ticket ticket : this.bookings) {
-            System.out.println(ticket.toString());
+        	if(ticket != null) System.out.println(ticket.toString());
         }
     }
 

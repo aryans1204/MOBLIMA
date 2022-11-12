@@ -1,11 +1,11 @@
-package src.boundaries;
+package SC2002Link.src.boundaries;
 
-import src.controllers.CinemaController;
-import src.controllers.MovieController;
-import src.entities.Cinema;
-import src.entities.Movie;
-import src.entities.MovieStatus;
-import src.entities.MovieType;
+import SC2002Link.src.controllers.CinemaController;
+import SC2002Link.src.controllers.MovieController;
+import SC2002Link.src.entities.Cinema;
+import SC2002Link.src.entities.Movie;
+import SC2002Link.src.entities.MovieStatus;
+import SC2002Link.src.entities.MovieType;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,7 +33,7 @@ public class MovieListing {
             System.out.println("\nCREATE MOVIE");
 
             System.out.println("Enter movie id: ");
-            id = sc.nextInt();
+            id = Integer.parseInt(sc.nextLine());
 
             System.out.println("Enter movie title: ");
             title = sc.nextLine();
@@ -167,12 +167,13 @@ public class MovieListing {
                 System.out.println("Enter the Movie title which you need to update: ");
                 String title = sc.nextLine();
                 for (int i = 0; i < movieDB.size(); i++) {
-                    if (movieDB.get(i).getTitle() == title) {
+                    if (movieDB.get(i).getTitle().equals(title)) {
                         index = i;
                         exit = true;
                         break;
                     }
                 }
+                System.out.println("Title does not exist. Please try again");
             }
 
             System.out.println("Select movie detail to update");
@@ -322,14 +323,18 @@ public class MovieListing {
                     exit = false;
                     while (!exit) {
                         try {
-                            System.out.println("Enter new movie release date e.g (Saturday, Jul 14, 2018 14:30PM) : ");
+                            System.out.println("Enter the showtime you would like to change e.g (Saturday, Jul 14, 2018 14:30PM) : ");
                             showtime = LocalDateTime.parse(sc.nextLine(), formatter);
                             exit = true;
                         } catch (DateTimeParseException e) {
                             System.out.println("Invalid date format, Please try again");
                         }
                     }
-                    cinema.setShowtime(movieDB.get(index).getTitle(), showtime);
+                    ArrayList<LocalDateTime> showTimes = cinema.getShowtimes(movieDB.get(index).getTitle());
+                    for(LocalDateTime dt : showTimes) {
+                    	
+                    }
+//                    cinema.setShowtime(movieDB.get(index).getTitle(), showtime);
                     ArrayList<Cinema> cinemaDB = CinemaController.getCinemaDB();
                     for (Cinema c : cinemaDB) {
                         if (c.getName() == cinema.getName()) c = cinema;
@@ -341,6 +346,14 @@ public class MovieListing {
                     return;
             }
             System.out.println("Movie is successfully updated");
+            
+            //Show user the updated ver afterwards
+            System.out.println("Title: " + movieDB.get(index).getTitle());
+            System.out.println("Type: " + movieDB.get(index).getType());
+            System.out.println("Date: " + movieDB.get(index).getMovieReleaseDateToString());
+            System.out.println("Duration: " + movieDB.get(index).getRuntime());
+            System.out.println("\n" + movieDB.get(index));
+            
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Invalid input detected, Please try again");
@@ -371,8 +384,9 @@ public class MovieListing {
         ArrayList<Movie> movieDB = MovieController.getMovieDB();
         for (Movie movie : movieDB) {
             System.out.println("Title: " + movie.getTitle());
-            System.out.println("Date: " + movie.getMovieReleaseDateToString());
             System.out.println("Type: " + movie.getType());
+            System.out.println("Date: " + movie.getMovieReleaseDateToString());
+            System.out.println("Duration: " + movie.getRuntime());
             System.out.println(movie);
         }
     }

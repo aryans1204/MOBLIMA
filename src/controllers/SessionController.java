@@ -11,6 +11,8 @@ import java.util.Scanner;
 
 public class SessionController {
     public static void staffUI(Staff s) throws Exception {
+    	if(!s.isAuth())
+    		return;
         Scanner sc = new Scanner(System.in);
 
         boolean exit = false;

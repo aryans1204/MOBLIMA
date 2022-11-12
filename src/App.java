@@ -1,8 +1,10 @@
 package src;
 
+
 import src.controllers.*;
 import src.entities.Customer;
 import src.entities.Staff;
+
 
 import java.nio.file.Paths;
 import java.util.Objects;
@@ -10,11 +12,11 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        MovieController mvc = new MovieController(Paths.get("").toAbsolutePath().toString() + "\\data\\movies.dat");
-        ClientController cl = new ClientController(Paths.get("").toAbsolutePath().toString() + "\\data\\customers.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\staffs.dat");
+        MovieController mvc = new MovieController(Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\movies.dat");
+        ClientController cl = new ClientController(Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\customers.dat", Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\staffs.dat");
         //invalid constructor for ci controller, need two parameters
-        CinemaController ci = new CinemaController(Paths.get("").toAbsolutePath().toString() + "\\data\\cinemas.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\seats.dat");
-        HolidayController h = new HolidayController(Paths.get("").toAbsolutePath().toString() + "\\data\\holidays.dat");
+        CinemaController ci = new CinemaController(Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\cinemas.dat", Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\seats.dat");
+        HolidayController h = new HolidayController(Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\holidays.dat");
 
 
         App.welcomeScreen();
@@ -28,6 +30,8 @@ public class App {
                     "3. Create an Account as Staff\n" +
                     "4. Create an Account as Customer\n" +
                     "5. Exit");
+
+
             option = Integer.parseInt(sc.nextLine());
 
             switch (option) {
