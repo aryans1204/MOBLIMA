@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
-public class MovieListing{
+public class MovieListing {
     public static Movie createMovieListing() {
         Scanner sc = new Scanner(System.in);
         int runtime, option, id;
@@ -28,9 +28,6 @@ public class MovieListing{
         ArrayList<String> casts = new ArrayList<String>();
         try {
             System.out.println("\nCREATE MOVIE");
-
-            System.out.println("Enter movie id: ");
-            id = Integer.parseInt(sc.nextLine());
 
             System.out.println("Enter movie title: ");
             title = sc.nextLine();
@@ -139,7 +136,7 @@ public class MovieListing{
                     System.out.println("Invalid date format, Please try again");
                 }
             }
-            Movie newMovie = new Movie(id, title, type, status, synopsis, director, casts, rating, runtime, releaseDate, 0);
+            Movie newMovie = new Movie(title, type, status, synopsis, director, casts, rating, runtime, releaseDate, 0);
             MovieController.setMovieDB(newMovie);
             System.out.println("Movie List Created.. Going back to previous menu");
             return newMovie;
@@ -170,7 +167,7 @@ public class MovieListing{
                         break;
                     }
                 }
-                System.out.println("Title does not exist. Please try again");
+                if (!exit) System.out.println("Title does not exist. Please try again");
             }
 
             System.out.println("Select movie detail to update");
@@ -331,8 +328,8 @@ public class MovieListing{
 
                     cinema.setShowtime(movieDB.get(index).getTitle(), showtime);
                     ArrayList<Cinema> cinemaDB = CinemaController.getCinemaDB();
-                    for (Cinema c : cinemaDB) {
-                        if (c.getName() == cinema.getName()) c = cinema;
+                    for (int i = 0; i < cinemaDB.size(); i++) {
+                        if (cinemaDB.get(i).getName().equals(cinema.getName())) cinemaDB.set(i, cinema);
                     }
                     CinemaController.setCinemaDB(cinemaDB);
                     break;
@@ -362,8 +359,8 @@ public class MovieListing{
             System.out.println("Enter the title of the movie you would like to remove today");
             title = sc.nextLine();
 
-            for (Movie movie : movieDB) {
-                if (movie.getTitle() == title) movie.setStatus(MovieStatus.END_OF_SHOWING);
+            for (int i = 0; i < movieDB.size(); i++) {
+                if (movieDB.get(i).getTitle().equals(title)) movieDB.get(i).setStatus(MovieStatus.END_OF_SHOWING);
                 System.out.println("Movie successfully removed");
                 break;
             }
@@ -377,13 +374,16 @@ public class MovieListing{
     public static void listMovie() {
         ArrayList<Movie> movieDB = MovieController.getMovieDB();
         for (Movie movie : movieDB) {
-            System.out.println("Title: " + movie.getTitle());
-            System.out.println("Type: " + movie.getType());
+            if (movie.getStatus() != MovieStatus.END_OF_SHOWING) {
+                System.out.println("Title: " + movie.getTitle());
+                System.out.println("Type: " + movie.getType());
 
-            System.out.println("Date: " + movie.getMovieReleaseDateToString());
+                System.out.println("Date: " + movie.getMovieReleaseDateToString());
 
-            System.out.println("Duration: " + movie.getRuntime());
-            System.out.println(movie);
+                System.out.println("Duration: " + movie.getRuntime());
+                System.out.println(movie);
+            }
+
         }
     }
 
@@ -394,7 +394,7 @@ public class MovieListing{
 //        listMovies.sort((o1, o2) -> Double.valueOf(o2.getOverallReview()).compareTo(Double.valueOf(o1.getOverallReview())));
         Collections.sort(listMovies, new Comparator<Movie>() {
             @Override
-            public int compare(Movie o1, Movie o2){
+            public int compare(Movie o1, Movie o2) {
                 return o2.getOverallReview().compareTo(o1.getOverallReview());
             }
         });
@@ -403,7 +403,7 @@ public class MovieListing{
         System.out.println("Overall Rating\tTitle");
         System.out.println("--------------\t-----");
         for (int i = 0; i < 5; i++) {
-            if(sortedMovies.get(i).getOverallReview().equals("0"))
+            if (sortedMovies.get(i).getOverallReview().equals("0"))
                 System.out.println("\t" + "N/A" + "\t" + sortedMovies.get(i).getTitle());
             else
                 System.out.println("\t" + sortedMovies.get(i).getOverallReview() + "\t" + sortedMovies.get(i).getTitle());
@@ -440,10 +440,10 @@ public class MovieListing{
     }
 
     public static void listMoviesByCinema() throws Exception {
-        boolean found=false;
+        boolean found = false;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         ArrayList<Cinema> cinemaDB = CinemaController.getCinemaDB();
-        do{
+        do {
             System.out.println("Enter the name of the Cinema you would like to search");
             System.out.println("Available Cinemas: ");
             for (Cinema cinema : cinemaDB) {
@@ -461,6 +461,6 @@ public class MovieListing{
                 }
             }
             if (!found) System.out.println("Invalid Cinema Name. Please try again.");
-        }while(!found);
+        } while (!found);
     }
 }

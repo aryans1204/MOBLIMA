@@ -105,7 +105,7 @@ public class Customer implements Client, Serializable {
     public void viewBookings() {
         System.out.println("Your past bookings are available here");
         for (Ticket ticket : this.bookings) {
-        	if(ticket != null) System.out.println(ticket.toString());
+            if (ticket != null) System.out.println(ticket.toString());
         }
     }
 
@@ -125,7 +125,7 @@ public class Customer implements Client, Serializable {
     public String getPassword() {
         return password;
     }
-    
+
 
     public int getMobileNumber() {
         return this.mobileNumber;

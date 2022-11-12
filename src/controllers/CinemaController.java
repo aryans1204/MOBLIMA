@@ -89,25 +89,25 @@ public class CinemaController {
     }
 
     public void insertSeatIntoDB(SeatType type, Customer customer, String seatNo) {
-    	ArrayList<Seat> seats = new ArrayList<Seat>();
-		Seat newSeat = new Seat(type, customer, seatNo);
+        ArrayList<Seat> seats = new ArrayList<Seat>();
+        Seat newSeat = new Seat(type, customer, seatNo);
 
         FileOutputStream fos = null;
         ObjectOutputStream out = null;
         File f = new File(seatFileName);
 
         if (f.exists())
-        	seats = this.getAllSeatsFromDB();//Read in existing data in db
+            seats = this.getAllSeatsFromDB();//Read in existing data in db
         else {
             System.out.println("File: " + seatFileName + " does not exist");
             System.out.println("Creating new DB");
         }
         seats.add(newSeat);
         try {
-        	fos = new FileOutputStream(seatFileName);
-			out = new ObjectOutputStream(fos);
-			out.writeObject(seats);
-			out.close();
+            fos = new FileOutputStream(seatFileName);
+            out = new ObjectOutputStream(fos);
+            out.writeObject(seats);
+            out.close();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

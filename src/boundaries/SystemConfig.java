@@ -19,13 +19,14 @@ public class SystemConfig {
         double price = Double.parseDouble(reader.readLine());
         cinema.setTicketPrice(title, price);
         ArrayList<Cinema> cinemaDB = CinemaController.getCinemaDB();
-        for (Cinema c : cinemaDB) {
-            if (c.getName() == cinema.getName()) {
-                c = cinema;
+        for (int i = 0; i < cinemaDB.size(); i++) {
+            if (cinemaDB.get(i).getName().equals(cinema.getName())) {
+                cinemaDB.set(i, cinema);
                 break;
             }
         }
         CinemaController.setCinemaDB(cinemaDB);
+        System.out.println("Ticket price configured successfully");
     }
 
     public static void configHolidays() throws Exception {
@@ -53,6 +54,7 @@ public class SystemConfig {
                     }
                 }
                 HolidayController.setHolidays(localDate);
+                System.out.println("Holiday added successfully");
             } else if (choice == 2) {
                 while (!quit) {
                     try {
@@ -65,6 +67,7 @@ public class SystemConfig {
                     }
                 }
                 HolidayController.removeHolidays(localDate);
+                System.out.println("Holiday removed successfully");
             }
         }
     }

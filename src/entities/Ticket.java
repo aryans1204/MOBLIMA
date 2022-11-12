@@ -1,6 +1,6 @@
-package SC2002Link.src.entities;
+package src.entities;
 
-import SC2002Link.src.controllers.HolidayController;
+import src.controllers.HolidayController;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -142,12 +142,12 @@ public class Ticket implements Serializable {
     public boolean isAHoliday() {
         ArrayList<LocalDate> Holidays = HolidayController.getHolidays();
         LocalDate show_date = showtime.toLocalDate();
-        if(Holidays != null) {
-        for (int i = 0; i < Holidays.size(); i++) {
-            if (Holidays.get(i) == show_date)
-                return true;
+        if (Holidays != null) {
+            for (int i = 0; i < Holidays.size(); i++) {
+                if (Holidays.get(i) == show_date)
+                    return true;
+            }
         }
-       }
         return false;
     }
 

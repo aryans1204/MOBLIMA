@@ -111,8 +111,9 @@ public class BookingUI {
                 index = i;
                 break;
             }
-            if(index==-1) System.out.println("Movie not found. Please try again");
-        }while(index==-1);
+            if (index == -1) System.out.println("Movie not found. Please try again");
+        }
+        while (index == -1) ;
 
         System.out.println("Enter your rating for the movie, on a scale of 1.0 - 5.0 ");
         int rating = Integer.parseInt(sc.nextLine());
