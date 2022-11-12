@@ -106,5 +106,22 @@ public class CinemaController {
     public static void setCinemaDB(ArrayList<Cinema> cinemaDB) {
         CinemaController.cinemaDB = cinemaDB;
     }
-    
+
+    public ArrayList<Seat> getAllSeatsFromDB() {
+        ArrayList<Seat> seats = null;
+        FileInputStream fis = null;
+        ObjectInputStream in = null;
+        try {
+            fis = new FileInputStream(seatFileName);
+            in = new ObjectInputStream(fis);
+            seats = (ArrayList<Seat>) in.readObject();
+            in.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        return seats;
+    }
+
 }
