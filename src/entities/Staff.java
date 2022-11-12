@@ -1,6 +1,6 @@
-package src.entities;
+package SC2002Link.src.entities;
 
-import src.controllers.ClientController;
+import SC2002Link.src.controllers.ClientController;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,7 +25,6 @@ public class Staff implements Client, Serializable {
 
     public boolean login(String username) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        username = reader.readLine();
         System.out.println("Enter password: ");
         String password = reader.readLine();
         ArrayList<Staff> staffs = ClientController.getStaffList();
@@ -35,7 +34,7 @@ public class Staff implements Client, Serializable {
                 System.out.println("Authenticated successfully");
 
                 //same as customer class, auth has to be static in a static method. either that or method becomes non static
-                auth = true;
+                setAuth(true);
                 return true;
             }
         }
@@ -82,7 +81,16 @@ public class Staff implements Client, Serializable {
         return this.cinema;
     }
 
-    //Setters
+    public boolean isAuth() {
+		return auth;
+	}
+
+
+	//Setters
+    public void setAuth(boolean auth) {
+		this.auth = auth;
+	}
+    
     public void setUsername(String username) {
         this.username = username;
     }

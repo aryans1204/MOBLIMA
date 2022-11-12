@@ -1,10 +1,10 @@
-package src.controllers;
+package SC2002Link.src.controllers;
 
-import src.boundaries.BookingUI;
-import src.boundaries.MovieListing;
-import src.boundaries.SystemConfig;
-import src.entities.Customer;
-import src.entities.Staff;
+import SC2002Link.src.boundaries.BookingUI;
+import SC2002Link.src.boundaries.MovieListing;
+import SC2002Link.src.boundaries.SystemConfig;
+import SC2002Link.src.entities.Customer;
+import SC2002Link.src.entities.Staff;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -12,6 +12,8 @@ import java.util.Scanner;
 
 public class SessionController {
     public static void staffUI(Staff s) throws Exception {
+    	if(!s.isAuth())
+    		return;
         Scanner sc = new Scanner(System.in);
 
         boolean exit = false;
@@ -25,8 +27,8 @@ public class SessionController {
                     "6. Search Movie\n" +
                     "7. List Top 5 Movies by TotalSales\n" +
                     "8. Configure Ticket Prices for a Movie\n" +
-                    "9.Configure holidays" +
-                    "10. Exit" +
+                    "9.Configure holidays\n" +
+                    "10. Exit\n" +
                     "Select option: ");
             int option = Integer.parseInt(sc.nextLine());
             switch (option) {

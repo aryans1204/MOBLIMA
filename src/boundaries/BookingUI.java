@@ -1,8 +1,8 @@
-package src.boundaries;
+package SC2002Link.src.boundaries;
 
-import src.controllers.CinemaController;
-import src.controllers.MovieController;
-import src.entities.*;
+import SC2002Link.src.controllers.CinemaController;
+import SC2002Link.src.controllers.MovieController;
+import SC2002Link.src.entities.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -65,6 +65,8 @@ public class BookingUI {
         }
         for (Cinema cinema : cinemaDB) {
             if (Objects.equals(cinema.getName(), cinemaName)) {
+//            	System.out.println(cinema.getName());
+//            	System.out.println(title + showtime.toString());
                 ArrayList<Seat> seats = cinema.getSeats(title + showtime.toString());
                 cinema.printLayout(title, showtime);
                 String seatNo;
@@ -78,7 +80,7 @@ public class BookingUI {
                 cinema.setCustomer(customer, title + showtime.toString(), index);
                 Movie mov = movieDB.get(0);
                 for (Movie movie : movieDB) {
-                    if (movie.getTitle() == title) {
+                    if (movie.getTitle().equals(title)) {
                         mov = movie;
                         break;
                     }

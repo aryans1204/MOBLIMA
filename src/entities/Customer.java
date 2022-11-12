@@ -1,6 +1,6 @@
-package src.entities;
+package SC2002Link.src.entities;
 
-import src.controllers.ClientController;
+import SC2002Link.src.controllers.ClientController;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,7 +40,7 @@ public class Customer implements Client, Serializable {
         tempPassword = reader.readLine();
 
         ArrayList<Customer> customers = new ArrayList<>();
-        customers = cl.getCustomerFromDB();  //Fetch all customers details from DB
+        customers = ClientController.getCustomerList();  //Fetch all customers details from DB
         for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getUsername().equals(tempUsername) && customers.get(i).getPassword().equals(tempPassword)) {
                 System.out.println("Authenticated successfully");
@@ -99,7 +99,7 @@ public class Customer implements Client, Serializable {
     public void viewBookings() {
         System.out.println("Your past bookings are available here");
         for (Ticket ticket : this.bookings) {
-            System.out.println(ticket.toString());
+        	if(ticket != null) System.out.println(ticket.toString());
         }
     }
 

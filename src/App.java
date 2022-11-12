@@ -1,8 +1,10 @@
-package src;
+package SC2002Link.src;
 
-import entities.Customer;
-import entities.Staff;
-import controllers.*;
+import SC2002Link.src.entities.Cinema;
+import SC2002Link.src.entities.Customer;
+import SC2002Link.src.entities.Seat;
+import SC2002Link.src.entities.Staff;
+import SC2002Link.src.controllers.*; 
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -11,11 +13,11 @@ import java.util.Objects;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        MovieController mvc = new MovieController(Paths.get("").toAbsolutePath().toString() + "\\data\\movies.dat");
-        ClientController cl = new ClientController(Paths.get("").toAbsolutePath().toString() + "\\data\\customers.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\staffs.dat");
+        MovieController mvc = new MovieController(Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\movies.dat");
+        ClientController cl = new ClientController(Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\customers.dat", Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\staffs.dat");
         //invalid constructor for ci controller, need two parameters
-        CinemaController ci = new CinemaController(Paths.get("").toAbsolutePath().toString() + "\\data\\cinemas.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\seats.dat");
-        HolidayController h = new HolidayController(Paths.get("").toAbsolutePath().toString() + "\\data\\holidays.dat");
+        CinemaController ci = new CinemaController(Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\cinemas.dat", Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\seats.dat");
+        HolidayController h = new HolidayController(Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\holidays.dat");
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         App.welcomeScreen();
@@ -29,7 +31,6 @@ public class App {
                     "4. Create an Account as Customer" +
                     "5. Exit");
             option = Integer.parseInt(reader.readLine());
-
             switch (option) {
                 case 1:
                     System.out.println("Please enter your username");
@@ -50,7 +51,7 @@ public class App {
                     username = reader.readLine();
                     Customer c = null;
                     for (Customer customer : ClientController.getCustomerList()) {
-                        if (customer.getUsername() == username) c = customer;
+                        if (customer.getUsername().equals(username)) c = customer;
                     }
                     if (c == null) {
                         System.out.println("Username does not exist. Try again at a later time");
