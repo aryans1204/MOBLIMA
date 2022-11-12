@@ -116,107 +116,94 @@ public class Movie implements Serializable {
         return movieReleaseDate.format(DateTimeFormatter.ofPattern("EEEE, dd/MM/yyyy"));
     }
 
-    public int getTotalSales() {
-        return totalSales;
-    }
+	public int getTotalSales(){
+		return totalSales;
+	}
 
 
-    //Setters
-    public void setId(int id) {
-        this.id = id;
-    }
+	//Setters
+	public void setId(int id) {
+		this.id = id;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public void setType(MovieType type) {
+		this.type = type;
+	}
+	public void setStatus(MovieStatus status) {
+		this.status = status;
+	}
+	public void setSynopsis(String synopsis) {
+		this.synopsis = synopsis;
+	}
+	public void setDirector(String director) {
+		this.director = director;
+	}
+	public void setCasts(ArrayList<String> casts) {
+		this.casts = casts;
+	}
+	public void setRating(String rating) {
+		this.rating = rating;
+	}
+	public void setReviews(ArrayList<Review> reviews) {
+		this.reviews = reviews;
+	}
+	public void addReview(Review review) {
+		this.reviews.add(review);
+	}
+	public void setCinemas(ArrayList<Cinema> cinemas) {
+		this.cinemas = cinemas;
+	}
+	public void setRuntime(int runtime) {
+		this.runtime = runtime;
+	}
+	public void setMovieReleaseDate(LocalDate movieReleaseDate) {
+		this.movieReleaseDate = movieReleaseDate;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setType(MovieType type) {
-        this.type = type;
-    }
-
-    public void setStatus(MovieStatus status) {
-        this.status = status;
-    }
-
-    public void setSynopsis(String synopsis) {
-        this.synopsis = synopsis;
-    }
-
-    public void setDirector(String director) {
-        this.director = director;
-    }
-
-    public void setCasts(ArrayList<String> casts) {
-        this.casts = casts;
-    }
-
-    public void setRating(String rating) {
-        this.rating = rating;
-    }
-
-    public void setReviews(ArrayList<Review> reviews) {
-        this.reviews = reviews;
-    }
-
-    public void addReview(Review review) {
-        this.reviews.add(review);
-    }
-
-    public void setCinemas(ArrayList<Cinema> cinemas) {
-        this.cinemas = cinemas;
-    }
-
-    public void setRuntime(int runtime) {
-        this.runtime = runtime;
-    }
-
-    public void setMovieReleaseDate(LocalDate movieReleaseDate) {
-        this.movieReleaseDate = movieReleaseDate;
-    }
-
-    public void setTotalSales(int totalSales) {
-        this.totalSales = getTotalSales() + totalSales;
-    }
-
-    //Methods
-    public String getOverallReview() { //method to obtain the average rating of the movie
-        double averageRating, totalRating = 0.0;
-        DecimalFormat df = new DecimalFormat("#.##");
-
-        if (this.reviews.size() >= 1) {
-            for (Review review : reviews)
-                totalRating += review.getNumRating();
-
-            averageRating = totalRating / this.reviews.size();
-            return df.format(averageRating);
-        }
-
-        return "N/A";
-    }
-
-    @Override
-    public String toString() {
-        String castDetail = "", reviewDetail = "", movieDetail = "";
-        for (String cast : this.casts)
-            castDetail += cast + ",";
-        castDetail = castDetail.substring(0, castDetail.length() - 1); // Remove the last appended ,
-
-        if (this.reviews.size() > 0) {
-            for (Review review : this.reviews) {
-                reviewDetail += review.toString() + "\n----------------\n";
-            }
-        } else
-            reviewDetail = "N/A\n";
-
-        movieDetail = "Movie Title: " + this.getTitle() + "\n"
-                + "Showing Status: " + this.getStatus().toString() + "\n"
-                + "Synopsis : " + this.getSynopsis() + "\n"
-                + "Director : " + this.getDirector() + "\n"
-                + "Casts : " + castDetail + "\n"
-                + "Overall rating(1-5): " + this.getOverallReview() + "\n"
-                + "Past reviews : \n" + reviewDetail;
-        return movieDetail;
-    }
-
-
+	public void setTotalSales(int totalSales){
+		this.totalSales = getTotalSales() + totalSales;
+	}
+	
+	//Methods
+	public String getOverallReview() { //method to obtain the average rating of the movie
+		double averageRating, totalRating = 0.0;
+		DecimalFormat df = new DecimalFormat("#.##");
+		
+		if(this.reviews.size() > 0) {
+			for(Review review : reviews)
+				totalRating+= review.getNumRating();
+			
+			averageRating = totalRating/this.reviews.size();
+			return df.format(averageRating);
+		}
+		
+		return "0";
+	}
+	
+	@Override
+	public String toString() {
+		String castDetail = "", reviewDetail = "", movieDetail = "";
+		for(String cast: this.casts)
+			castDetail += cast + ",";
+		castDetail = castDetail.substring(0, castDetail.length()-1); // Remove the last appended ,
+		
+		if(this.reviews.size() > 0) {
+			for(Review review: this.reviews) {
+				reviewDetail += review.toString() + "\n----------------\n";
+			}
+		}else
+			reviewDetail = "N/A\n";
+		
+		movieDetail = "Movie Title: " + this.getTitle() + "\n"
+					+ "Showing Status: " + this.getStatus().toString() + "\n"
+					+ "Synopsis : " + this.getSynopsis() + "\n"
+					+ "Director : " + this.getDirector() + "\n"
+					+ "Casts : " + castDetail + "\n"
+					+ "Overall rating(1-5): " + this.getOverallReview() + "\n"
+					+ "Past reviews : \n" + reviewDetail;
+		return movieDetail;
+	}
+	
 }

@@ -35,6 +35,7 @@ public class Customer implements Client, Serializable {
     public boolean login(String tempUsername) throws IOException {
         int tries = 9;
         String tempPassword;
+
         Scanner sc = new Scanner(System.in);
         System.out.println("Please enter your password: ");
         tempPassword = sc.nextLine();
@@ -43,15 +44,19 @@ public class Customer implements Client, Serializable {
         customers = ClientController.getCustomerList();  //Fetch all customers details from DB
         for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getUsername().equals(tempUsername) && customers.get(i).getPassword().equals(tempPassword)) {
+
                 System.out.println("Authenticated successfully");
 
-                //auth is non static, cannot be used in a static method. IDE suggests declaring auth as static or make method 'non-static'
+                //same as customer class, auth has to be static in a static method. either that or method becomes non static
                 auth = true;
                 return true;
             }
         }
-        System.out.println("username or password incorrect. Please try again later.");
+
+        System.out.println("Username or password incorrect. Please try again.");
+
         return false;
+
     }
 
     public boolean createAccount(ArrayList<Staff> staffDB, ArrayList<Customer> customerDB) throws IOException {

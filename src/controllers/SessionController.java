@@ -4,6 +4,7 @@ import src.boundaries.BookingUI;
 import src.boundaries.MovieListing;
 import src.boundaries.SystemConfig;
 import src.entities.Customer;
+import src.entities.Movie;
 import src.entities.Staff;
 import src.entities.Ticket;
 
@@ -68,11 +69,11 @@ public class SessionController {
     }
 
     public static void customerUI(Customer c) throws Exception {
-        
+    
         boolean exit = false;
         Scanner sc = new Scanner(System.in);
         while (!exit) {
-            System.out.println("How can we help you today\n" +
+            System.out.println("How can we help you today?\n" +
                     "1. Search for a Movie\n" +
                     "2. List Movies by Cinema\n" +
                     "3. Check seat availability of a movie at a cinema for a given showtime\n" +
@@ -96,7 +97,8 @@ public class SessionController {
                     Ticket t = BookingUI.makeBooking(c);
                     if (t != null) {
                         c.addBookings(BookingUI.makeBooking(c));
-                        System.out.println("Ticket booked succesfully");
+
+                        System.out.println("Ticket booked successfully");
                     } else {
                         System.out.println("There was an error in booking your ticket. please try again");
                     }
@@ -105,7 +107,21 @@ public class SessionController {
                     c.viewBookings();
                     break;
                 case 6:
-                    MovieListing.listBySales();
+                    int choice = 0;
+                    do{
+                        System.out.println("1. Based on total sales");
+                        System.out.println("2. Based on reviews");
+                        System.out.println("3. Back");
+                        choice= sc.nextInt();
+                        if(choice==1) {
+                            MovieListing.listBySales();
+                            break;
+                        }
+                        if(choice==2) {
+                            MovieListing.listByReview();
+                            break;
+                        }
+                    }while(choice!=3);
                     break;
                 case 7:
                     BookingUI.addReview(c);

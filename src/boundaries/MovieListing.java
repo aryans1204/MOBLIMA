@@ -1,11 +1,11 @@
-package SC2002Link.src.boundaries;
+package src.boundaries;
 
-import SC2002Link.src.controllers.CinemaController;
-import SC2002Link.src.controllers.MovieController;
-import SC2002Link.src.entities.Cinema;
-import SC2002Link.src.entities.Movie;
-import SC2002Link.src.entities.MovieStatus;
-import SC2002Link.src.entities.MovieType;
+import src.controllers.CinemaController;
+import src.controllers.MovieController;
+import src.entities.Cinema;
+import src.entities.Movie;
+import src.entities.MovieStatus;
+import src.entities.MovieType;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,12 +14,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
-public class MovieListing {
+public class MovieListing{
     public static Movie createMovieListing() {
         Scanner sc = new Scanner(System.in);
         int runtime, option, id;
@@ -330,11 +327,9 @@ public class MovieListing {
                             System.out.println("Invalid date format, Please try again");
                         }
                     }
-                    ArrayList<LocalDateTime> showTimes = cinema.getShowtimes(movieDB.get(index).getTitle());
-                    for(LocalDateTime dt : showTimes) {
-                    	
-                    }
-//                    cinema.setShowtime(movieDB.get(index).getTitle(), showtime);
+
+
+                    cinema.setShowtime(movieDB.get(index).getTitle(), showtime);
                     ArrayList<Cinema> cinemaDB = CinemaController.getCinemaDB();
                     for (Cinema c : cinemaDB) {
                         if (c.getName() == cinema.getName()) c = cinema;
@@ -346,14 +341,13 @@ public class MovieListing {
                     return;
             }
             System.out.println("Movie is successfully updated");
-            
-            //Show user the updated ver afterwards
+
             System.out.println("Title: " + movieDB.get(index).getTitle());
             System.out.println("Type: " + movieDB.get(index).getType());
             System.out.println("Date: " + movieDB.get(index).getMovieReleaseDateToString());
             System.out.println("Duration: " + movieDB.get(index).getRuntime());
             System.out.println("\n" + movieDB.get(index));
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Invalid input detected, Please try again");
@@ -385,7 +379,9 @@ public class MovieListing {
         for (Movie movie : movieDB) {
             System.out.println("Title: " + movie.getTitle());
             System.out.println("Type: " + movie.getType());
+
             System.out.println("Date: " + movie.getMovieReleaseDateToString());
+
             System.out.println("Duration: " + movie.getRuntime());
             System.out.println(movie);
         }
@@ -393,16 +389,24 @@ public class MovieListing {
 
     public static void listByReview() {
         ArrayList<Movie> movieDB = MovieController.getMovieDB();
-        List<Movie> listMovies = movieDB;
+        ArrayList<Movie> listMovies = movieDB;
 
-        listMovies.sort((o1, o2) -> Double.valueOf(o2.getOverallReview()).compareTo(Double.valueOf(o1.getOverallReview())));
-
+//        listMovies.sort((o1, o2) -> Double.valueOf(o2.getOverallReview()).compareTo(Double.valueOf(o1.getOverallReview())));
+        Collections.sort(listMovies, new Comparator<Movie>() {
+            @Override
+            public int compare(Movie o1, Movie o2){
+                return o2.getOverallReview().compareTo(o1.getOverallReview());
+            }
+        });
         ArrayList<Movie> sortedMovies = new ArrayList<Movie>(listMovies);
         System.out.println("Top 5 Movies by Overall Rating\n");
         System.out.println("Overall Rating\tTitle");
         System.out.println("--------------\t-----");
         for (int i = 0; i < 5; i++) {
-            System.out.println("\t" + sortedMovies.get(i).getOverallReview() + "\t" + sortedMovies.get(i).getTitle());
+            if(sortedMovies.get(i).getOverallReview().equals("0"))
+                System.out.println("\t" + "N/A" + "\t" + sortedMovies.get(i).getTitle());
+            else
+                System.out.println("\t" + sortedMovies.get(i).getOverallReview() + "\t" + sortedMovies.get(i).getTitle());
         }
     }
 
@@ -436,18 +440,27 @@ public class MovieListing {
     }
 
     public static void listMoviesByCinema() throws Exception {
+        boolean found=false;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         ArrayList<Cinema> cinemaDB = CinemaController.getCinemaDB();
-        System.out.println("Enter the name of the Cinema you would like to search");
-        String cinemaName = reader.readLine();
-        for (Cinema cinema : cinemaDB) {
-            if (Objects.equals(cinema.getName(), cinemaName)) {
-                ArrayList<Movie> movies = cinema.getMovies();
-                for (Movie movie : movies) {
-                    System.out.println(movie.toString());
-                }
-                break;
+        do{
+            System.out.println("Enter the name of the Cinema you would like to search");
+            System.out.println("Available Cinemas: ");
+            for (Cinema cinema : cinemaDB) {
+                System.out.println(cinema.getName());
             }
-        }
+            String cinemaName = reader.readLine();
+            for (Cinema cinema : cinemaDB) {
+                if (cinema.getName().equals(cinemaName)) {
+                    ArrayList<Movie> movies = cinema.getMovies();
+                    for (Movie movie : movies) {
+                        System.out.println(movie.toString());
+                    }
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) System.out.println("Invalid Cinema Name. Please try again.");
+        }while(!found);
     }
 }
