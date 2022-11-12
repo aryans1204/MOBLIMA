@@ -17,7 +17,7 @@ import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class MovieListing {
-    public static Movie createMovieListing() {
+    public static Movie createMovieListing(String cinemaName) {
         Scanner sc = new Scanner(System.in);
         int runtime, option, id;
         String title, synopsis, director, rating;
@@ -138,6 +138,8 @@ public class MovieListing {
             }
             Movie newMovie = new Movie(title, type, status, synopsis, director, casts, rating, runtime, releaseDate, 0);
             MovieController.setMovieDB(newMovie);
+            ArrayList<Cinema> cinemaDB = CinemaController.getCinemaDB();
+
             System.out.println("Movie List Created.. Going back to previous menu");
             return newMovie;
         } catch (Exception e) {
@@ -153,7 +155,7 @@ public class MovieListing {
         ArrayList<Movie> movieDB = MovieController.getMovieDB();
         int option;
         boolean exit = false, success = false;
-
+        Movie mov;
         try {
             System.out.println("\nMOVIE UPDATE");
             int index = 0;
@@ -260,7 +262,7 @@ public class MovieListing {
                                 System.out.println("Wrong input!, Please try again");
                         }
                     }
-                    Movie mov = movieDB.get(index);
+                    mov = movieDB.get(index);
                     mov.setStatus(status);
                     movieDB.set(index, mov);
                     MovieController.setMovieDB(movieDB);
@@ -268,14 +270,18 @@ public class MovieListing {
                 case 4:
                     System.out.println("Enter new movie's synopsis: ");
                     String synopsis = sc.nextLine();
-                    movieDB.get(index).setSynopsis(synopsis);
+                    mov = movieDB.get(index);
+                    mov.setSynopsis(synopsis);
+                    movieDB.set(index, mov);
                     MovieController.setMovieDB(movieDB);
                     break;
 
                 case 5:
                     System.out.println("Enter new movie's director: ");
                     String director = sc.nextLine();
-                    movieDB.get(index).setDirector(director);
+                    mov = movieDB.get(index);
+                    mov.setDirector(director);
+                    movieDB.set(index, mov);
                     MovieController.setMovieDB(movieDB);
                     break;
 
@@ -297,21 +303,27 @@ public class MovieListing {
                         }
                         exit = true;
                     }
-                    movieDB.get(index).setCasts(casts);
+                    mov = movieDB.get(index);
+                    mov.setCasts(casts);
+                    movieDB.set(index, mov);
                     MovieController.setMovieDB(movieDB);
                     break;
 
                 case 7:
                     System.out.println("Enter new movie rating (G / PG / M / R / TBC) :");
                     String rating = sc.nextLine();
-                    movieDB.get(index).setRating(rating);
+                    mov = movieDB.get(index);
+                    mov.setRating(rating);
+                    movieDB.set(index, mov);
                     MovieController.setMovieDB(movieDB);
                     break;
 
                 case 8:
                     System.out.println("Enter new movie duration (mins): ");
                     int runtime = Integer.parseInt(sc.nextLine());
-                    movieDB.get(index).setRuntime(runtime);
+                    mov = movieDB.get(index);
+                    mov.setRuntime(runtime);
+                    movieDB.set(index, mov);
                     MovieController.setMovieDB(movieDB);
                     break;
 
@@ -333,9 +345,9 @@ public class MovieListing {
                         }
                     }
                     ArrayList<LocalDateTime> showtimes = cinema.getShowtimes(selectedTitle);
-                    for(int i = 0; i < showtimes.size(); i++) {
-                    	if(showtimes.get(i).isEqual(showtime)) {
-                    		exit = false;
+                    for (int i = 0; i < showtimes.size(); i++) {
+                        if (showtimes.get(i).isEqual(showtime)) {
+                            exit = false;
                             while (!exit) {
                                 try {
                                     System.out.println("Enter the new showtime e.g (20/11/2022 09:00AM): ");
@@ -345,8 +357,8 @@ public class MovieListing {
                                     System.out.println("Invalid date format, Please try again");
                                 }
                             }
-                    		showtimes.set(i, newShowTime);
-                    	}
+                            showtimes.set(i, newShowTime);
+                        }
                     }
                     cinema.updateShowtime(selectedTitle, showtimes);
                     ArrayList<Cinema> cinemaDB = CinemaController.getCinemaDB();
@@ -386,12 +398,24 @@ public class MovieListing {
                     Movie mov = movieDB.get(i);
                     mov.setStatus(MovieStatus.END_OF_SHOWING);
                     movieDB.set(i, mov);
-
+                    MovieController.setMovieDB(movieDB);
+                    ArrayList<Cinema> cinemaDB = CinemaController.getCinemaDB();
+                    for (int k = 0; k < cinemaDB.size(); k++) {
+                        ArrayList<Movie> moviez = cinemaDB.get(k).getMovies();
+                        for (int j = 0; j < moviez.size(); j++) {
+                            if (moviez.get(j).getTitle().equals(title)) {
+                                Movie movs = moviez.get(j);
+                                movs = mov;
+                                moviez.set(j, movs);
+                                CinemaController.setCinemaDB(cinemaDB);
+                                break;
+                            }
+                        }
+                    }
+                    break;
                 }
-                System.out.println("Movie successfully removed");
-                MovieController.setMovieDB(movieDB);
-                break;
             }
+            System.out.println("Movie successfully removed");
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Invalid input detected, Please try again");
@@ -444,7 +468,7 @@ public class MovieListing {
         System.out.println("Enter Movie title you would like to search");
         String title = reader.readLine();
         for (Movie mov : movieDB) {
-            if (Objects.equals(mov.getTitle(), title)) {
+            if (Objects.equals(mov.getTitle(), title) && mov.getStatus() != MovieStatus.END_OF_SHOWING) {
                 System.out.println(mov);
                 return;
             }
@@ -487,7 +511,9 @@ public class MovieListing {
                 if (cinema.getName().equals(cinemaName)) {
                     ArrayList<Movie> movies = cinema.getMovies();
                     for (Movie movie : movies) {
-                        System.out.println(movie.toString());
+                        if (movie.getStatus() != MovieStatus.END_OF_SHOWING) {
+                            System.out.println(movie.toString());
+                        }
                     }
                     found = true;
                     break;

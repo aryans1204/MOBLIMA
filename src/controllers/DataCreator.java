@@ -13,10 +13,10 @@ public class DataCreator {
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-
-        CinemaController cinema = new CinemaController(Paths.get("").toAbsolutePath().toString() + "\\data\\cinemas.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\seats.dat");
-        ClientController client = new ClientController(Paths.get("").toAbsolutePath().toString() + "\\data\\customers.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\staffs.dat");
-        MovieController movie = new MovieController(Paths.get("").toAbsolutePath().toString() + "\\data\\movies.dat");
+        System.out.println(Paths.get("").toAbsolutePath().toString());
+        CinemaController cinema = new CinemaController(Paths.get("").toAbsolutePath().toString() + "/data/cinemas.dat", Paths.get("").toAbsolutePath().toString() + "/data/seats.dat");
+        ClientController client = new ClientController(Paths.get("").toAbsolutePath().toString() + "/data/customers.dat", Paths.get("").toAbsolutePath().toString() + "/data/staffs.dat");
+        MovieController movie = new MovieController(Paths.get("").toAbsolutePath().toString() + "/data/movies.dat");
 
         //Create 12 MOVIES
         //Black panther

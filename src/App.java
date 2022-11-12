@@ -11,11 +11,11 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        MovieController mvc = new MovieController(Paths.get("").toAbsolutePath().toString() + "\\data\\movies.dat");
-        ClientController cl = new ClientController(Paths.get("").toAbsolutePath().toString() + "\\data\\customers.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\staffs.dat");
+        MovieController mvc = new MovieController(Paths.get("").toAbsolutePath().toString() + "/data/movies.dat");
+        ClientController cl = new ClientController(Paths.get("").toAbsolutePath().toString() + "/data/customers.dat", Paths.get("").toAbsolutePath().toString() + "/data/staffs.dat");
         //invalid constructor for ci controller, need two parameters
-        CinemaController ci = new CinemaController(Paths.get("").toAbsolutePath().toString() + "\\data\\cinemas.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\seats.dat");
-        HolidayController h = new HolidayController(Paths.get("").toAbsolutePath().toString() + "\\data\\holidays.dat");
+        CinemaController ci = new CinemaController(Paths.get("").toAbsolutePath().toString() + "/data/cinemas.dat", Paths.get("").toAbsolutePath().toString() + "/data/seats.dat");
+        HolidayController h = new HolidayController(Paths.get("").toAbsolutePath().toString() + "/data/holidays.dat");
 
 
         App.welcomeScreen();

@@ -4,7 +4,6 @@ import src.boundaries.BookingUI;
 import src.boundaries.MovieListing;
 import src.boundaries.SystemConfig;
 import src.entities.Customer;
-import src.entities.Movie;
 import src.entities.Staff;
 import src.entities.Ticket;
 
@@ -12,8 +11,8 @@ import java.util.Scanner;
 
 public class SessionController {
     public static void staffUI(Staff s) throws Exception {
-    	if(!s.isAuth())
-    		return;
+        if (!s.isAuth())
+            return;
         Scanner sc = new Scanner(System.in);
 
         boolean exit = false;
@@ -33,7 +32,7 @@ public class SessionController {
             int option = Integer.parseInt(sc.nextLine());
             switch (option) {
                 case 1:
-                    s.getCinema().updateMovies(MovieListing.createMovieListing());
+                    s.getCinema().updateMovies(MovieListing.createMovieListing(s.getCinema().getName()));
                     break;
                 case 2:
                     MovieListing.updateMovieListing(s.getCinema());
@@ -69,7 +68,7 @@ public class SessionController {
     }
 
     public static void customerUI(Customer c) throws Exception {
-        if(!c.isAuth())
+        if (!c.isAuth())
             return;
         boolean exit = false;
         Scanner sc = new Scanner(System.in);
@@ -109,20 +108,20 @@ public class SessionController {
                     break;
                 case 6:
                     int choice = 0;
-                    do{
+                    do {
                         System.out.println("1. Based on total sales");
                         System.out.println("2. Based on reviews");
                         System.out.println("3. Back");
-                        choice= sc.nextInt();
-                        if(choice==1) {
+                        choice = sc.nextInt();
+                        if (choice == 1) {
                             MovieListing.listBySales();
                             break;
                         }
-                        if(choice==2) {
+                        if (choice == 2) {
                             MovieListing.listByReview();
                             break;
                         }
-                    }while(choice!=3);
+                    } while (choice != 3);
                     break;
                 case 7:
                     BookingUI.addReview(c);
