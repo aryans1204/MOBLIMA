@@ -69,11 +69,12 @@ public class SessionController {
     }
 
     public static void customerUI(Customer c) throws Exception {
-    
+        if(!c.isAuth())
+            return;
         boolean exit = false;
         Scanner sc = new Scanner(System.in);
         while (!exit) {
-            System.out.println("How can we help you today?\n" +
+            System.out.println("\nHow can we help you today?\n" +
                     "1. Search for a Movie\n" +
                     "2. List Movies by Cinema\n" +
                     "3. Check seat availability of a movie at a cinema for a given showtime\n" +
@@ -96,8 +97,7 @@ public class SessionController {
                 case 4:
                     Ticket t = BookingUI.makeBooking(c);
                     if (t != null) {
-                        c.addBookings(BookingUI.makeBooking(c));
-
+                        c.addBookings(t);
                         System.out.println("Ticket booked successfully");
                     } else {
                         System.out.println("There was an error in booking your ticket. please try again");

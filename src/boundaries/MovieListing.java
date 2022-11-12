@@ -436,10 +436,15 @@ public class MovieListing {
 
     public static void listBySales() {
         ArrayList<Movie> movieDB = MovieController.getMovieDB();
-        List<Movie> listMoviesSales = movieDB;
+        ArrayList<Movie> listMoviesSales = movieDB;
 
         listMoviesSales.sort((o1, o2) -> Double.compare(o2.getTotalSales(), o1.getTotalSales()));
-
+        Collections.sort(listMoviesSales, new Comparator<Movie>() {
+            @Override
+            public int compare(Movie o1, Movie o2) {
+                return String.valueOf(o2.getTotalSales()).compareTo(String.valueOf(o1.getTotalSales()));
+            }
+        });
         ArrayList<Movie> sortedMoviesSales = new ArrayList<Movie>(listMoviesSales);
         System.out.println("Top 5 Movies by Total Sales\n");
         System.out.println("Overall Rating\tTitle");
