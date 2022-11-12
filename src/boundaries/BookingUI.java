@@ -1,8 +1,8 @@
-package SC2002Link.src.boundaries;
+package src.boundaries;
 
-import SC2002Link.src.controllers.CinemaController;
-import SC2002Link.src.controllers.MovieController;
-import SC2002Link.src.entities.*;
+import src.controllers.CinemaController;
+import src.controllers.MovieController;
+import src.entities.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
