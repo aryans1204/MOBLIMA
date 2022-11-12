@@ -2,17 +2,18 @@ package src.controllers;
 
 import src.entities.*;
 
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.nio.file.Paths;
+
 public class DataCreator {
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-    	
+
         CinemaController cinema = new CinemaController(Paths.get("").toAbsolutePath().toString() + "\\data\\cinemas.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\seats.dat");
         ClientController client = new ClientController(Paths.get("").toAbsolutePath().toString() + "\\data\\customers.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\staffs.dat");
         MovieController movie = new MovieController(Paths.get("").toAbsolutePath().toString() + "\\data\\movies.dat");
@@ -152,95 +153,94 @@ public class DataCreator {
             cinema2St.put(cinema2Mv.get(i).getTitle(), showtimes);
             cinema3St.put(cinema3Mv.get(i).getTitle(), showtimes);
         }
-        
+
         //Create Seats
-        String alphabet="";
-        for(int i = 1; i <= 10; i++) {
-        	switch(i) {
-        	  case 1:
-	        	    alphabet = "A";
-	        	    break;
-        	  case 2:
-	        		alphabet = "B";
-	        	    break;
-        	  case 3:
-	        		alphabet = "C";
-	          	    break;
-        	  case 4:
-        		  	alphabet = "D";
-	          	    break;
-        	  case 5:
-        		  	alphabet = "E";
-	          	    break;
-        	  case 6:
-        		  	alphabet = "F";
-	          	    break;
-        	  case 7:
-        		  	alphabet = "G";
-	          	    break;
-        	  case 8:
-      		  		alphabet = "H";
-	          	    break;
-        	  case 9:
-      		  		alphabet = "I";
-	          	    break;
-        	  case 10:
-      		  		alphabet = "J";
-	          	    break;
-        	}
-        	for(int j = 1; j <= 16; j++) {
-        		if(i < 8) {
-        			if(alphabet.equals("C") && j == 6)
-            			continue;
-            		if(alphabet.equals("D") && j == 12)
-            			continue;
-            		if(alphabet.equals("E") && j == 3)
-            			continue;
-            		if(alphabet.equals("E") && j == 4)
-            			continue;
-            		if(alphabet.equals("E") && j == 15)
-            			continue;
-            		if(alphabet.equals("F") && j == 8)
-            			continue;
-            		if(alphabet.equals("F") && j == 9)
-            			continue;
-            		if(alphabet.equals("F") && j == 10)
-            			continue;
-            		if(j < 10) 
-            			cinema.insertSeatIntoDB(SeatType.STANDARD, null, alphabet + "0" + j);
-            		else 
-            			cinema.insertSeatIntoDB(SeatType.STANDARD, null, alphabet + j);
-        		}else {
-        			if(alphabet.equals("I") && j == 3)
-            			continue;
-            		if(alphabet.equals("I") && j == 4)
-            			continue;
-            		if(alphabet.equals("I") && j == 7)
-            			continue;
-            		if(alphabet.equals("J") && j == 11)
-            			continue;
-            		if(j < 10) {
-            			if(j < 5)
-            				cinema.insertSeatIntoDB(SeatType.STANDARD, null, alphabet + "0" + j);
-            			else
-            				if(!alphabet.equals("J"))
-            					cinema.insertSeatIntoDB(SeatType.GOLD, null, alphabet + "0" + j);
-            				else
-            					cinema.insertSeatIntoDB(SeatType.PLATINUM, null, alphabet + "0" + j);
-            		}else {
-            			if(j < 13)
-            				if(!alphabet.equals("J"))
-            					cinema.insertSeatIntoDB(SeatType.GOLD, null, alphabet + j);
-            				else
-            					cinema.insertSeatIntoDB(SeatType.PLATINUM, null, alphabet + j);
-            			else
-            				cinema.insertSeatIntoDB(SeatType.STANDARD, null, alphabet + j);
-            		}
-            			
-        		}
-        	}
+        String alphabet = "";
+        for (int i = 1; i <= 10; i++) {
+            switch (i) {
+                case 1:
+                    alphabet = "A";
+                    break;
+                case 2:
+                    alphabet = "B";
+                    break;
+                case 3:
+                    alphabet = "C";
+                    break;
+                case 4:
+                    alphabet = "D";
+                    break;
+                case 5:
+                    alphabet = "E";
+                    break;
+                case 6:
+                    alphabet = "F";
+                    break;
+                case 7:
+                    alphabet = "G";
+                    break;
+                case 8:
+                    alphabet = "H";
+                    break;
+                case 9:
+                    alphabet = "I";
+                    break;
+                case 10:
+                    alphabet = "J";
+                    break;
+            }
+            for (int j = 1; j <= 16; j++) {
+                if (i < 8) {
+                    if (alphabet.equals("C") && j == 6)
+                        continue;
+                    if (alphabet.equals("D") && j == 12)
+                        continue;
+                    if (alphabet.equals("E") && j == 3)
+                        continue;
+                    if (alphabet.equals("E") && j == 4)
+                        continue;
+                    if (alphabet.equals("E") && j == 15)
+                        continue;
+                    if (alphabet.equals("F") && j == 8)
+                        continue;
+                    if (alphabet.equals("F") && j == 9)
+                        continue;
+                    if (alphabet.equals("F") && j == 10)
+                        continue;
+                    if (j < 10)
+                        cinema.insertSeatIntoDB(SeatType.STANDARD, null, alphabet + "0" + j);
+                    else
+                        cinema.insertSeatIntoDB(SeatType.STANDARD, null, alphabet + j);
+                } else {
+                    if (alphabet.equals("I") && j == 3)
+                        continue;
+                    if (alphabet.equals("I") && j == 4)
+                        continue;
+                    if (alphabet.equals("I") && j == 7)
+                        continue;
+                    if (alphabet.equals("J") && j == 11)
+                        continue;
+                    if (j < 10) {
+                        if (j < 5)
+                            cinema.insertSeatIntoDB(SeatType.STANDARD, null, alphabet + "0" + j);
+                        else if (!alphabet.equals("J"))
+                            cinema.insertSeatIntoDB(SeatType.GOLD, null, alphabet + "0" + j);
+                        else
+                            cinema.insertSeatIntoDB(SeatType.PLATINUM, null, alphabet + "0" + j);
+                    } else {
+                        if (j < 13)
+                            if (!alphabet.equals("J"))
+                                cinema.insertSeatIntoDB(SeatType.GOLD, null, alphabet + j);
+                            else
+                                cinema.insertSeatIntoDB(SeatType.PLATINUM, null, alphabet + j);
+                        else
+                            cinema.insertSeatIntoDB(SeatType.STANDARD, null, alphabet + j);
+                    }
+
+                }
+            }
         }
-        
+
         cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy01", 19, "dummy01", "dummy", "dummy01@gmail.com", 84567136), "C06");
         cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy02", 19, "dummy02", "dummy", "dummy02@gmail.com", 84567136), "D12");
         cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy03", 19, "dummy03", "dummy", "dummy03@gmail.com", 84567136), "E03");
@@ -253,26 +253,26 @@ public class DataCreator {
         cinema.insertSeatIntoDB(SeatType.GOLD, new Customer("dummy10", 19, "dummy10", "dummy", "dummy10@gmail.com", 84567136), "I07");
         cinema.insertSeatIntoDB(SeatType.PLATINUM, new Customer("dummy11", 19, "dummy11", "dummy", "dummy11@gmail.com", 84567136), "J11");
         cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy12", 19, "dummy12", "dummy", "dummy12@gmail.com", 84567136), "E15");
- 
-        
+
+
         cinema.insertCinemaIntoDB("CathayTheatre1", cinema1Mv, cinema1St);
         cinema.insertCinemaIntoDB("CathayTheatre2", cinema2Mv, cinema2St);
         cinema.insertCinemaIntoDB("CathayTheatre3", cinema3Mv, cinema3St);
 
 
-      //Create CUSTOMERS
+        //Create CUSTOMERS
         client.insertCustomerToDB("John", 19, "john", "test123", "john111@gmail.com", 84324783);
         client.insertCustomerToDB("Mary", 56, "mary", "test123", "mary222@gmail.com", 81357852);
         client.insertCustomerToDB("Elizabeth", 25, "elizabeth", "test123", "eliz333@gmail.com", 94327821);
         client.insertCustomerToDB("Ben", 65, "ben", "test123", "ben444@gmail.com", 83178542);
         client.insertCustomerToDB("Jeffrey", 18, "jeffrey", "test123", "jeff555@gmail.com", 96217568);
-        
+
         //Create STAFF
         ArrayList<Cinema> cinemas = cinema.getAllCinemasFromDB();
         client.insertStaffToDB("jake", "test123", cinemas.get(0));
         client.insertStaffToDB("henry", "test123", cinemas.get(1));
         client.insertStaffToDB("jane", "test123", cinemas.get(2));
-        
+
         System.out.println("DATA GENERATED");
     }
 

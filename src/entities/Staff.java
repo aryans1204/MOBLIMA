@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 //ide suggested @SuppressWarnings("serial")
 @SuppressWarnings("serial")
@@ -24,11 +25,11 @@ public class Staff implements Client, Serializable {
     }
 
     public boolean login(String username) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Enter password: ");
-        String password = reader.readLine();
-        ArrayList<Staff> staffs = ClientController.getStaffList();
 
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter password: ");
+        String password = sc.nextLine();
+        ArrayList<Staff> staffs = ClientController.getStaffList();
         for (Staff s : staffs) {
             if (s.getUsername().equals(username) && s.getPassword().equals(password)) {
                 System.out.println("Authenticated successfully");
@@ -98,6 +99,7 @@ public class Staff implements Client, Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+    
 
     public void setCinema(Cinema cinema) {
         this.cinema = cinema;

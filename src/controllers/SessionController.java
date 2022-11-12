@@ -1,13 +1,12 @@
-package SC2002Link.src.controllers;
+package src.controllers;
 
-import SC2002Link.src.boundaries.BookingUI;
-import SC2002Link.src.boundaries.MovieListing;
-import SC2002Link.src.boundaries.SystemConfig;
-import SC2002Link.src.entities.Customer;
-import SC2002Link.src.entities.Staff;
+import src.boundaries.BookingUI;
+import src.boundaries.MovieListing;
+import src.boundaries.SystemConfig;
+import src.entities.Customer;
+import src.entities.Staff;
+import src.entities.Ticket;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class SessionController {
@@ -18,7 +17,7 @@ public class SessionController {
 
         boolean exit = false;
         while (!exit) {
-            System.out.print("\n\nCinema Staff Selection: \n" +
+            System.out.print("\nHow can we help you today?: \n" +
                     "1. Create Movie Listing\n" +
                     "2. Update Movie Listing\n" +
                     "3. Remove Movie Listing\n" +
@@ -66,12 +65,12 @@ public class SessionController {
                     System.out.println("Invalid input!\n Please try again");
             }
         }
-        sc.close();
     }
 
     public static void customerUI(Customer c) throws Exception {
+        
         boolean exit = false;
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        Scanner sc = new Scanner(System.in);
         while (!exit) {
             System.out.println("How can we help you today\n" +
                     "1. Search for a Movie\n" +
@@ -82,7 +81,7 @@ public class SessionController {
                     "6. List Top 5 Movies by Ticket Sales or Reviewer's rating(as set by Cinema staff)\n" +
                     "7. Add a review or rating for a movie\n" +
                     "8. Exit");
-            int option = Integer.parseInt(reader.readLine());
+            int option = Integer.parseInt(sc.nextLine());
             switch (option) {
                 case 1:
                     MovieListing.searchMovie();
@@ -94,7 +93,13 @@ public class SessionController {
                     BookingUI.checkSeatAvailability();
                     break;
                 case 4:
-                    c.addBookings(BookingUI.makeBooking(c));
+                    Ticket t = BookingUI.makeBooking(c);
+                    if (t != null) {
+                        c.addBookings(BookingUI.makeBooking(c));
+                        System.out.println("Ticket booked succesfully");
+                    } else {
+                        System.out.println("There was an error in booking your ticket. please try again");
+                    }
                     break;
                 case 5:
                     c.viewBookings();
@@ -111,4 +116,5 @@ public class SessionController {
             }
         }
     }
+
 }
