@@ -69,11 +69,12 @@ public class SessionController {
     }
 
     public static void customerUI(Customer c) throws Exception {
-    
+        if(!c.isAuth())
+            return;
         boolean exit = false;
         Scanner sc = new Scanner(System.in);
         while (!exit) {
-            System.out.println("How can we help you today?\n" +
+            System.out.println("\nHow can we help you today?\n" +
                     "1. Search for a Movie\n" +
                     "2. List Movies by Cinema\n" +
                     "3. Check seat availability of a movie at a cinema for a given showtime\n" +

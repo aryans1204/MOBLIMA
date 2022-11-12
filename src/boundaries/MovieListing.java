@@ -151,7 +151,7 @@ public class MovieListing {
         //Instead of updating release date, give an option to update a showtime, based on a Cinema.
         Scanner sc = new Scanner(System.in);
         ArrayList<Movie> movieDB = MovieController.getMovieDB();
-        int movieId = 0, option;
+        int option;
         boolean exit = false, success = false;
 
         try {
@@ -219,7 +219,9 @@ public class MovieListing {
                                 System.out.println("Invalid input!, Please try again");
                         }
                     }
-                    movieDB.get(index).setType(type);
+                    Movie m = movieDB.get(index);
+                    m.setType(type);
+                    movieDB.set(index, m);
                     MovieController.setMovieDB(movieDB);
                     break;
 
@@ -258,7 +260,9 @@ public class MovieListing {
                                 System.out.println("Wrong input!, Please try again");
                         }
                     }
-                    movieDB.get(index).setStatus(status);
+                    Movie mov = movieDB.get(index);
+                    mov.setStatus(status);
+                    movieDB.set(index, mov);
                     MovieController.setMovieDB(movieDB);
                     break;
                 case 4:
@@ -378,15 +382,21 @@ public class MovieListing {
             title = sc.nextLine();
 
             for (int i = 0; i < movieDB.size(); i++) {
-                if (movieDB.get(i).getTitle().equals(title)) movieDB.get(i).setStatus(MovieStatus.END_OF_SHOWING);
+                if (movieDB.get(i).getTitle().equals(title)) {
+                    Movie mov = movieDB.get(i);
+                    mov.setStatus(MovieStatus.END_OF_SHOWING);
+                    movieDB.set(i, mov);
+
+                }
                 System.out.println("Movie successfully removed");
+                MovieController.setMovieDB(movieDB);
                 break;
             }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Invalid input detected, Please try again");
         }
-        MovieController.setMovieDB(movieDB);
+
     }
 
     public static void listMovie() {
@@ -444,10 +454,15 @@ public class MovieListing {
 
     public static void listBySales() {
         ArrayList<Movie> movieDB = MovieController.getMovieDB();
-        List<Movie> listMoviesSales = movieDB;
+        ArrayList<Movie> listMoviesSales = movieDB;
 
         listMoviesSales.sort((o1, o2) -> Double.compare(o2.getTotalSales(), o1.getTotalSales()));
-
+        Collections.sort(listMoviesSales, new Comparator<Movie>() {
+            @Override
+            public int compare(Movie o1, Movie o2) {
+                return String.valueOf(o2.getTotalSales()).compareTo(String.valueOf(o1.getTotalSales()));
+            }
+        });
         ArrayList<Movie> sortedMoviesSales = new ArrayList<Movie>(listMoviesSales);
         System.out.println("Top 5 Movies by Total Sales\n");
         System.out.println("Overall Rating\tTitle");

@@ -37,9 +37,9 @@ public class SystemConfig {
         boolean quit = false;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
         while (choice != 3) {
-            System.out.println("Print choice: " +
-                    "1. Add Holiday" +
-                    "2. Remove holiday" +
+            System.out.println("Print choice: \n" +
+                    "1. Add Holiday\n" +
+                    "2. Remove holiday\n" +
                     "3. Exit");
             choice = Integer.parseInt(reader.readLine());
             if (choice == 1) {
@@ -49,11 +49,12 @@ public class SystemConfig {
                         date_input = reader.readLine();
                         localDate = LocalDate.parse(date_input, formatter);
                         quit = true;
+                        HolidayController.setHolidays(localDate);
                     } catch (Exception e) {
                         System.out.println("Invalid date format, Please try again");
                     }
                 }
-                HolidayController.setHolidays(localDate);
+
                 System.out.println("Holiday added successfully");
             } else if (choice == 2) {
                 while (!quit) {

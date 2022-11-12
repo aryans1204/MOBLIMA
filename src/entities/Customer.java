@@ -109,6 +109,10 @@ public class Customer implements Client, Serializable {
         }
     }
 
+    public boolean isAuth() {
+        return auth;
+    }
+
     //Getters
     public String getName() {
         return name;

@@ -91,6 +91,7 @@ public class BookingUI {
                 //Constructor has been updated, creation of ticket here need to match constructor
                 Ticket newTicket = new Ticket(mov, cinema, customer, showtime, cinema.getSeat(title + showtime.toString(), index), TID, customer.getUsername(), customer.getEmail(), customer.getMobileNumber());
                 System.out.println("The price of your ticket is: " + newTicket.getPrice());
+                mov.setTotalSales(1);
                 CinemaController.setCinemaDB(cinemaDB);
                 MovieController.setMovieDB(movieDB);
                 return newTicket;
