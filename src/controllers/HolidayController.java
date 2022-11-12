@@ -11,6 +11,7 @@ public class HolidayController {
 
     public HolidayController(String fileName) {
         this.fileName = fileName;
+        holidays = this.getAllHolidaysFromDB();
     }
 
     public boolean searchHolidayinDB(LocalDate a) {

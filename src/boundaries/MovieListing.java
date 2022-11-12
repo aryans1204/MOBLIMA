@@ -151,7 +151,7 @@ public class MovieListing {
         //Instead of updating release date, give an option to update a showtime, based on a Cinema.
         Scanner sc = new Scanner(System.in);
         ArrayList<Movie> movieDB = MovieController.getMovieDB();
-        int movieId = 0, option;
+        int option;
         boolean exit = false, success = false;
 
         try {
@@ -219,7 +219,9 @@ public class MovieListing {
                                 System.out.println("Invalid input!, Please try again");
                         }
                     }
-                    movieDB.get(index).setType(type);
+                    Movie m = movieDB.get(index);
+                    m.setType(type);
+                    movieDB.set(index, m);
                     MovieController.setMovieDB(movieDB);
                     break;
 
@@ -258,7 +260,9 @@ public class MovieListing {
                                 System.out.println("Wrong input!, Please try again");
                         }
                     }
-                    movieDB.get(index).setStatus(status);
+                    Movie mov = movieDB.get(index);
+                    mov.setStatus(status);
+                    movieDB.set(index, mov);
                     MovieController.setMovieDB(movieDB);
                     break;
                 case 4:
@@ -360,15 +364,21 @@ public class MovieListing {
             title = sc.nextLine();
 
             for (int i = 0; i < movieDB.size(); i++) {
-                if (movieDB.get(i).getTitle().equals(title)) movieDB.get(i).setStatus(MovieStatus.END_OF_SHOWING);
+                if (movieDB.get(i).getTitle().equals(title)) {
+                    Movie mov = movieDB.get(i);
+                    mov.setStatus(MovieStatus.END_OF_SHOWING);
+                    movieDB.set(i, mov);
+
+                }
                 System.out.println("Movie successfully removed");
+                MovieController.setMovieDB(movieDB);
                 break;
             }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Invalid input detected, Please try again");
         }
-        MovieController.setMovieDB(movieDB);
+
     }
 
     public static void listMovie() {
