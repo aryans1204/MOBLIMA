@@ -1,38 +1,43 @@
 package src;
 
-import entities.Customer;
-import entities.Staff;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import src.controllers.*;
+import src.entities.Customer;
+import src.entities.Staff;
+
+
 import java.nio.file.Paths;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        MovieController mvc = new MovieController(Paths.get("").toAbsolutePath().toString() + "\\data\\movies.dat");
-        ClientController cl = new ClientController(Paths.get("").toAbsolutePath().toString() + "\\data\\customers.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\staffs.dat");
+        MovieController mvc = new MovieController(Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\movies.dat");
+        ClientController cl = new ClientController(Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\customers.dat", Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\staffs.dat");
         //invalid constructor for ci controller, need two parameters
-        CinemaController ci = new CinemaController(Paths.get("").toAbsolutePath().toString() + "\\data\\cinemas.dat", Paths.get("").toAbsolutePath().toString() + "\\data\\seats.dat");
-        HolidayController h = new HolidayController(Paths.get("").toAbsolutePath().toString() + "\\data\\holidays.dat");
+        CinemaController ci = new CinemaController(Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\cinemas.dat", Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\seats.dat");
+        HolidayController h = new HolidayController(Paths.get("").toAbsolutePath().toString() + "\\src\\SC2002Link\\data\\holidays.dat");
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
         App.welcomeScreen();
         String username;
         int option = 0;
         do {
+            Scanner sc = new Scanner(System.in);
             System.out.println("How can we help you today?");
             System.out.println("1. Login as Staff\n" +
                     "2. Login as a Customer\n" +
                     "3. Create an Account as Staff\n" +
-                    "4. Create an Account as Customer" +
+                    "4. Create an Account as Customer\n" +
                     "5. Exit");
-            option = Integer.parseInt(reader.readLine());
+
+
+            option = Integer.parseInt(sc.nextLine());
 
             switch (option) {
                 case 1:
                     System.out.println("Please enter your username");
-                    username = reader.readLine();
+                    username = sc.nextLine();
                     Staff s = null;
                     for (Staff staff : ClientController.getStaffList()) {
                         if (Objects.equals(staff.getUsername(), username)) s = staff;
@@ -46,10 +51,10 @@ public class App {
                     break;
                 case 2:
                     System.out.println("Please enter your username");
-                    username = reader.readLine();
+                    username = sc.nextLine();
                     Customer c = null;
                     for (Customer customer : ClientController.getCustomerList()) {
-                        if (customer.getUsername() == username) c = customer;
+                        if (customer.getUsername().equals(username)) c = customer;
                     }
                     if (c == null) {
                         System.out.println("Username does not exist. Try again at a later time");
@@ -57,6 +62,9 @@ public class App {
                     }
                     c.login(username);
                     SessionController.customerUI(c);
+                    break;
+                default:
+                    System.out.println("Make a valid choice");
                     break;
             }
         } while (option != 5);

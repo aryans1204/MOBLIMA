@@ -30,7 +30,7 @@ public class MovieListing{
             System.out.println("\nCREATE MOVIE");
 
             System.out.println("Enter movie id: ");
-            id = sc.nextInt();
+            id = Integer.parseInt(sc.nextLine());
 
             System.out.println("Enter movie title: ");
             title = sc.nextLine();
@@ -164,7 +164,7 @@ public class MovieListing{
                 System.out.println("Enter the Movie title which you need to update: ");
                 String title = sc.nextLine();
                 for (int i = 0; i < movieDB.size(); i++) {
-                    if (movieDB.get(i).getTitle() == title) {
+                    if (movieDB.get(i).getTitle().equals(title)) {
                         index = i;
                         exit = true;
                         break;
@@ -328,6 +328,7 @@ public class MovieListing{
                         }
                     }
 
+
                     cinema.setShowtime(movieDB.get(index).getTitle(), showtime);
                     ArrayList<Cinema> cinemaDB = CinemaController.getCinemaDB();
                     for (Cinema c : cinemaDB) {
@@ -340,6 +341,7 @@ public class MovieListing{
                     return;
             }
             System.out.println("Movie is successfully updated");
+
             System.out.println("Title: " + movieDB.get(index).getTitle());
             System.out.println("Type: " + movieDB.get(index).getType());
             System.out.println("Date: " + movieDB.get(index).getMovieReleaseDateToString());
@@ -376,8 +378,10 @@ public class MovieListing{
         ArrayList<Movie> movieDB = MovieController.getMovieDB();
         for (Movie movie : movieDB) {
             System.out.println("Title: " + movie.getTitle());
-            System.out.println("Date: " + movie.getMovieReleaseDateToString());
             System.out.println("Type: " + movie.getType());
+
+            System.out.println("Date: " + movie.getMovieReleaseDateToString());
+
             System.out.println("Duration: " + movie.getRuntime());
             System.out.println(movie);
         }

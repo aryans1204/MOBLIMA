@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 //ide suggested @SuppressWarnings("serial")
 @SuppressWarnings("serial")
@@ -24,17 +25,17 @@ public class Staff implements Client, Serializable {
     }
 
     public boolean login(String username) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Enter password: ");
-        String password = reader.readLine();
-        ArrayList<Staff> staffs = ClientController.getStaffList();
 
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter password: ");
+        String password = sc.nextLine();
+        ArrayList<Staff> staffs = ClientController.getStaffList();
         for (Staff s : staffs) {
             if (s.getUsername().equals(username) && s.getPassword().equals(password)) {
                 System.out.println("Authenticated successfully");
 
                 //same as customer class, auth has to be static in a static method. either that or method becomes non static
-                auth = true;
+                setAuth(true);
                 return true;
             }
         }
@@ -81,7 +82,16 @@ public class Staff implements Client, Serializable {
         return this.cinema;
     }
 
-    //Setters
+    public boolean isAuth() {
+		return auth;
+	}
+
+
+	//Setters
+    public void setAuth(boolean auth) {
+		this.auth = auth;
+	}
+    
     public void setUsername(String username) {
         this.username = username;
     }
@@ -89,6 +99,7 @@ public class Staff implements Client, Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+    
 
     public void setCinema(Cinema cinema) {
         this.cinema = cinema;

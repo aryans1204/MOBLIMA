@@ -1,108 +1,121 @@
 package src.entities;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.io.Serializable;
 
 @SuppressWarnings("serial")
-public class Movie implements Serializable{
-	private int id; //Movie unique ID
-	private String title;
-	private MovieType type;
-	private MovieStatus status;
-	private String synopsis; //Information about the movie
-	private String director;
-	private ArrayList<String> casts;
-	private String rating;  //Ratings for this movie e.g. PG M18 etc.
-	private ArrayList<Review> reviews; //all the reviews this movie has received
-	private ArrayList<Cinema> cinemas;
-	private int runtime;  //Duration of the movie in (MINS)
-	private LocalDate movieReleaseDate;
-	private int totalSales = 0;
+public class Movie implements Serializable {
+    private int id; //Movie unique ID
+    private String title;
+    private MovieType type;
+    private MovieStatus status;
+    private String synopsis; //Information about the movie
+    private String director;
+    private ArrayList<String> casts;
+    private String rating;  //Ratings for this movie e.g. PG M18 etc.
+    private ArrayList<Review> reviews; //all the reviews this movie has received
+    private ArrayList<Cinema> cinemas;
+    private int runtime;  //Duration of the movie in (MINS)
+    private LocalDate movieReleaseDate;
+    private int totalSales = 0;
 
-	/*
-	 * No abstract methods atm
-	 */
+    /*
+     * No abstract methods atm
+     */
 
 
-	//Constructor
-	public Movie(String title, MovieType type, MovieStatus status, String synopsis, String director, ArrayList<String> casts,
-			String rating, int runtime, LocalDate movieReleaseDate, int totalSales) {
-		this.title = title;
-		this.type = type;
-		this.status = status;
-		this.synopsis = synopsis;
-		this.director = director;
-		this.casts = casts;
-		this.rating = rating;
-		this.reviews = new ArrayList<Review>();
-		this.cinemas = new ArrayList<Cinema>();
-		this.runtime = runtime;
-		this.movieReleaseDate = movieReleaseDate;
-		this.totalSales = totalSales;
-	}
-	
-	public Movie(int id, String title, MovieType type, MovieStatus status, String synopsis, String director, ArrayList<String> casts,
-			String rating, int runtime, LocalDate movieReleaseDate, int totalSales) {
+    //Constructor
+    public Movie(String title, MovieType type, MovieStatus status, String synopsis, String director, ArrayList<String> casts,
+                 String rating, int runtime, LocalDate movieReleaseDate, int totalSales) {
+        this.title = title;
+        this.type = type;
+        this.status = status;
+        this.synopsis = synopsis;
+        this.director = director;
+        this.casts = casts;
+        this.rating = rating;
+        this.reviews = new ArrayList<Review>();
+        this.cinemas = new ArrayList<Cinema>();
+        this.runtime = runtime;
+        this.movieReleaseDate = movieReleaseDate;
+        this.totalSales = totalSales;
+    }
 
-		this.id = id;
-		this.title = title;
-		this.type = type;
-		this.status = status;
-		this.synopsis = synopsis;
-		this.director = director;
-		this.casts = casts;
-		this.rating = rating;
-		this.reviews = new ArrayList<Review>();
-		this.cinemas = new ArrayList<Cinema>();
-		this.runtime = runtime;
-		this.movieReleaseDate = movieReleaseDate;
-		this.totalSales = totalSales;
-	}
+    public Movie(int id, String title, MovieType type, MovieStatus status, String synopsis, String director, ArrayList<String> casts,
+                 String rating, int runtime, LocalDate movieReleaseDate, int totalSales) {
 
-	//Getters
+        this.id = id;
+        this.title = title;
+        this.type = type;
+        this.status = status;
+        this.synopsis = synopsis;
+        this.director = director;
+        this.casts = casts;
+        this.rating = rating;
+        this.reviews = new ArrayList<Review>();
+        this.cinemas = new ArrayList<Cinema>();
+        this.runtime = runtime;
+        this.movieReleaseDate = movieReleaseDate;
+        this.totalSales = totalSales;
+    }
+
+    //Getters
     public int getId() {
-		return id;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public MovieType getType() {
-		return type;
-	}
-	public MovieStatus getStatus() {
-		return status;
-	}
-	public String getSynopsis() {
-		return synopsis;
-	}
-	public String getDirector() {
-		return director;
-	}
-	public ArrayList<String> getCasts() {
-		return casts;
-	}
-	public String getRating() {
-		return rating;
-	}
-	public ArrayList<Review> getReviews() {
-		return reviews;
-	}
-	public ArrayList<Cinema> getCinemas() {
-		return cinemas;
-	}
-	public int getRuntime() {
-		return runtime;
-	}
-	public LocalDate getMovieReleaseDate() {
-		return movieReleaseDate;
-	}
-	//Return the dates as String
-	public String getMovieReleaseDateToString(){
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public MovieType getType() {
+        return type;
+    }
+
+    public MovieStatus getStatus() {
+        return status;
+    }
+
+    public String getSynopsis() {
+        return synopsis;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public ArrayList<String> getCasts() {
+        return casts;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public ArrayList<Review> getReviews() {
+        return reviews;
+    }
+
+    public ArrayList<Cinema> getCinemas() {
+        return cinemas;
+    }
+
+    public int getRuntime() {
+        return runtime;
+    }
+
+    public LocalDate getMovieReleaseDate() {
+        return movieReleaseDate;
+    }
+
+    //Return the dates as String
+    public String getMovieReleaseDateToString() {
         return movieReleaseDate.format(DateTimeFormatter.ofPattern("EEEE, dd/MM/yyyy"));
     }
+
 	public int getTotalSales(){
 		return totalSales;
 	}
@@ -192,6 +205,5 @@ public class Movie implements Serializable{
 					+ "Past reviews : \n" + reviewDetail;
 		return movieDetail;
 	}
-	
 	
 }

@@ -8,18 +8,17 @@ import src.entities.Movie;
 import src.entities.Staff;
 import src.entities.Ticket;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class SessionController {
     public static void staffUI(Staff s) throws Exception {
+    	if(!s.isAuth())
+    		return;
         Scanner sc = new Scanner(System.in);
 
         boolean exit = false;
         while (!exit) {
-            System.out.print("\n\nCinema Staff Selection: \n" +
+            System.out.print("\nHow can we help you today?: \n" +
                     "1. Create Movie Listing\n" +
                     "2. Update Movie Listing\n" +
                     "3. Remove Movie Listing\n" +
@@ -67,13 +66,12 @@ public class SessionController {
                     System.out.println("Invalid input!\n Please try again");
             }
         }
-        sc.close();
     }
 
     public static void customerUI(Customer c) throws Exception {
-        Scanner sc = new Scanner(System.in);
+    
         boolean exit = false;
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        Scanner sc = new Scanner(System.in);
         while (!exit) {
             System.out.println("How can we help you today?\n" +
                     "1. Search for a Movie\n" +
@@ -84,7 +82,7 @@ public class SessionController {
                     "6. List Top 5 Movies by Ticket Sales or Reviewer's rating(as set by Cinema staff)\n" +
                     "7. Add a review or rating for a movie\n" +
                     "8. Exit");
-            int option = Integer.parseInt(reader.readLine());
+            int option = Integer.parseInt(sc.nextLine());
             switch (option) {
                 case 1:
                     MovieListing.searchMovie();
@@ -99,6 +97,7 @@ public class SessionController {
                     Ticket t = BookingUI.makeBooking(c);
                     if (t != null) {
                         c.addBookings(BookingUI.makeBooking(c));
+
                         System.out.println("Ticket booked successfully");
                     } else {
                         System.out.println("There was an error in booking your ticket. please try again");
@@ -133,4 +132,5 @@ public class SessionController {
             }
         }
     }
+
 }

@@ -1,97 +1,112 @@
 package src.entities;
 
-import java.util.*;
-import java.io.*;
-import java.time.*;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 //ide suggested @SuppressWarnings("serial")
 @SuppressWarnings("serial")
 public class Cinema implements Serializable {
     private HashMap<String, Double> prices = new HashMap<>();  //prices indicator per movie-title for Staff to set.
-    private ArrayList<Movie>  movies;  //array of Movies at this cinema;
+    private ArrayList<Movie> movies;  //array of Movies at this cinema;
     private HashMap<String, ArrayList<LocalDateTime>> showtimes;
     private HashMap<String, ArrayList<Seat>> seats;  //key is the movie title + showtime.toString().
     private String cinemaName;
+
     public Cinema(String cinemaName, ArrayList<Movie> movies, HashMap<String, ArrayList<LocalDateTime>> showtimes, HashMap<String, ArrayList<Seat>> seats) {
         this.movies = movies;
         this.cinemaName = cinemaName;
-	    
-	 //line 18, was this a typo? object was not used.
+
+        //line 18, was this a typo? object was not used.
         this.showtimes = showtimes;
         for (Movie mov : movies) {
             this.prices.put(mov.getTitle(), 0.0);  //0 is a sign that Staff hasn't configured prices yet
-	}
-	this.seats = seats;
+        }
+        this.seats = seats;
     }
 
     public void setTicketPrice(String title, double price) {
-	this.prices.put(title, price);
+        this.prices.put(title, price);
     }
 
     public void setShowtime(String title, LocalDateTime showtime) {
-	ArrayList<LocalDateTime> shows = this.showtimes.get(title);
-	shows.add(showtime);
-	this.showtimes.put(title, shows);
+        ArrayList<LocalDateTime> shows = this.showtimes.get(title);
+        shows.add(showtime);
+        this.showtimes.put(title, shows);
     }
 
     public void setName(String name) {
-	this.cinemaName = name;
+        this.cinemaName = name;
     }
 
     public String getName() {
-	return this.cinemaName;
+        return this.cinemaName;
     }
 
     public double getTicketPrice(String title) {
-	    return this.prices.get(title);
+        return this.prices.get(title);
     }
 
     public ArrayList<LocalDateTime> getShowtimes(String title) {
-	    return this.showtimes.get(title);
+        return this.showtimes.get(title);
     }
 
     public ArrayList<Movie> getMovies() {
-	    return this.movies;
+        return this.movies;
     }
 
     public ArrayList<Movie> updateMovies(Movie newMovie) {
-	    this.movies.add(newMovie);
-      return this.movies;
+        this.movies.add(newMovie);
+        return this.movies;
     }
-    
+
     public void setSeats(String title, Seat newSeat) {
         ArrayList<Seat> s = this.seats.get(title);
         s.add(newSeat);
         this.seats.put(title, s);
     }
-    
+
     public void setSeats(HashMap<String, ArrayList<Seat>> seats) {
-	    this.seats = seats;
+        this.seats = seats;
     }
-    public void setCustomer(Customer customer, String title, int index) {
-	this.seats.get(title).get(index).setCustomer(customer);
+
+    public boolean setCustomer(Customer customer, String title, int index) {
+        if (this.seats.containsKey(title) && this.seats.get(title) != null) {
+            try {
+                this.seats.get(title).get(index).setCustomer(customer);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("The seatNo is invalid, please try again");
+                return false;
+            }
+        } else {
+            System.out.println("The showtime or the movie title may not exist in our database");
+            return false;
+        }
+        return true;
     }
+
     public ArrayList<Seat> getSeats(String title) {
-	   return this.seats.get(title);
+        return this.seats.get(title);
     }
+
     public Seat getSeat(String title, int index) {
-	return this.seats.get(title).get(index);  
+        return this.seats.get(title).get(index);
     }
-  
+
     public void printLayout(String title, LocalDateTime showtime) { //prints layout of the Cinema based on available seats for the Movie at the particular showtime
         HashMap<String, ArrayList<Seat>> allSeats = this.seats; //Not sure about the local date class
         ArrayList<Seat> seats = new ArrayList<>();
-        if(allSeats.containsKey(title+showtime.toString())){
-            seats = allSeats.get(title+showtime.toString());
+        if (allSeats.containsKey(title + showtime.toString())) {
+            seats = allSeats.get(title + showtime.toString());
         }
         ArrayList<Integer> purchasedSeats = new ArrayList<>();
 
-        for(int i=0; i<seats.size();i++){
-            if(seats.get(i).getCustomer()!=null){ //if seat is purchased by customer
+        for (int i = 0; i < seats.size(); i++) {
+            if (seats.get(i).getCustomer() != null) { //if seat is purchased by customer
                 purchasedSeats.add(i); //Add the index into purchased Seats
             }
         }
-
 
 
 //        int seatPurchased = //Need to pass in the index of the purchased;
@@ -126,15 +141,14 @@ public class Cinema implements Serializable {
             if (c == 0) {
                 System.out.print("      ");
             } else {
-                if(c % 4==0) { // This sets the isle gap every 4 columns
-                    if(gap)
-                        System.out.print(padded+labelIsleGap);
+                if (c % 4 == 0) { // This sets the isle gap every 4 columns
+                    if (gap)
+                        System.out.print(padded + labelIsleGap);
                     else
-                        System.out.print(padded+labelGap);
+                        System.out.print(padded + labelGap);
                     gap = !gap; //This alternate enabling the isles every 4 columns
-                }
-                else
-                    System.out.print(padded+labelGap);//Fir when there is no isleGap
+                } else
+                    System.out.print(padded + labelGap);//Fir when there is no isleGap
             }
         }
 
@@ -143,13 +157,12 @@ public class Cinema implements Serializable {
         //Second for loop for printing the seats
         for (int r = 1; r < row + 1; r++) {
             for (int c = 0; c < col + 1; c++) {
-                if(r==8|| r == 9) {
+                if (r == 8 || r == 9) {
                     if (c >= 1 && c <= 4 || c >= 13 && c <= 16) //If within this range, set seatClass to couple
                         seatClass = 3;
                     else
                         seatClass = 1; //Otherwise set seatClass to Gold
-                }
-                else if(r==10) {
+                } else if (r == 10) {
                     if (c >= 1 && c <= 4 || c >= 13 && c <= 16)
                         seatClass = 3;
                     else
@@ -159,25 +172,24 @@ public class Cinema implements Serializable {
                 if (c == 0) {
                     System.out.printf(" %c   ", (alpha++)); //For printing the alphabets
                 } else {
-                    if (purchasedSeats.contains(1-c+((r-1)*col))) //Converts 2D layout to 1D to compare with Customer's index
-                        seatStatus=1; //Set the seat status to taken
-                    if(c % 4==0) {
-                        if(gap)
-                            System.out.print(seatLayout[seatClass][seatStatus]+isleGap);
+                    if (purchasedSeats.contains(1 - c + ((r - 1) * col))) //Converts 2D layout to 1D to compare with Customer's index
+                        seatStatus = 1; //Set the seat status to taken
+                    if (c % 4 == 0) {
+                        if (gap)
+                            System.out.print(seatLayout[seatClass][seatStatus] + isleGap);
                         else
-                            System.out.print(seatLayout[seatClass][seatStatus]+seatGap);
+                            System.out.print(seatLayout[seatClass][seatStatus] + seatGap);
                         gap = !gap;
-                    }
-                    else
-                        System.out.print(seatLayout[seatClass][seatStatus]+seatGap);
+                    } else
+                        System.out.print(seatLayout[seatClass][seatStatus] + seatGap);
 
-                    seatStatus=0; //Prepares to print the next seat (Empty by default)
+                    seatStatus = 0; //Prepares to print the next seat (Empty by default)
                 }
                 //If it is couple seats, check if it is next to an isle
-                if(seatClass==3) {
-                    if((c+1)%4==0){ //If it is next to an isle, print isleGap and toggle gap
+                if (seatClass == 3) {
+                    if ((c + 1) % 4 == 0) { //If it is next to an isle, print isleGap and toggle gap
                         System.out.print("    ");
-                        gap=!gap;
+                        gap = !gap;
                     }
                     c += 1; //Skip a column since couple seats contains 2 seats
                 }
@@ -190,13 +202,13 @@ public class Cinema implements Serializable {
         System.out.println();
         System.out.println("\tLegends");
         System.out.println("\tStandard Seats");
-        System.out.printf("\t"+seatLayout[0][0]+"\tAvailable \t\t"+seatLayout[0][1]+"\tTaken\n");
+        System.out.printf("\t" + seatLayout[0][0] + "\tAvailable \t\t" + seatLayout[0][1] + "\tTaken\n");
         System.out.println("\tGold Seats");
-        System.out.printf("\t"+seatLayout[1][0]+"\tAvailable \t\t"+seatLayout[1][1]+"\tTaken\n");
+        System.out.printf("\t" + seatLayout[1][0] + "\tAvailable \t\t" + seatLayout[1][1] + "\tTaken\n");
         System.out.println("\tPlatinum Seats");
-        System.out.printf("\t"+seatLayout[2][0]+"\tAvailable \t\t"+seatLayout[2][1]+"\tTaken\n");
+        System.out.printf("\t" + seatLayout[2][0] + "\tAvailable \t\t" + seatLayout[2][1] + "\tTaken\n");
         System.out.println("\tCouple Seats");
-        System.out.printf("\t"+seatLayout[3][0]+"\tAvailable \t\t"+seatLayout[3][1]+"\tTaken\n");
+        System.out.printf("\t" + seatLayout[3][0] + "\tAvailable \t\t" + seatLayout[3][1] + "\tTaken\n");
     }
 
-}	
+}
