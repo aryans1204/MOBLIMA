@@ -350,7 +350,6 @@ public class MovieListing {
                         if (cinemaDB.get(i).getName().equals(cinema.getName())) cinemaDB.set(i, cinema);
                     }
                     CinemaController.setCinemaDB(cinemaDB);
-                    CinemaController.getCinemaDB().get(2).printShowtimes(selectedTitle);
                     break;
                 default:
                     System.out.println("Invalid option, returning to previous menu");
