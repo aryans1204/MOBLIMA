@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.*;
 
 public class SystemConfig {
     public static void configTicketPrices(Cinema cinema) throws Exception {
@@ -41,7 +42,8 @@ public class SystemConfig {
                     "1. Add Holiday\n" +
                     "2. Remove holiday\n" +
                     "3. Exit");
-            choice = Integer.parseInt(reader.readLine());
+            Scanner sc = new Scanner(System.in);
+            choice = sc.nextInt();
             if (choice == 1) {
                 while (!quit) {
                     try {
@@ -70,6 +72,7 @@ public class SystemConfig {
                 HolidayController.removeHolidays(localDate);
                 System.out.println("Holiday removed successfully");
             }
+            quit =false;
         }
     }
 }
