@@ -69,7 +69,7 @@ public class BookingUI {
                 cinema.printLayout(title, showtime);
                 String seatNo;
                 do {
-                    System.out.println("Which seat would you like to select?: Enter the alphabet along with the column number like so (C6)");
+                    System.out.println("Which seat would you like to select?: Enter the alphabet along with the column number like so (C06)");
                     seatNo = reader.readLine();
                 } while (seatNo.charAt(0) > 'J' || seatNo.charAt(0) < 'A');
                 int row = seatNo.charAt(0) % 65;
@@ -98,16 +98,20 @@ public class BookingUI {
 
     public static void addReview(Customer c) throws Exception {
         ArrayList<Movie> movieDB = MovieController.getMovieDB();
-        System.out.println("Enter the title of the Movie you would like to add a review for");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String title = reader.readLine();
-        int index = 0;
-        for (int i = 0; i < movieDB.size(); i++) {
-            if (Objects.equals(movieDB.get(i).getTitle(), title)) {
-                index = i;
-                break;
+        int index = -1;
+        do {
+            System.out.println("Enter the title of the Movie you would like to add a review for");
+            String title = reader.readLine();
+            for (int i = 0; i < movieDB.size(); i++) {
+                if (movieDB.get(i).getTitle().equals(title)) {
+                    index = i;
+                    break;
+                }
             }
-        }
+            if(index==-1) System.out.println("Movie not found. Please try again");
+        }while(index==-1);
+
         System.out.println("Enter your rating for the movie, on a scale of 1.0 - 5.0 ");
         int rating = Integer.parseInt(reader.readLine());
         System.out.println("Enter your review for the movie");

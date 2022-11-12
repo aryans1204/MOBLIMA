@@ -170,6 +170,7 @@ public class MovieListing{
                         break;
                     }
                 }
+                System.out.println("Title does not exist. Please try again");
             }
 
             System.out.println("Select movie detail to update");
@@ -319,13 +320,14 @@ public class MovieListing{
                     exit = false;
                     while (!exit) {
                         try {
-                            System.out.println("Enter new movie release date e.g (Saturday, Jul 14, 2018 14:30PM) : ");
+                            System.out.println("Enter the showtime you would like to change e.g (Saturday, Jul 14, 2018 14:30PM) : ");
                             showtime = LocalDateTime.parse(sc.nextLine(), formatter);
                             exit = true;
                         } catch (DateTimeParseException e) {
                             System.out.println("Invalid date format, Please try again");
                         }
                     }
+
                     cinema.setShowtime(movieDB.get(index).getTitle(), showtime);
                     ArrayList<Cinema> cinemaDB = CinemaController.getCinemaDB();
                     for (Cinema c : cinemaDB) {
@@ -338,6 +340,12 @@ public class MovieListing{
                     return;
             }
             System.out.println("Movie is successfully updated");
+            System.out.println("Title: " + movieDB.get(index).getTitle());
+            System.out.println("Type: " + movieDB.get(index).getType());
+            System.out.println("Date: " + movieDB.get(index).getMovieReleaseDateToString());
+            System.out.println("Duration: " + movieDB.get(index).getRuntime());
+            System.out.println("\n" + movieDB.get(index));
+
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Invalid input detected, Please try again");
@@ -370,6 +378,7 @@ public class MovieListing{
             System.out.println("Title: " + movie.getTitle());
             System.out.println("Date: " + movie.getMovieReleaseDateToString());
             System.out.println("Type: " + movie.getType());
+            System.out.println("Duration: " + movie.getRuntime());
             System.out.println(movie);
         }
     }
@@ -381,7 +390,7 @@ public class MovieListing{
 //        listMovies.sort((o1, o2) -> Double.valueOf(o2.getOverallReview()).compareTo(Double.valueOf(o1.getOverallReview())));
         Collections.sort(listMovies, new Comparator<Movie>() {
             @Override
-            public int compare(Movie o1, Movie o2) {
+            public int compare(Movie o1, Movie o2){
                 return o2.getOverallReview().compareTo(o1.getOverallReview());
             }
         });
@@ -390,7 +399,10 @@ public class MovieListing{
         System.out.println("Overall Rating\tTitle");
         System.out.println("--------------\t-----");
         for (int i = 0; i < 5; i++) {
-            System.out.println("\t" + sortedMovies.get(i).getOverallReview() + "\t" + sortedMovies.get(i).getTitle());
+            if(sortedMovies.get(i).getOverallReview().equals("0"))
+                System.out.println("\t" + "N/A" + "\t" + sortedMovies.get(i).getTitle());
+            else
+                System.out.println("\t" + sortedMovies.get(i).getOverallReview() + "\t" + sortedMovies.get(i).getTitle());
         }
     }
 
@@ -435,7 +447,7 @@ public class MovieListing{
             }
             String cinemaName = reader.readLine();
             for (Cinema cinema : cinemaDB) {
-                if (Objects.equals(cinema.getName(), cinemaName)) {
+                if (cinema.getName().equals(cinemaName)) {
                     ArrayList<Movie> movies = cinema.getMovies();
                     for (Movie movie : movies) {
                         System.out.println(movie.toString());
@@ -444,7 +456,7 @@ public class MovieListing{
                     break;
                 }
             }
-            System.out.println("Invalid Cinema Name. Please try again.");
+            if (!found) System.out.println("Invalid Cinema Name. Please try again.");
         }while(!found);
     }
 }

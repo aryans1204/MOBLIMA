@@ -4,10 +4,13 @@ import src.boundaries.BookingUI;
 import src.boundaries.MovieListing;
 import src.boundaries.SystemConfig;
 import src.entities.Customer;
+import src.entities.Movie;
 import src.entities.Staff;
+import src.entities.Ticket;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class SessionController {
@@ -25,8 +28,8 @@ public class SessionController {
                     "6. Search Movie\n" +
                     "7. List Top 5 Movies by TotalSales\n" +
                     "8. Configure Ticket Prices for a Movie\n" +
-                    "9.Configure holidays" +
-                    "10. Exit" +
+                    "9.Configure holidays\n" +
+                    "10. Exit\n" +
                     "Select option: ");
             int option = Integer.parseInt(sc.nextLine());
             switch (option) {
@@ -68,10 +71,11 @@ public class SessionController {
     }
 
     public static void customerUI(Customer c) throws Exception {
+        Scanner sc = new Scanner(System.in);
         boolean exit = false;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         while (!exit) {
-            System.out.println("How can we help you today\n" +
+            System.out.println("How can we help you today?\n" +
                     "1. Search for a Movie\n" +
                     "2. List Movies by Cinema\n" +
                     "3. Check seat availability of a movie at a cinema for a given showtime\n" +
@@ -92,13 +96,33 @@ public class SessionController {
                     BookingUI.checkSeatAvailability();
                     break;
                 case 4:
-                    c.addBookings(BookingUI.makeBooking(c));
+                    Ticket t = BookingUI.makeBooking(c);
+                    if (t != null) {
+                        c.addBookings(BookingUI.makeBooking(c));
+                        System.out.println("Ticket booked successfully");
+                    } else {
+                        System.out.println("There was an error in booking your ticket. please try again");
+                    }
                     break;
                 case 5:
                     c.viewBookings();
                     break;
                 case 6:
-                    MovieListing.listBySales();
+                    int choice = 0;
+                    do{
+                        System.out.println("1. Based on total sales");
+                        System.out.println("2. Based on reviews");
+                        System.out.println("3. Back");
+                        choice= sc.nextInt();
+                        if(choice==1) {
+                            MovieListing.listBySales();
+                            break;
+                        }
+                        if(choice==2) {
+                            MovieListing.listByReview();
+                            break;
+                        }
+                    }while(choice!=3);
                     break;
                 case 7:
                     BookingUI.addReview(c);

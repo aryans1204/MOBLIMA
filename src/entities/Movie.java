@@ -158,7 +158,7 @@ public class Movie implements Serializable{
 		double averageRating, totalRating = 0.0;
 		DecimalFormat df = new DecimalFormat("#.##");
 		
-		if(this.reviews.size() > 1) {
+		if(this.reviews.size() > 0) {
 			for(Review review : reviews)
 				totalRating+= review.getNumRating();
 			
@@ -166,7 +166,7 @@ public class Movie implements Serializable{
 			return df.format(averageRating);
 		}
 		
-		return "N/A";
+		return "0";
 	}
 	
 	@Override
