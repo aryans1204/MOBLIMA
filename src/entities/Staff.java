@@ -1,6 +1,6 @@
-package SC2002Link.src.entities;
+package src.entities;
 
-import SC2002Link.src.controllers.ClientController;
+import src.controllers.ClientController;
 
 import java.io.BufferedReader;
 import java.io.IOException;
