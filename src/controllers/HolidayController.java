@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class HolidayController {
     private String fileName;
     private static int sync = 0;
-    private static ArrayList<LocalDate> holidays;
+    private static ArrayList<LocalDate> holidays = new ArrayList<LocalDate>();
 
     public HolidayController(String fileName) {
         this.fileName = fileName;
