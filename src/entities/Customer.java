@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
-
+import java.util.Scanner;
 
 @SuppressWarnings("serial")
 public class Customer implements Client, Serializable {
@@ -35,12 +35,12 @@ public class Customer implements Client, Serializable {
     public boolean login(String tempUsername) throws IOException {
         int tries = 9;
         String tempPassword;
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        Scanner sc = new Scanner(System.in);
         System.out.println("Please enter your password: ");
-        tempPassword = reader.readLine();
+        tempPassword = sc.nextLine();
 
-        ArrayList<Customer> customers = new ArrayList<>();
-        customers = cl.getCustomerFromDB();  //Fetch all customers details from DB
+        ArrayList<Customer> customers;
+        customers = ClientController.getCustomerList();  //Fetch all customers details from DB
         for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getUsername().equals(tempUsername) && customers.get(i).getPassword().equals(tempPassword)) {
                 System.out.println("Authenticated successfully");
@@ -50,6 +50,7 @@ public class Customer implements Client, Serializable {
                 return true;
             }
         }
+        System.out.println("username or password incorrect. Please try again later.");
         return false;
     }
 
@@ -94,7 +95,7 @@ public class Customer implements Client, Serializable {
     public static void setCl(ClientController cl) {
         Customer.cl = cl;
     }
-    
+
 
     public void viewBookings() {
         System.out.println("Your past bookings are available here");
@@ -119,6 +120,7 @@ public class Customer implements Client, Serializable {
     public String getPassword() {
         return password;
     }
+    
 
     public int getMobileNumber() {
         return this.mobileNumber;

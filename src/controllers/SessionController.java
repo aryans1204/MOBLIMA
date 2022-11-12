@@ -7,8 +7,6 @@ import src.entities.Customer;
 import src.entities.Staff;
 import src.entities.Ticket;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class SessionController {
@@ -17,7 +15,7 @@ public class SessionController {
 
         boolean exit = false;
         while (!exit) {
-            System.out.print("\n\nCinema Staff Selection: \n" +
+            System.out.print("\nHow can we help you today?: \n" +
                     "1. Create Movie Listing\n" +
                     "2. Update Movie Listing\n" +
                     "3. Remove Movie Listing\n" +
@@ -26,8 +24,8 @@ public class SessionController {
                     "6. Search Movie\n" +
                     "7. List Top 5 Movies by TotalSales\n" +
                     "8. Configure Ticket Prices for a Movie\n" +
-                    "9.Configure holidays" +
-                    "10. Exit" +
+                    "9.Configure holidays\n" +
+                    "10. Exit\n" +
                     "Select option: ");
             int option = Integer.parseInt(sc.nextLine());
             switch (option) {
@@ -65,12 +63,12 @@ public class SessionController {
                     System.out.println("Invalid input!\n Please try again");
             }
         }
-        sc.close();
     }
 
     public static void customerUI(Customer c) throws Exception {
+        
         boolean exit = false;
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        Scanner sc = new Scanner(System.in);
         while (!exit) {
             System.out.println("How can we help you today\n" +
                     "1. Search for a Movie\n" +
@@ -81,7 +79,7 @@ public class SessionController {
                     "6. List Top 5 Movies by Ticket Sales or Reviewer's rating(as set by Cinema staff)\n" +
                     "7. Add a review or rating for a movie\n" +
                     "8. Exit");
-            int option = Integer.parseInt(reader.readLine());
+            int option = Integer.parseInt(sc.nextLine());
             switch (option) {
                 case 1:
                     MovieListing.searchMovie();
@@ -116,4 +114,5 @@ public class SessionController {
             }
         }
     }
+
 }

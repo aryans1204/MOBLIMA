@@ -71,16 +71,19 @@ public class Cinema implements Serializable {
         this.seats = seats;
     }
 
-    public void setCustomer(Customer customer, String title, int index) {
+    public boolean setCustomer(Customer customer, String title, int index) {
         if (this.seats.containsKey(title) && this.seats.get(title) != null) {
             try {
                 this.seats.get(title).get(index).setCustomer(customer);
             } catch (ArrayIndexOutOfBoundsException e) {
                 System.out.println("The seatNo is invalid, please try again");
+                return false;
             }
         } else {
             System.out.println("The showtime or the movie title may not exist in our database");
+            return false;
         }
+        return true;
     }
 
     public ArrayList<Seat> getSeats(String title) {

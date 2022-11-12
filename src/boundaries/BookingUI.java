@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class BookingUI {
     public static void checkSeatAvailability() throws Exception {
@@ -75,7 +76,7 @@ public class BookingUI {
                 int row = seatNo.charAt(0) % 65;
                 int col = Integer.parseInt(seatNo.substring(1));
                 int index = row * 16 + col;
-                cinema.setCustomer(customer, title + showtime.toString(), index);
+                if (!cinema.setCustomer(customer, title + showtime.toString(), index)) return null;
                 Movie mov = movieDB.get(0);
                 for (Movie movie : movieDB) {
                     if (movie.getTitle() == title) {
@@ -99,8 +100,8 @@ public class BookingUI {
     public static void addReview(Customer c) throws Exception {
         ArrayList<Movie> movieDB = MovieController.getMovieDB();
         System.out.println("Enter the title of the Movie you would like to add a review for");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String title = reader.readLine();
+        Scanner sc = new Scanner(System.in);
+        String title = sc.nextLine();
         int index = 0;
         for (int i = 0; i < movieDB.size(); i++) {
             if (Objects.equals(movieDB.get(i).getTitle(), title)) {
@@ -109,13 +110,22 @@ public class BookingUI {
             }
         }
         System.out.println("Enter your rating for the movie, on a scale of 1.0 - 5.0 ");
-        int rating = Integer.parseInt(reader.readLine());
+        int rating = Integer.parseInt(sc.nextLine());
         System.out.println("Enter your review for the movie");
-        String comment = reader.readLine();
+        String comment = sc.nextLine();
         Review newReview = new Review(c.getUsername(), rating, comment);
 
         //is this 'i' supposed to be 'index'? variable 'i' was not created
         movieDB.get(index).addReview(newReview);
         System.out.println("You're review was added successfully");
+        MovieController.setMovieDB(movieDB);
+        ArrayList<Cinema> cinemaDB = CinemaController.getCinemaDB();
+        for (int i = 0; i < cinemaDB.size(); i++) {
+            ArrayList<Movie> movies = cinemaDB.get(i).getMovies();
+            for (int j = 0; j < movies.size(); j++) {
+                if (movies.get(j).getTitle().equals(movieDB.get(index).getTitle())) movies.set(j, movieDB.get(index));
+            }
+        }
+        CinemaController.setCinemaDB(cinemaDB);
     }
 }
