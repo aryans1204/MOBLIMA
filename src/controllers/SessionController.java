@@ -5,6 +5,7 @@ import src.boundaries.MovieListing;
 import src.boundaries.SystemConfig;
 import src.entities.Customer;
 import src.entities.Staff;
+import src.entities.Ticket;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -92,7 +93,13 @@ public class SessionController {
                     BookingUI.checkSeatAvailability();
                     break;
                 case 4:
-                    c.addBookings(BookingUI.makeBooking(c));
+                    Ticket t = BookingUI.makeBooking(c);
+                    if (t != null) {
+                        c.addBookings(BookingUI.makeBooking(c));
+                        System.out.println("Ticket booked succesfully");
+                    } else {
+                        System.out.println("There was an error in booking your ticket. please try again");
+                    }
                     break;
                 case 5:
                     c.viewBookings();
