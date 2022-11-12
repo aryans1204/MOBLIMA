@@ -25,7 +25,6 @@ public class Staff implements Client, Serializable {
 
     public boolean login(String username) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        username = reader.readLine();
         System.out.println("Enter password: ");
         String password = reader.readLine();
         ArrayList<Staff> staffs = ClientController.getStaffList();
