@@ -14,12 +14,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
-public class MovieListing {
+public class MovieListing{
     public static Movie createMovieListing() {
         Scanner sc = new Scanner(System.in);
         int runtime, option, id;
@@ -379,10 +376,15 @@ public class MovieListing {
 
     public static void listByReview() {
         ArrayList<Movie> movieDB = MovieController.getMovieDB();
-        List<Movie> listMovies = movieDB;
+        ArrayList<Movie> listMovies = movieDB;
 
-        listMovies.sort((o1, o2) -> Double.valueOf(o2.getOverallReview()).compareTo(Double.valueOf(o1.getOverallReview())));
-
+//        listMovies.sort((o1, o2) -> Double.valueOf(o2.getOverallReview()).compareTo(Double.valueOf(o1.getOverallReview())));
+        Collections.sort(listMovies, new Comparator<Movie>() {
+            @Override
+            public int compare(Movie o1, Movie o2) {
+                return o2.getOverallReview().compareTo(o1.getOverallReview());
+            }
+        });
         ArrayList<Movie> sortedMovies = new ArrayList<Movie>(listMovies);
         System.out.println("Top 5 Movies by Overall Rating\n");
         System.out.println("Overall Rating\tTitle");
@@ -422,18 +424,27 @@ public class MovieListing {
     }
 
     public static void listMoviesByCinema() throws Exception {
+        boolean found=false;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         ArrayList<Cinema> cinemaDB = CinemaController.getCinemaDB();
-        System.out.println("Enter the name of the Cinema you would like to search");
-        String cinemaName = reader.readLine();
-        for (Cinema cinema : cinemaDB) {
-            if (Objects.equals(cinema.getName(), cinemaName)) {
-                ArrayList<Movie> movies = cinema.getMovies();
-                for (Movie movie : movies) {
-                    System.out.println(movie.toString());
-                }
-                break;
+        do{
+            System.out.println("Enter the name of the Cinema you would like to search");
+            System.out.println("Available Cinemas: ");
+            for (Cinema cinema : cinemaDB) {
+                System.out.println(cinema.getName());
             }
-        }
+            String cinemaName = reader.readLine();
+            for (Cinema cinema : cinemaDB) {
+                if (Objects.equals(cinema.getName(), cinemaName)) {
+                    ArrayList<Movie> movies = cinema.getMovies();
+                    for (Movie movie : movies) {
+                        System.out.println(movie.toString());
+                    }
+                    found = true;
+                    break;
+                }
+            }
+            System.out.println("Invalid Cinema Name. Please try again.");
+        }while(!found);
     }
 }
