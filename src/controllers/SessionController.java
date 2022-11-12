@@ -96,7 +96,7 @@ public class SessionController {
                 case 4:
                     Ticket t = BookingUI.makeBooking(c);
                     if (t != null) {
-                        c.addBookings(BookingUI.makeBooking(c));
+                        c.addBookings(t);
 
                         System.out.println("Ticket booked successfully");
                     } else {

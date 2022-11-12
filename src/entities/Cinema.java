@@ -2,6 +2,7 @@ package src.entities;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -94,6 +95,23 @@ public class Cinema implements Serializable {
         return this.seats.get(title).get(index);
     }
 
+    public void updateShowtime(String title, ArrayList<LocalDateTime> showtime) {
+        this.showtimes.replace(title, showtime);
+    }
+    
+    public void printShowtimes(String title) {
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mma");
+        ArrayList<LocalDateTime> showtimes = this.showtimes.get(title);
+        System.out.println("The showtimes for movie: " + title);
+        for(int i = 0; i < showtimes.size()-1; i++) {
+        	if(showtimes.get(i) != null && showtimes.get(i+1) != null)
+        		System.out.println(formatter.format(showtimes.get(i)) + "\t" + formatter.format(showtimes.get(i+1)));
+        	else
+        		System.out.println(formatter.format(showtimes.get(i)));
+        	
+        }
+    }
+    
     public void printLayout(String title, LocalDateTime showtime) { //prints layout of the Cinema based on available seats for the Movie at the particular showtime
         HashMap<String, ArrayList<Seat>> allSeats = this.seats; //Not sure about the local date class
         ArrayList<Seat> seats = new ArrayList<>();
