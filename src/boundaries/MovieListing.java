@@ -1,4 +1,4 @@
-package SC2002Link.src.boundaries;
+package src.boundaries;
 
 import src.controllers.CinemaController;
 import src.controllers.MovieController;
