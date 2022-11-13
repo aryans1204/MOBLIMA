@@ -112,7 +112,7 @@ public class SessionController {
                         System.out.println("1. Based on total sales");
                         System.out.println("2. Based on reviews");
                         System.out.println("3. Back");
-                        choice = sc.nextInt();
+                        choice = Integer.parseInt(sc.nextLine());
                         if (choice == 1) {
                             MovieListing.listBySales();
                             break;
