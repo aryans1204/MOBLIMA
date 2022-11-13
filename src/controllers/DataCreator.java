@@ -155,7 +155,7 @@ public class DataCreator {
         }
 
         //Create Seats
-        /*String alphabet = "";
+        String alphabet = "";
         for (int i = 1; i <= 10; i++) {
             switch (i) {
                 case 1:
@@ -192,34 +192,34 @@ public class DataCreator {
             for (int j = 1; j <= 16; j++) {
                 if (i < 8) {
                     if (alphabet.equals("C") && j == 6)
-                        continue;
+                    	cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy01", 19, "dummy01", "dummy", "dummy01@gmail.com", 84567136), "C06");
                     if (alphabet.equals("D") && j == 12)
-                        continue;
+                    	cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy02", 19, "dummy02", "dummy", "dummy02@gmail.com", 84567136), "D12");
                     if (alphabet.equals("E") && j == 3)
-                        continue;
+                    	cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy03", 19, "dummy03", "dummy", "dummy03@gmail.com", 84567136), "E03");
                     if (alphabet.equals("E") && j == 4)
-                        continue;
+                    	cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy04", 19, "dummy04", "dummy", "dummy04@gmail.com", 84567136), "E04");
                     if (alphabet.equals("E") && j == 15)
-                        continue;
+                    	cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy12", 19, "dummy12", "dummy", "dummy12@gmail.com", 84567136), "E15");
                     if (alphabet.equals("F") && j == 8)
-                        continue;
+                    	cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy05", 19, "dummy05", "dummy", "dummy05@gmail.com", 84567136), "F08");
                     if (alphabet.equals("F") && j == 9)
-                        continue;
+                    	cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy06", 19, "dummy06", "dummy", "dummy06@gmail.com", 84567136), "F09");
                     if (alphabet.equals("F") && j == 10)
-                        continue;
+                    	cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy07", 19, "dummy07", "dummy", "dummy07@gmail.com", 84567136), "F10");
                     if (j < 10)
                         cinema.insertSeatIntoDB(SeatType.STANDARD, null, alphabet + "0" + j);
                     else
                         cinema.insertSeatIntoDB(SeatType.STANDARD, null, alphabet + j);
                 } else {
                     if (alphabet.equals("I") && j == 3)
-                        continue;
+                    	cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy08", 19, "dummy08", "dummy", "dummy08@gmail.com", 84567136), "I03");
                     if (alphabet.equals("I") && j == 4)
-                        continue;
+                    	cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy09", 19, "dummy09", "dummy", "dummy09@gmail.com", 84567136), "I04");
                     if (alphabet.equals("I") && j == 7)
-                        continue;
+                    	cinema.insertSeatIntoDB(SeatType.GOLD, new Customer("dummy10", 19, "dummy10", "dummy", "dummy10@gmail.com", 84567136), "I07");
                     if (alphabet.equals("J") && j == 11)
-                        continue;
+                    	cinema.insertSeatIntoDB(SeatType.PLATINUM, new Customer("dummy11", 19, "dummy11", "dummy", "dummy11@gmail.com", 84567136), "J11");
                     if (j < 10) {
                         if (j < 5)
                             cinema.insertSeatIntoDB(SeatType.STANDARD, null, alphabet + "0" + j);
@@ -239,26 +239,16 @@ public class DataCreator {
 
                 }
             }
-        }*/
-        for(int i=0; i<112;i++){
-            if (i==3) cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy01", 19, "dummy01", "dummy", "dummy01@gmail.com", 84567136), "C06");
-            else if (i==10) cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy01", 19, "dummy01", "dummy", "dummy01@gmail.com", 84567136), "C06");
-            else
-                cinema.insertSeatIntoDB(SeatType.STANDARD, null, String.valueOf(i));
         }
+//        for(int i=0; i<112;i++){
+//            if (i==3) cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy01", 19, "dummy01", "dummy", "dummy01@gmail.com", 84567136), "C06");
+//            else if (i==10) cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy01", 19, "dummy01", "dummy", "dummy01@gmail.com", 84567136), "C06");
+//            else
+//                cinema.insertSeatIntoDB(SeatType.STANDARD, null, String.valueOf(i));
+//        }
 
-        /*cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy01", 19, "dummy01", "dummy", "dummy01@gmail.com", 84567136), "C06");
-        cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy02", 19, "dummy02", "dummy", "dummy02@gmail.com", 84567136), "D12");
-        cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy03", 19, "dummy03", "dummy", "dummy03@gmail.com", 84567136), "E03");
-        cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy04", 19, "dummy04", "dummy", "dummy04@gmail.com", 84567136), "E04");
-        cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy05", 19, "dummy05", "dummy", "dummy05@gmail.com", 84567136), "F08");
-        cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy06", 19, "dummy06", "dummy", "dummy06@gmail.com", 84567136), "F09");
-        cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy07", 19, "dummy07", "dummy", "dummy07@gmail.com", 84567136), "F10");
-        cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy08", 19, "dummy08", "dummy", "dummy08@gmail.com", 84567136), "I03");
-        cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy09", 19, "dummy09", "dummy", "dummy09@gmail.com", 84567136), "I04");
-        cinema.insertSeatIntoDB(SeatType.GOLD, new Customer("dummy10", 19, "dummy10", "dummy", "dummy10@gmail.com", 84567136), "I07");
-        cinema.insertSeatIntoDB(SeatType.PLATINUM, new Customer("dummy11", 19, "dummy11", "dummy", "dummy11@gmail.com", 84567136), "J11");
-        cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy12", 19, "dummy12", "dummy", "dummy12@gmail.com", 84567136), "E15");*/
+        
+        
         for(int i=112; i<144;i++){
             cinema.insertSeatIntoDB(SeatType.GOLD, null, String.valueOf(i));
         }
@@ -272,6 +262,7 @@ public class DataCreator {
         cinema.insertCinemaIntoDB("CathayTheatre2", cinema2Mv, cinema2St);
         cinema.insertCinemaIntoDB("CathayTheatre3", cinema3Mv, cinema3St);
 
+        //Create Cineplex 
 
         //Create CUSTOMERS
         client.insertCustomerToDB("John", 19, "john", "test123", "john111@gmail.com", 84324783);

@@ -573,6 +573,8 @@ public class MovieListing {
                     for (Movie movie : movies) {
                         if (movie.getStatus() != MovieStatus.END_OF_SHOWING) {
                             System.out.println(movie.toString());
+                            System.out.println("Showtimes: ");
+                            cinema.printShowtimes(movie.getTitle());
                         }
                     }
                     found = true;
