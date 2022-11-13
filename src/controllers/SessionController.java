@@ -56,22 +56,22 @@ public class SessionController {
                     MovieListing.removeMovieListing();
                     break;
                 case 4:
-                	MovieListing.searchMovie();
+                    MovieListing.searchMovie();
                     break;
                 case 5:
-                	MovieListing.listMovie();
+                    MovieListing.listMovie();
                     break;
                 case 6:
-                	MovieListing.listByReview();
+                    MovieListing.listByReview();
                     break;
                 case 7:
                     MovieListing.listBySales();
                     break;
                 case 8:
-                	MovieListing.addShowtime(s.getCinema());
+                    MovieListing.addShowtime(s.getCinema());
                     break;
                 case 9:
-                	MovieListing.removeShowtime(s.getCinema());
+                    MovieListing.removeShowtime(s.getCinema());
                     break;
                 case 10:
                     SystemConfig.configTicketPrices(s.getCinema());
