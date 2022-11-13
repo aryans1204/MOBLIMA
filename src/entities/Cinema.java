@@ -6,15 +6,50 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ *  Represents a Cinema in the system
+ *  It contains movies, prices of the movies, showtimes, seats and seat layout
+ *  @author Aryan
+ */
 //ide suggested @SuppressWarnings("serial")
 @SuppressWarnings("serial")
 public class Cinema implements Serializable {
-    private HashMap<String, Double> prices = new HashMap<>();  //prices indicator per movie-title for Staff to set.
+
+    /**
+     * A HashMap for Staff to set prices in this Cinema
+     * String for associated movie title and Double for the price
+     */
+    private HashMap<String, Double> prices = new HashMap<>();  //prices indicator per movie-title for Staff to set
+
+    /**
+     * Array list of movies to store all movies in this Cinema
+     */
     private ArrayList<Movie> movies;  //array of Movies at this cinema;
+
+    /**
+     * HashMap of showtimes for movies in this Cinema
+     * String indicates movie title and Array list of LocalDateTime for fixed showtimes
+     */
     private HashMap<String, ArrayList<LocalDateTime>> showtimes;
+
+    /**
+     * HashMap of seats in this Cinema
+     * String indicates movie and showtime while array list of Seat is to store the details of each Seat
+     */
     private HashMap<String, ArrayList<Seat>> seats;  //key is the movie title + showtime.toString().
+
+    /**
+     * This Cinema's name
+     */
     private String cinemaName;
 
+    /**
+     * Creates a Cinema with the given attributes
+     * @param cinemaName    This Cinema's name
+     * @param movies        Movies available in this Cinema
+     * @param showtimes     All showtimes for each movies in this Cinema
+     * @param seats         All seats for each movie in this Cinema
+     */
     public Cinema(String cinemaName, ArrayList<Movie> movies, HashMap<String, ArrayList<LocalDateTime>> showtimes, HashMap<String, ArrayList<Seat>> seats) {
         this.movies = movies;
         this.cinemaName = cinemaName;
@@ -27,55 +62,112 @@ public class Cinema implements Serializable {
         this.seats = seats;
     }
 
+    /**
+     * A method to set Ticket price
+     * @param title Movie title
+     * @param price Price to set
+     */
     public void setTicketPrice(String title, double price) {
         this.prices.put(title, price);
     }
 
+    /**
+     * A method to add showtimes into this Cinema
+     * @param title     Movie title
+     * @param showtime  Showtime to add
+     */
     public void setShowtime(String title, LocalDateTime showtime) {
         ArrayList<LocalDateTime> shows = this.showtimes.get(title);
         shows.add(showtime);
         this.showtimes.put(title, shows);
     }
 
+    /**
+     * Changes this name of this Cinema
+     * @param name  This Cinema's new name
+     */
     public void setName(String name) {
         this.cinemaName = name;
     }
 
+    /**
+     * Gets the name of this Cinema
+     * @return  this Cinema's name
+     */
     public String getName() {
         return this.cinemaName;
     }
 
+    /**
+     * Gets the Ticket price of a Movie in this Cinema
+     * @param title Movie title
+     * @return      the price of the Movie Ticket
+     */
     public double getTicketPrice(String title) {
         return this.prices.get(title);
     }
 
+    /**
+     * Gets the showtimes in this Cinema
+     * @param title Movie title
+     * @return      the showtime of the Movie
+     */
     public ArrayList<LocalDateTime> getShowtimes(String title) {
         return this.showtimes.get(title);
     }
 
+    /**
+     * Gets all the movies available in this Cinema
+     * @return  Array list of Movies
+     */
     public ArrayList<Movie> getMovies() {
         return this.movies;
     }
 
+    /**
+     * A method to update Movies available in this Cinema
+     * @param newMovie  Movie object
+     * @return          an updated array list of Movies
+     */
     public ArrayList<Movie> updateMovies(Movie newMovie) {
         this.movies.add(newMovie);
         return this.movies;
     }
 
+    /**
+     * Sets the seat with associated Movie in this Cinema
+     * @param title     Movie title
+     * @param newSeat   new Seat object
+     */
     public void setSeats(String title, Seat newSeat) {
         ArrayList<Seat> s = this.seats.get(title);
         s.add(newSeat);
         this.seats.put(title, s);
     }
 
+    /**
+     * Sets the Movies available in this Cinema
+     * @param movies    Array list of Movies
+     */
     public void setMovies(ArrayList<Movie> movies) {
         this.movies = movies;
     }
 
+    /**
+     * Overloads the setSeats method with another parameter of a HashMap
+     * @param seats HashMap of associated Movies and showtime and an array list of Seat object
+     */
     public void setSeats(HashMap<String, ArrayList<Seat>> seats) {
         this.seats = seats;
     }
 
+    /**
+     * Sets the Customer to a Seat whenever a booking is done in this Cinema
+     * @param customer  Customer Object
+     * @param title     Movie title
+     * @param index     Seat index
+     * @return          True if Customer is successfully set, False if unsuccessful
+     */
     public boolean setCustomer(Customer customer, String title, int index) {
         if (this.seats.containsKey(title) && this.seats.get(title) != null) {
             try {
@@ -91,18 +183,38 @@ public class Cinema implements Serializable {
         return true;
     }
 
+    /**
+     * Gets the array list of Seat of associated Movie title in this Cinema
+     * @param title Movie title
+     * @return  Array list of Seat object
+     */
     public ArrayList<Seat> getSeats(String title) {
         return this.seats.get(title);
     }
 
+    /**
+     * Overloaded method of getSeat() with other parameters with different return type
+     * @param title Movie title
+     * @param index Seat number
+     * @return  Seat object
+     */
     public Seat getSeat(String title, int index) {
         return this.seats.get(title).get(index);
     }
 
+    /**
+     * A method to update showtimes of a Movie in this Cinema
+     * @param title     Movie title
+     * @param showtime  Updated array list of showtime
+     */
     public void updateShowtime(String title, ArrayList<LocalDateTime> showtime) {
         this.showtimes.replace(title, showtime);
     }
 
+    /**
+     * A method to print available showtimes of a Movie in this Cinema
+     * @param title Movie title
+     */
     public void printShowtimes(String title) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mma");
         ArrayList<LocalDateTime> showtimes = this.showtimes.get(title);
@@ -130,6 +242,11 @@ public class Cinema implements Serializable {
         
     }
 
+    /**
+     * Prints the seat layout of a Movie in this Cinema
+     * @param title     Movie title
+     * @param showtime  Showtime of the Movie
+     */
     public void printLayout(String title, LocalDateTime showtime) { //prints layout of the Cinema based on available seats for the Movie at the particular showtime
         HashMap<String, ArrayList<Seat>> allSeats = this.seats; //Not sure about the local date class
         ArrayList<Seat> seats = new ArrayList<>();
@@ -143,7 +260,7 @@ public class Cinema implements Serializable {
                 purchasedSeats.add(i); //Add the index into purchased Seats
             }
         }
-
+        System.out.println(purchasedSeats);
 
 //        int seatPurchased = //Need to pass in the index of the purchased;
 

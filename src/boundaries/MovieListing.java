@@ -16,7 +16,18 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
+/**
+ * Boundary class providing the Movie Listing related User Interface
+ *
+ * @author Aryan
+ */
 public class MovieListing {
+    /**
+     * User Interface for Staff to create a new movie Listing at a Cinema
+     *
+     * @param cinemaName represents the name of the Cinema to createMovieListing at
+     * @return Movie
+     */
     public static Movie createMovieListing(String cinemaName) {
         Scanner sc = new Scanner(System.in);
         int runtime, option, id;
@@ -156,6 +167,11 @@ public class MovieListing {
         }
     }
 
+    /**
+     * user interface for Staff to update a Movie Listing at a Cinema
+     *
+     * @param cinema represents the particular Cinema to update movie at
+     */
     public static void updateMovieListing(Cinema cinema) {
         //Instead of updating release date, give an option to update a showtime, based on a Cinema.
         Scanner sc = new Scanner(System.in);
@@ -445,6 +461,9 @@ public class MovieListing {
         }
     }
 
+    /**
+     * User Interface to Remove a Movie listing. This removal happens globally across all Cinemas
+     */
     public static void removeMovieListing() {
         Scanner sc = new Scanner(System.in);
         ArrayList<Movie> movieDB = MovieController.getMovieDB();
@@ -483,6 +502,9 @@ public class MovieListing {
 
     }
 
+    /**
+     * User Interface to list all Movies present in the database
+     */
     public static void listMovie() {
         ArrayList<Movie> movieDB = MovieController.getMovieDB();
         for (Movie movie : movieDB) {
@@ -499,6 +521,9 @@ public class MovieListing {
         }
     }
 
+    /**
+     * User interface to List all movies ordered by Rating
+     */
     public static void listByReview() {
         ArrayList<Movie> movieDB = MovieController.getMovieDB();
         ArrayList<Movie> listMovies = movieDB;
@@ -522,6 +547,11 @@ public class MovieListing {
         }
     }
 
+    /**
+     * User interface to search for a Movie based on Movie title in the database
+     *
+     * @throws IOException
+     */
     public static void searchMovie() throws IOException {
         ArrayList<Movie> movieDB = MovieController.getMovieDB();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -536,6 +566,9 @@ public class MovieListing {
         System.out.println("Sorry, movie not found. Try again");
     }
 
+    /**
+     * User interface tp List Movies ordered by TotalSales
+     */
     public static void listBySales() {
         ArrayList<Movie> movieDB = MovieController.getMovieDB();
         ArrayList<Movie> listMoviesSales = movieDB;
@@ -556,6 +589,11 @@ public class MovieListing {
         }
     }
 
+    /**
+     * User interface to List Movies by Cinema
+     *
+     * @throws Exception
+     */
     public static void listMoviesByCinema() throws Exception {
         boolean found = false;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

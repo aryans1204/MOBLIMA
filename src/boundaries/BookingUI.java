@@ -13,7 +13,17 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
+/**
+ * Boundary class providing the Booking related User Interface for Customer.
+ *
+ * @author Aryan
+ */
 public class BookingUI {
+    /**
+     * Utility to print the lauout of Cinema at a given showtime for a Movie, to check for Seat availability.
+     *
+     * @throws Exception
+     */
     public static void checkSeatAvailability() throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         ArrayList<Cinema> cinemaDB = CinemaController.getCinemaDB();
@@ -43,6 +53,13 @@ public class BookingUI {
         }
     }
 
+    /**
+     * User Interface to make Booking for a customer at specified movie, cinema and showtime
+     *
+     * @param customer represents customer to makeBooking for
+     * @return Ticket returns the Ticket corresponding to the booked ticket
+     * @throws Exception
+     */
     public static Ticket makeBooking(Customer customer) throws Exception {
         ArrayList<Cinema> cinemaDB = CinemaController.getCinemaDB();
         ArrayList<Movie> movieDB = MovieController.getMovieDB();
@@ -100,6 +117,12 @@ public class BookingUI {
         return null;
     }
 
+    /**
+     * Adds a review for a specific Movie for a particular Customer
+     *
+     * @param c represents Customer who is adding review
+     * @throws Exception
+     */
     public static void addReview(Customer c) throws Exception {
         ArrayList<Movie> movieDB = MovieController.getMovieDB();
 
