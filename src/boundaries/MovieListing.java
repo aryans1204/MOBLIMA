@@ -409,18 +409,27 @@ public class MovieListing {
                     LocalDateTime newShowTime = null;
                     exit = false;
                     String selectedTitle = movieDB.get(index).getTitle();
+                    int stIndex = 0;
                     //Prints showtimes of the movie
                     cinema.printShowtimes(selectedTitle);
+                    ArrayList<LocalDateTime> showtimes = cinema.getShowtimes(selectedTitle);
                     while (!exit) {
                         try {
-                            System.out.println("Enter the showtime you would like to change e.g (20/11/2022 09:00AM): ");
+                            System.out.println("Enter a existing showtime you would like to change e.g (20/11/2022 09:00AM): ");
                             showtime = LocalDateTime.parse(sc.nextLine(), formatter);
-                            exit = true;
+                            for (int i = 0; i < showtimes.size(); i++) {
+                                if (showtimes.get(i).isEqual(showtime)) {
+                                	stIndex = i;
+                                    exit = true;
+                                    break;
+                                }
+                            }
+                            if (!exit) System.out.println("Showtime does not exist. Please try again");
                         } catch (DateTimeParseException e) {
                             System.out.println("Invalid date format, Please try again");
                         }
                     }
-                    ArrayList<LocalDateTime> showtimes = cinema.getShowtimes(selectedTitle);
+                    
                     for (int i = 0; i < showtimes.size(); i++) {
                         if (showtimes.get(i).isEqual(showtime)) {
                             exit = false;
@@ -433,9 +442,9 @@ public class MovieListing {
                                     System.out.println("Invalid date format, Please try again");
                                 }
                             }
-                            showtimes.set(i, newShowTime);
                         }
                     }
+                    showtimes.set(stIndex, newShowTime);
                     cinema.updateShowtime(selectedTitle, showtimes);
                     cinemaDB = CinemaController.getCinemaDB();
                     for (int i = 0; i < cinemaDB.size(); i++) {
@@ -459,6 +468,94 @@ public class MovieListing {
             e.printStackTrace();
             System.out.println("Invalid input detected, Please try again");
         }
+    }
+    
+    public static void addShowtime(Cinema cinema) {
+    	Scanner sc = new Scanner(System.in);
+    	ArrayList<Movie> movieDB = MovieController.getMovieDB();
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mma");
+        LocalDateTime showtime = null;
+        boolean exit = false;
+        String title = "";
+        
+        while (!exit) {
+        	System.out.println("Enter the Movie title you want to add showtime to: ");
+            title = sc.nextLine();
+            for (int i = 0; i < movieDB.size(); i++) {
+                if (movieDB.get(i).getTitle().equals(title)) {
+                    exit = true;
+                    break;
+                }
+            }
+            if (!exit) System.out.println("Title does not exist. Please try again");
+        }
+        
+        exit = false;
+        while (!exit) {
+            try {
+                System.out.println("Enter the showtime you would like to add e.g (20/11/2022 09:00AM): ");
+                showtime = LocalDateTime.parse(sc.nextLine(), formatter);
+                exit = true;
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format, Please try again");
+            }
+        }
+        ArrayList<LocalDateTime> showtimes = cinema.getShowtimes(title);
+        showtimes.add(showtime);
+        cinema.updateShowtime(title, showtimes);
+        ArrayList<Cinema> cinemaDB = CinemaController.getCinemaDB();
+        for (int i = 0; i < cinemaDB.size(); i++) {
+            if (cinemaDB.get(i).getName().equals(cinema.getName())) cinemaDB.set(i, cinema);
+        }
+        CinemaController.setCinemaDB(cinemaDB);
+    }
+    
+    public static void removeShowtime(Cinema cinema) {
+    	Scanner sc = new Scanner(System.in);
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mma");
+    	ArrayList<Movie> movieDB = MovieController.getMovieDB();
+        LocalDateTime showtime = null;
+        boolean exit = false;
+        int index=0;
+        String title = "";
+        
+        while (!exit) {
+        	System.out.println("Enter the Movie title you want to remove showtime from: ");
+            title = sc.nextLine();
+            for (int i = 0; i < movieDB.size(); i++) {
+                if (movieDB.get(i).getTitle().equals(title)) {
+                    exit = true;
+                    break;
+                }
+            }
+            if (!exit) System.out.println("Title does not exist. Please try again");
+        }
+        ArrayList<LocalDateTime> showtimes = cinema.getShowtimes(title);
+        
+        exit = false;
+        while (!exit) {
+            try {
+                System.out.println("Enter a existing showtime you would like to remove e.g (20/11/2022 09:00AM): ");
+                showtime = LocalDateTime.parse(sc.nextLine(), formatter);
+                for (int i = 0; i < showtimes.size(); i++) {
+                    if (showtimes.get(i).isEqual(showtime)) {
+                    	index = i;
+                        exit = true;
+                        break;
+                    }
+                }
+                if (!exit) System.out.println("Showtime does not exist. Please try again");
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format, Please try again");
+            }
+        }
+        showtimes.remove(index);
+        cinema.updateShowtime(title, showtimes);
+        ArrayList<Cinema> cinemaDB = CinemaController.getCinemaDB();
+        for (int i = 0; i < cinemaDB.size(); i++) {
+            if (cinemaDB.get(i).getName().equals(cinema.getName())) cinemaDB.set(i, cinema);
+        }
+        CinemaController.setCinemaDB(cinemaDB);
     }
 
     /**

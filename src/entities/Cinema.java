@@ -218,28 +218,26 @@ public class Cinema implements Serializable {
     public void printShowtimes(String title) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mma");
         ArrayList<LocalDateTime> showtimes = this.showtimes.get(title);
-        int left = 0;
+        int i = 0;
         System.out.println("The showtimes for movie: " + title);
-        for (int i = 0; i < showtimes.size(); i+=5) {
-            if (showtimes.get(i) != null && showtimes.get(i + 1) != null && showtimes.get(i + 2) != null && showtimes.get(i + 3) != null && showtimes.get(i + 4) != null)
-                System.out.println(formatter.format(showtimes.get(i)) + "\t" + formatter.format(showtimes.get(i + 1)) + "\t" + formatter.format(showtimes.get(i + 2)) + "\t" + formatter.format(showtimes.get(i + 3)) + "\t" + formatter.format(showtimes.get(i + 4)));
-            else if (showtimes.get(i) != null && showtimes.get(i + 1) != null && showtimes.get(i + 2) != null && showtimes.get(i + 3) != null)
-                System.out.println(formatter.format(showtimes.get(i)) + "\t" + formatter.format(showtimes.get(i + 1)) + "\t" + formatter.format(showtimes.get(i + 2)) + "\t" + formatter.format(showtimes.get(i + 3)));
-            else if (showtimes.get(i) != null && showtimes.get(i + 1) != null && showtimes.get(i + 2) != null)
-            	System.out.println(formatter.format(showtimes.get(i)) + "\t" + formatter.format(showtimes.get(i + 1)) + "\t" + formatter.format(showtimes.get(i + 2)));
-            else if (showtimes.get(i) != null && showtimes.get(i + 1) != null)
-            	System.out.println(formatter.format(showtimes.get(i)) + "\t" + formatter.format(showtimes.get(i + 1)));
-            else
-                System.out.println(formatter.format(showtimes.get(i)));
-            left += 5;
-        }
-        if(showtimes.size() != left) {
-        	left = showtimes.size() - left;
-        	for(int i = 1; i < left; i++) {
-        		System.out.println(formatter.format(showtimes.get(i + showtimes.size())));
-        	}
+        if(showtimes.size() == 35) {
+        	for (i = 0; i < showtimes.size()-1; i+=5) {
+                if (showtimes.get(i) != null && showtimes.get(i + 1) != null && showtimes.get(i + 2) != null && showtimes.get(i + 3) != null && showtimes.get(i + 4) != null)
+                    System.out.println(formatter.format(showtimes.get(i)) + "\t" + formatter.format(showtimes.get(i + 1)) + "\t" + formatter.format(showtimes.get(i + 2)) + "\t" + formatter.format(showtimes.get(i + 3)) + "\t" + formatter.format(showtimes.get(i + 4)));
+            }
+        }else {
+        	int size = (showtimes.size()/5)*5;
+        	for (i = 0; i < size-1; i+=5) {
+                if (showtimes.get(i) != null && showtimes.get(i + 1) != null && showtimes.get(i + 2) != null && showtimes.get(i + 3) != null && showtimes.get(i + 4) != null)
+                    System.out.println(formatter.format(showtimes.get(i)) + "\t" + formatter.format(showtimes.get(i + 1)) + "\t" + formatter.format(showtimes.get(i + 2)) + "\t" + formatter.format(showtimes.get(i + 3)) + "\t" + formatter.format(showtimes.get(i + 4)));
+            }
+        	int subSize = showtimes.size() % 5;
+        	for (i = 0; i < subSize; i++) {
+        		System.out.print(formatter.format(showtimes.get(i+size)) + "\t");
+            }
         }
         
+        System.out.println();
     }
 
     /**

@@ -61,7 +61,7 @@ public class DataCreator {
         ArrayList<String> foaCast = new ArrayList<String>(Arrays.asList(foaStr.trim().split("\\s*,\\s*")));
 
         movie.insertMovieToDB("Faces Of Anne", MovieType.TWO_D, MovieStatus.NOW_SHOWING,
-                "Everyone is called “Anne” and they are all being chased! We challenge you to prove your bravery in a movie that will awaken all your senses in order to survive. In Faces of Anne, Anne takes you on a terrifying mystery journey with secrets lurking in the dark corners. When all the girls named \"Anne\" wakes up with fuzzy memories which the doctors and nurses keep injecting and saying it is mental symptoms that they think to themselves, along with hypnosis to make them remember who they are."
+                "Everyone is called \"Anne\" and they are all being chased! We challenge you to prove your bravery in a movie that will awaken all your senses in order to survive. In Faces of Anne, Anne takes you on a terrifying mystery journey with secrets lurking in the dark corners. When all the girls named \"Anne\" wakes up with fuzzy memories which the doctors and nurses keep injecting and saying it is mental symptoms that they think to themselves, along with hypnosis to make them remember who they are."
                         + " Not too long ago in this mental ward, every time Anne opens her eyes, every time Anne dies, or every time Anne's face changes, the young women in this place begin to mysteriously disappear. Fear gradually began to take root in the minds of the survivors. Until they encountered the legendary deer-headed demon \"Wedigo\". In order to survive, everyone must work together. The only way is to piece together the past and the mysteries that lead to the truth and to find a way to escape in time before death takes them away."
                 , " Kongdej Jaturanrasamee, Rasiguet Sookkarn", foaCast, "NC16", 116, LocalDate.parse("2022-11-03"), 0);
 
@@ -125,7 +125,7 @@ public class DataCreator {
 
         movie.insertMovieToDB("The Woman King", MovieType.TWO_D, MovieStatus.COMING_SOON,
                 "The Woman King is the remarkable story of the Agojie, the all-female unit of warriors who protected the African Kingdom of Dahomey in the 1800s with skills and a fierceness unlike anything the world has ever seen. Inspired by true events, The Woman King follows the emotionally epic journey of General Nanisca (Oscar-winner Viola Davis) as she trains the next generation of recruits and readies them for battle against an enemy determined to destroy their way of life. Some things are worth fighting for…"
-                , "Gina Prince-Bythewood", m3Cast, "PG13", 135, LocalDate.parse("2023-02-02"), 0);
+                , "Gina Prince-Bythewood", twkCast, "PG13", 135, LocalDate.parse("2023-02-02"), 0);
 
         //There is total of 12 movies in the database
         ArrayList<Movie> movies = movie.getAllMoviesFromDB();
@@ -143,20 +143,39 @@ public class DataCreator {
         HashMap<String, ArrayList<LocalDateTime>> cinema2St = new HashMap<String, ArrayList<LocalDateTime>>();
         HashMap<String, ArrayList<LocalDateTime>> cinema3St = new HashMap<String, ArrayList<LocalDateTime>>();
         //Creating a fixed showtimes for all movies
-        ArrayList<LocalDateTime> showtimes = new ArrayList<LocalDateTime>(Arrays.asList(
-                LocalDateTime.parse("2022-11-14T09:30:00"), LocalDateTime.parse("2022-11-14T12:10:00"), LocalDateTime.parse("2022-11-14T15:50:00"), LocalDateTime.parse("2022-11-14T18:10:00"), LocalDateTime.parse("2022-11-14T21:00:00"),//mon
-                LocalDateTime.parse("2022-11-15T09:30:00"), LocalDateTime.parse("2022-11-15T12:10:00"), LocalDateTime.parse("2022-11-15T15:50:00"), LocalDateTime.parse("2022-11-15T18:10:00"), LocalDateTime.parse("2022-11-15T21:00:00"),//tue
-                LocalDateTime.parse("2022-11-16T09:30:00"), LocalDateTime.parse("2022-11-16T12:10:00"), LocalDateTime.parse("2022-11-16T15:50:00"), LocalDateTime.parse("2022-11-16T18:10:00"), LocalDateTime.parse("2022-11-16T21:00:00"),//wed
-                LocalDateTime.parse("2022-11-17T09:30:00"), LocalDateTime.parse("2022-11-17T12:10:00"), LocalDateTime.parse("2022-11-17T15:50:00"), LocalDateTime.parse("2022-11-17T18:10:00"), LocalDateTime.parse("2022-11-17T21:00:00"),//thur
-                LocalDateTime.parse("2022-11-18T09:30:00"), LocalDateTime.parse("2022-11-18T12:10:00"), LocalDateTime.parse("2022-11-18T15:50:00"), LocalDateTime.parse("2022-11-18T18:10:00"), LocalDateTime.parse("2022-11-18T21:00:00"),//fri
-                LocalDateTime.parse("2022-11-19T09:30:00"), LocalDateTime.parse("2022-11-19T12:10:00"), LocalDateTime.parse("2022-11-19T15:50:00"), LocalDateTime.parse("2022-11-19T18:10:00"), LocalDateTime.parse("2022-11-19T21:00:00"),//sat
-                LocalDateTime.parse("2022-11-20T09:30:00"), LocalDateTime.parse("2022-11-20T12:10:00"), LocalDateTime.parse("2022-11-20T15:50:00"), LocalDateTime.parse("2022-11-20T18:10:00"), LocalDateTime.parse("2022-11-20T21:00:00") //sun
-        ));
+        
         //Assign the showtime for each movie
         for (int i = 0; i < 4; i++) {
-            cinema1St.put(cinema1Mv.get(i).getTitle(), showtimes);
-            cinema2St.put(cinema2Mv.get(i).getTitle(), showtimes);
-            cinema3St.put(cinema3Mv.get(i).getTitle(), showtimes);
+        	ArrayList<LocalDateTime> showtimes1 = new ArrayList<LocalDateTime>(Arrays.asList(
+                    LocalDateTime.parse("2022-11-14T09:30:00"), LocalDateTime.parse("2022-11-14T12:10:00"), LocalDateTime.parse("2022-11-14T15:50:00"), LocalDateTime.parse("2022-11-14T18:10:00"), LocalDateTime.parse("2022-11-14T21:00:00"),//mon
+                    LocalDateTime.parse("2022-11-15T09:30:00"), LocalDateTime.parse("2022-11-15T12:10:00"), LocalDateTime.parse("2022-11-15T15:50:00"), LocalDateTime.parse("2022-11-15T18:10:00"), LocalDateTime.parse("2022-11-15T21:00:00"),//tue
+                    LocalDateTime.parse("2022-11-16T09:30:00"), LocalDateTime.parse("2022-11-16T12:10:00"), LocalDateTime.parse("2022-11-16T15:50:00"), LocalDateTime.parse("2022-11-16T18:10:00"), LocalDateTime.parse("2022-11-16T21:00:00"),//wed
+                    LocalDateTime.parse("2022-11-17T09:30:00"), LocalDateTime.parse("2022-11-17T12:10:00"), LocalDateTime.parse("2022-11-17T15:50:00"), LocalDateTime.parse("2022-11-17T18:10:00"), LocalDateTime.parse("2022-11-17T21:00:00"),//thur
+                    LocalDateTime.parse("2022-11-18T09:30:00"), LocalDateTime.parse("2022-11-18T12:10:00"), LocalDateTime.parse("2022-11-18T15:50:00"), LocalDateTime.parse("2022-11-18T18:10:00"), LocalDateTime.parse("2022-11-18T21:00:00"),//fri
+                    LocalDateTime.parse("2022-11-19T09:30:00"), LocalDateTime.parse("2022-11-19T12:10:00"), LocalDateTime.parse("2022-11-19T15:50:00"), LocalDateTime.parse("2022-11-19T18:10:00"), LocalDateTime.parse("2022-11-19T21:00:00"),//sat
+                    LocalDateTime.parse("2022-11-20T09:30:00"), LocalDateTime.parse("2022-11-20T12:10:00"), LocalDateTime.parse("2022-11-20T15:50:00"), LocalDateTime.parse("2022-11-20T18:10:00"), LocalDateTime.parse("2022-11-20T21:00:00") //sun
+            ));
+            ArrayList<LocalDateTime> showtimes2 = new ArrayList<LocalDateTime>(Arrays.asList(
+                    LocalDateTime.parse("2022-11-14T09:30:00"), LocalDateTime.parse("2022-11-14T12:10:00"), LocalDateTime.parse("2022-11-14T15:50:00"), LocalDateTime.parse("2022-11-14T18:10:00"), LocalDateTime.parse("2022-11-14T21:00:00"),//mon
+                    LocalDateTime.parse("2022-11-15T09:30:00"), LocalDateTime.parse("2022-11-15T12:10:00"), LocalDateTime.parse("2022-11-15T15:50:00"), LocalDateTime.parse("2022-11-15T18:10:00"), LocalDateTime.parse("2022-11-15T21:00:00"),//tue
+                    LocalDateTime.parse("2022-11-16T09:30:00"), LocalDateTime.parse("2022-11-16T12:10:00"), LocalDateTime.parse("2022-11-16T15:50:00"), LocalDateTime.parse("2022-11-16T18:10:00"), LocalDateTime.parse("2022-11-16T21:00:00"),//wed
+                    LocalDateTime.parse("2022-11-17T09:30:00"), LocalDateTime.parse("2022-11-17T12:10:00"), LocalDateTime.parse("2022-11-17T15:50:00"), LocalDateTime.parse("2022-11-17T18:10:00"), LocalDateTime.parse("2022-11-17T21:00:00"),//thur
+                    LocalDateTime.parse("2022-11-18T09:30:00"), LocalDateTime.parse("2022-11-18T12:10:00"), LocalDateTime.parse("2022-11-18T15:50:00"), LocalDateTime.parse("2022-11-18T18:10:00"), LocalDateTime.parse("2022-11-18T21:00:00"),//fri
+                    LocalDateTime.parse("2022-11-19T09:30:00"), LocalDateTime.parse("2022-11-19T12:10:00"), LocalDateTime.parse("2022-11-19T15:50:00"), LocalDateTime.parse("2022-11-19T18:10:00"), LocalDateTime.parse("2022-11-19T21:00:00"),//sat
+                    LocalDateTime.parse("2022-11-20T09:30:00"), LocalDateTime.parse("2022-11-20T12:10:00"), LocalDateTime.parse("2022-11-20T15:50:00"), LocalDateTime.parse("2022-11-20T18:10:00"), LocalDateTime.parse("2022-11-20T21:00:00") //sun
+            ));
+            ArrayList<LocalDateTime> showtimes3 = new ArrayList<LocalDateTime>(Arrays.asList(
+                    LocalDateTime.parse("2022-11-14T09:30:00"), LocalDateTime.parse("2022-11-14T12:10:00"), LocalDateTime.parse("2022-11-14T15:50:00"), LocalDateTime.parse("2022-11-14T18:10:00"), LocalDateTime.parse("2022-11-14T21:00:00"),//mon
+                    LocalDateTime.parse("2022-11-15T09:30:00"), LocalDateTime.parse("2022-11-15T12:10:00"), LocalDateTime.parse("2022-11-15T15:50:00"), LocalDateTime.parse("2022-11-15T18:10:00"), LocalDateTime.parse("2022-11-15T21:00:00"),//tue
+                    LocalDateTime.parse("2022-11-16T09:30:00"), LocalDateTime.parse("2022-11-16T12:10:00"), LocalDateTime.parse("2022-11-16T15:50:00"), LocalDateTime.parse("2022-11-16T18:10:00"), LocalDateTime.parse("2022-11-16T21:00:00"),//wed
+                    LocalDateTime.parse("2022-11-17T09:30:00"), LocalDateTime.parse("2022-11-17T12:10:00"), LocalDateTime.parse("2022-11-17T15:50:00"), LocalDateTime.parse("2022-11-17T18:10:00"), LocalDateTime.parse("2022-11-17T21:00:00"),//thur
+                    LocalDateTime.parse("2022-11-18T09:30:00"), LocalDateTime.parse("2022-11-18T12:10:00"), LocalDateTime.parse("2022-11-18T15:50:00"), LocalDateTime.parse("2022-11-18T18:10:00"), LocalDateTime.parse("2022-11-18T21:00:00"),//fri
+                    LocalDateTime.parse("2022-11-19T09:30:00"), LocalDateTime.parse("2022-11-19T12:10:00"), LocalDateTime.parse("2022-11-19T15:50:00"), LocalDateTime.parse("2022-11-19T18:10:00"), LocalDateTime.parse("2022-11-19T21:00:00"),//sat
+                    LocalDateTime.parse("2022-11-20T09:30:00"), LocalDateTime.parse("2022-11-20T12:10:00"), LocalDateTime.parse("2022-11-20T15:50:00"), LocalDateTime.parse("2022-11-20T18:10:00"), LocalDateTime.parse("2022-11-20T21:00:00") //sun
+            ));
+            cinema1St.put(cinema1Mv.get(i).getTitle(), showtimes1);
+            cinema2St.put(cinema2Mv.get(i).getTitle(), showtimes2);
+            cinema3St.put(cinema3Mv.get(i).getTitle(), showtimes3);
         }
 
         //Create Seats
@@ -253,17 +272,16 @@ public class DataCreator {
 //                cinema.insertSeatIntoDB(SeatType.STANDARD, null, String.valueOf(i));
 //        }
 
-
-        
-        
-        for(int i=112; i<144;i++){
-            cinema.insertSeatIntoDB(SeatType.GOLD, null, String.valueOf(i));
-        }
-
-        for (int i = 144; i < 160; i++) {
-            cinema.insertSeatIntoDB(SeatType.PLATINUM, null, String.valueOf(i));
-        }
-
+//
+//        
+//        
+//        for(int i=112; i<144;i++){
+//            cinema.insertSeatIntoDB(SeatType.GOLD, null, String.valueOf(i));
+//        }
+//        
+//        for(int i=144;i<160;i++){
+//            cinema.insertSeatIntoDB(SeatType.PLATINUM, null, String.valueOf(i));
+//        }
 
         cinema.insertCinemaIntoDB("CathayTheatre1", cinema1Mv, cinema1St);
         cinema.insertCinemaIntoDB("CathayTheatre2", cinema2Mv, cinema2St);
