@@ -408,6 +408,7 @@ public class Movie implements Serializable {
 			reviewDetail = "N/A\n";
 		
 		movieDetail = "Movie Title: " + this.getTitle() + "\n"
+                    + "Movie Type: " + this.getType() + "\n"
 					+ "Showing Status: " + this.getStatus().toString() + "\n"
 					+ "Synopsis : " + this.getSynopsis() + "\n"
 					+ "Director : " + this.getDirector() + "\n"
