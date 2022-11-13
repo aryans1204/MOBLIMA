@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.*;
+import java.util.Scanner;
 
 public class SystemConfig {
     public static void configTicketPrices(Cinema cinema) throws Exception {
@@ -36,7 +36,7 @@ public class SystemConfig {
         LocalDate localDate = null;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         boolean quit = false;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         while (choice != 3) {
             System.out.println("Print choice: \n" +
                     "1. Add Holiday\n" +
@@ -47,13 +47,14 @@ public class SystemConfig {
             if (choice == 1) {
                 while (!quit) {
                     try {
-                        System.out.println("Enter the holiday date to add in this pattern: d/MM/yyyy:");
+                        System.out.println("Enter the holiday date to add in this pattern: dd/MM/yyyy:");
                         date_input = reader.readLine();
                         localDate = LocalDate.parse(date_input, formatter);
                         quit = true;
                         HolidayController.setHolidays(localDate);
                     } catch (Exception e) {
                         System.out.println("Invalid date format, Please try again");
+                        e.printStackTrace();
                     }
                 }
 
@@ -61,7 +62,7 @@ public class SystemConfig {
             } else if (choice == 2) {
                 while (!quit) {
                     try {
-                        System.out.println("Enter the holiday date to remove in this pattern: d/MM/yyyy:");
+                        System.out.println("Enter the holiday date to remove in this pattern: dd/MM/yyyy:");
                         date_input = reader.readLine();
                         localDate = LocalDate.parse(date_input, formatter);
                         quit = true;
@@ -72,7 +73,7 @@ public class SystemConfig {
                 HolidayController.removeHolidays(localDate);
                 System.out.println("Holiday removed successfully");
             }
-            quit =false;
+            quit = false;
         }
     }
 }

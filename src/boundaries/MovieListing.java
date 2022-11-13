@@ -139,7 +139,14 @@ public class MovieListing {
             Movie newMovie = new Movie(title, type, status, synopsis, director, casts, rating, runtime, releaseDate, 0);
             MovieController.setMovieDB(newMovie);
             ArrayList<Cinema> cinemaDB = CinemaController.getCinemaDB();
-
+            for (int i = 0; i < cinemaDB.size(); i++) {
+                if (cinemaDB.get(i).getName().equals(cinemaName)) {
+                    Cinema temp = cinemaDB.get(i);
+                    temp.updateMovies(newMovie);
+                    cinemaDB.set(i, temp);
+                }
+            }
+            CinemaController.setCinemaDB(cinemaDB);
             System.out.println("Movie List Created.. Going back to previous menu");
             return newMovie;
         } catch (Exception e) {
