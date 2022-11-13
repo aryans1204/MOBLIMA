@@ -21,13 +21,15 @@ public class SessionController {
                     "1. Create Movie Listing\n" +
                     "2. Update Movie Listing\n" +
                     "3. Remove Movie Listing\n" +
-                    "4. List Movie\n" +
-                    "5. List Top 5 Movies by Reviews\n" +
-                    "6. Search Movie\n" +
+                    "4. Search Movie\n" +
+                    "5. List Movie\n" +
+                    "6. List Top 5 Movies by Reviews\n" +
                     "7. List Top 5 Movies by TotalSales\n" +
-                    "8. Configure Ticket Prices for a Movie\n" +
-                    "9.Configure holidays\n" +
-                    "10. Exit\n" +
+                    "8. Add Showtime for a Movie\n" +
+                    "9. Remove Showtime for a Movie\n" +
+                    "10. Configure Ticket Prices for a Movie\n" +
+                    "11.Configure holidays\n" +
+                    "12. Exit\n" +
                     "Select option: ");
             int option = Integer.parseInt(sc.nextLine());
             switch (option) {
@@ -41,24 +43,30 @@ public class SessionController {
                     MovieListing.removeMovieListing();
                     break;
                 case 4:
-                    MovieListing.listMovie();
+                	MovieListing.searchMovie();
                     break;
                 case 5:
-                    MovieListing.listByReview();
+                	MovieListing.listMovie();
                     break;
                 case 6:
-                    MovieListing.searchMovie();
+                	MovieListing.listByReview();
                     break;
                 case 7:
                     MovieListing.listBySales();
                     break;
                 case 8:
-                    SystemConfig.configTicketPrices(s.getCinema());
+                	MovieListing.addShowtime(s.getCinema());
                     break;
                 case 9:
+                	MovieListing.removeShowtime(s.getCinema());
+                    break;
+                case 10:
+                    SystemConfig.configTicketPrices(s.getCinema());
+                    break;
+                case 11:
                     SystemConfig.configHolidays();
                     break;//break for case 10
-                case 10:
+                case 12:
                     exit = true;
                     break;
                 default:
