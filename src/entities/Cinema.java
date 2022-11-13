@@ -68,6 +68,10 @@ public class Cinema implements Serializable {
         this.seats.put(title, s);
     }
 
+    public void setMovies(ArrayList<Movie> movies) {
+        this.movies = movies;
+    }
+
     public void setSeats(HashMap<String, ArrayList<Seat>> seats) {
         this.seats = seats;
     }
@@ -98,20 +102,20 @@ public class Cinema implements Serializable {
     public void updateShowtime(String title, ArrayList<LocalDateTime> showtime) {
         this.showtimes.replace(title, showtime);
     }
-    
+
     public void printShowtimes(String title) {
-    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mma");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mma");
         ArrayList<LocalDateTime> showtimes = this.showtimes.get(title);
         System.out.println("The showtimes for movie: " + title);
-        for(int i = 0; i < showtimes.size()-1; i++) {
-        	if(showtimes.get(i) != null && showtimes.get(i+1) != null)
-        		System.out.println(formatter.format(showtimes.get(i)) + "\t" + formatter.format(showtimes.get(i+1)));
-        	else
-        		System.out.println(formatter.format(showtimes.get(i)));
-        	
+        for (int i = 0; i < showtimes.size() - 1; i++) {
+            if (showtimes.get(i) != null && showtimes.get(i + 1) != null)
+                System.out.println(formatter.format(showtimes.get(i)) + "\t" + formatter.format(showtimes.get(i + 1)));
+            else
+                System.out.println(formatter.format(showtimes.get(i)));
+
         }
     }
-    
+
     public void printLayout(String title, LocalDateTime showtime) { //prints layout of the Cinema based on available seats for the Movie at the particular showtime
         HashMap<String, ArrayList<Seat>> allSeats = this.seats; //Not sure about the local date class
         ArrayList<Seat> seats = new ArrayList<>();
@@ -190,7 +194,7 @@ public class Cinema implements Serializable {
                 if (c == 0) {
                     System.out.printf(" %c   ", (alpha++)); //For printing the alphabets
                 } else {
-                    if (purchasedSeats.contains( c + ((r - 1) * col))) //Converts 2D layout to 1D to compare with Customer's index
+                    if (purchasedSeats.contains(c + ((r - 1) * col))) //Converts 2D layout to 1D to compare with Customer's index
                         seatStatus = 1; //Set the seat status to taken
                     if (c % 4 == 0) {
                         if (gap)

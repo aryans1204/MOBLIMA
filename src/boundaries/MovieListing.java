@@ -163,6 +163,8 @@ public class MovieListing {
         int option;
         boolean exit = false, success = false;
         Movie mov;
+        ArrayList<Cinema> cinemaDB;
+        ArrayList<Movie> mo;
         try {
             System.out.println("\nMOVIE UPDATE");
             int index = 0;
@@ -196,8 +198,17 @@ public class MovieListing {
                 case 1:
                     System.out.println("Enter new Title:");
                     String title = sc.nextLine();
-                    movieDB.get(index).setTitle(title);
+                    mov = movieDB.get(index);
+                    mov.setTitle(title);
+                    movieDB.set(index, mov);
                     MovieController.setMovieDB(movieDB);
+                    mo = cinema.getMovies();
+                    mo.add(mov);
+                    cinema.setMovies(mo);
+                    cinemaDB = CinemaController.getCinemaDB();
+                    for (int i = 0; i < cinemaDB.size(); i++) {
+                        if (cinemaDB.get(i).getName().equals(cinema.getName())) cinemaDB.set(i, cinema);
+                    }
                     break;
                 case 2:
                     MovieType type = null;
@@ -232,6 +243,13 @@ public class MovieListing {
                     m.setType(type);
                     movieDB.set(index, m);
                     MovieController.setMovieDB(movieDB);
+                    mo = cinema.getMovies();
+                    mo.add(m);
+                    cinema.setMovies(mo);
+                    cinemaDB = CinemaController.getCinemaDB();
+                    for (int i = 0; i < cinemaDB.size(); i++) {
+                        if (cinemaDB.get(i).getName().equals(cinema.getName())) cinemaDB.set(i, cinema);
+                    }
                     break;
 
                 case 3:
@@ -273,6 +291,13 @@ public class MovieListing {
                     mov.setStatus(status);
                     movieDB.set(index, mov);
                     MovieController.setMovieDB(movieDB);
+                    mo = cinema.getMovies();
+                    mo.add(mov);
+                    cinema.setMovies(mo);
+                    cinemaDB = CinemaController.getCinemaDB();
+                    for (int i = 0; i < cinemaDB.size(); i++) {
+                        if (cinemaDB.get(i).getName().equals(cinema.getName())) cinemaDB.set(i, cinema);
+                    }
                     break;
                 case 4:
                     System.out.println("Enter new movie's synopsis: ");
@@ -281,6 +306,13 @@ public class MovieListing {
                     mov.setSynopsis(synopsis);
                     movieDB.set(index, mov);
                     MovieController.setMovieDB(movieDB);
+                    mo = cinema.getMovies();
+                    mo.add(mov);
+                    cinema.setMovies(mo);
+                    cinemaDB = CinemaController.getCinemaDB();
+                    for (int i = 0; i < cinemaDB.size(); i++) {
+                        if (cinemaDB.get(i).getName().equals(cinema.getName())) cinemaDB.set(i, cinema);
+                    }
                     break;
 
                 case 5:
@@ -290,6 +322,13 @@ public class MovieListing {
                     mov.setDirector(director);
                     movieDB.set(index, mov);
                     MovieController.setMovieDB(movieDB);
+                    mo = cinema.getMovies();
+                    mo.add(mov);
+                    cinema.setMovies(mo);
+                    cinemaDB = CinemaController.getCinemaDB();
+                    for (int i = 0; i < cinemaDB.size(); i++) {
+                        if (cinemaDB.get(i).getName().equals(cinema.getName())) cinemaDB.set(i, cinema);
+                    }
                     break;
 
                 case 6:
@@ -314,6 +353,13 @@ public class MovieListing {
                     mov.setCasts(casts);
                     movieDB.set(index, mov);
                     MovieController.setMovieDB(movieDB);
+                    mo = cinema.getMovies();
+                    mo.add(mov);
+                    cinema.setMovies(mo);
+                    cinemaDB = CinemaController.getCinemaDB();
+                    for (int i = 0; i < cinemaDB.size(); i++) {
+                        if (cinemaDB.get(i).getName().equals(cinema.getName())) cinemaDB.set(i, cinema);
+                    }
                     break;
 
                 case 7:
@@ -323,6 +369,13 @@ public class MovieListing {
                     mov.setRating(rating);
                     movieDB.set(index, mov);
                     MovieController.setMovieDB(movieDB);
+                    mo = cinema.getMovies();
+                    mo.add(mov);
+                    cinema.setMovies(mo);
+                    cinemaDB = CinemaController.getCinemaDB();
+                    for (int i = 0; i < cinemaDB.size(); i++) {
+                        if (cinemaDB.get(i).getName().equals(cinema.getName())) cinemaDB.set(i, cinema);
+                    }
                     break;
 
                 case 8:
@@ -368,7 +421,7 @@ public class MovieListing {
                         }
                     }
                     cinema.updateShowtime(selectedTitle, showtimes);
-                    ArrayList<Cinema> cinemaDB = CinemaController.getCinemaDB();
+                    cinemaDB = CinemaController.getCinemaDB();
                     for (int i = 0; i < cinemaDB.size(); i++) {
                         if (cinemaDB.get(i).getName().equals(cinema.getName())) cinemaDB.set(i, cinema);
                     }
