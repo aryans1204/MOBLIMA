@@ -11,6 +11,8 @@ import java.util.Scanner;
 
 /**
  * Represents a Customer/Movie-goer in the system
+ * Contains all relevant Customer's information such as name, age, username, password, mobile number, email, etc.
+ * @author Darren
  */
 @SuppressWarnings("serial")
 public class Customer implements Client, Serializable {
