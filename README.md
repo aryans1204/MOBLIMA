@@ -1,5 +1,3 @@
-# SC2002Group4
-
 
 # Welcome to MOBLIMA!
 
@@ -21,5 +19,3 @@ In order to build the Javadocs:
 Run `javadoc -d ./docs ./src/controllers/*java ./src/entities/*java ./src/boundaries/*java ./src/*java`
 
 Additionally, the Javadocs are deployed via github-pages under the environment.
-
-
