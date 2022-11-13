@@ -64,7 +64,7 @@ public class App {
                     System.out.println("Make a valid choice");
                     break;
             }
-        } while (option != 5);
+        } while (option != 3);
 
     }
 
