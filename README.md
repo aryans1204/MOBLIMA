@@ -26,13 +26,13 @@ Login instructions:
 Password for all logins: test123
 
 Admin Logins
-Username:jake  (CathayTheatre1)
-Username:henry (CathayTheatre2)
-Username:jane  (CathayTheatre3)
+:Username:jake  (CathayTheatre1)
+:Username:henry (CathayTheatre2)
+:Username:jane  (CathayTheatre3)
 
 Customer Logins
-Username:john
-Username:mary
-Username:elizabeth
-Username:ben
-Username:jeffrey
+:Username:john
+:Username:mary
+:Username:elizabeth
+:Username:ben
+:Username:jeffrey
