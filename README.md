@@ -19,3 +19,20 @@ In order to build the Javadocs:
 Run `javadoc -d ./docs ./src/controllers/*java ./src/entities/*java ./src/boundaries/*java ./src/*java`
 
 Additionally, the Javadocs are deployed via github-pages under the environment.
+
+
+Login instructions:
+
+Password for all logins: test123
+
+Admin Logins
+Username:jake  (CathayTheatre1)
+Username:henry (CathayTheatre2)
+Username:jane  (CathayTheatre3)
+
+Customer Logins
+Username:john
+Username:mary
+Username:elizabeth
+Username:ben
+Username:jeffrey
