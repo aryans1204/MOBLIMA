@@ -26,9 +26,7 @@ public class App {
             System.out.println("How can we help you today?");
             System.out.println("1. Login as Staff\n" +
                     "2. Login as a Customer\n" +
-                    "3. Create an Account as Staff\n" +
-                    "4. Create an Account as Customer\n" +
-                    "5. Exit");
+                    "3. Exit");
 
 
             option = Integer.parseInt(sc.nextLine());
@@ -66,7 +64,7 @@ public class App {
                     System.out.println("Make a valid choice");
                     break;
             }
-        } while (option != 5);
+        } while (option != 3);
 
     }
 

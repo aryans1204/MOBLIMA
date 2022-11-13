@@ -1,7 +1,6 @@
 package src.entities;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Represents an interface for Clients
@@ -27,5 +26,12 @@ public interface Client {
     //not allowed to use static in interface, ide suggested using public boolean login()
     boolean login(String username) throws IOException;
 
+    String getUsername();
+
+    void setUsername(String username);
+
+    String getPassword();
+    
+    void setPassword(String password);
 
 }
