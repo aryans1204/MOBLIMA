@@ -5,6 +5,7 @@ import src.entities.*;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,11 +19,16 @@ public class DataCreator {
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-        System.out.println(Paths.get("").toAbsolutePath().toString());
+
         CinemaController cinema = new CinemaController(Paths.get("").toAbsolutePath().toString() + "/data/cinemas.dat", Paths.get("").toAbsolutePath().toString() + "/data/seats.dat");
         ClientController client = new ClientController(Paths.get("").toAbsolutePath().toString() + "/data/customers.dat", Paths.get("").toAbsolutePath().toString() + "/data/staffs.dat");
         MovieController movie = new MovieController(Paths.get("").toAbsolutePath().toString() + "/data/movies.dat");
-
+        HolidayController holiday = new HolidayController(Paths.get("").toAbsolutePath().toString() + "/data/holidays.dat");
+        ArrayList<LocalDate> hol = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        LocalDate date = LocalDate.parse("20/11/2022", formatter);
+        hol.add(date);
+        holiday.updateHolidayToDB(hol);
         //Create 12 MOVIES
         //Black panther
         String bpStr = "Lupita Nyong'o , Danai Gurira , Angela Bassett, Winston Duke, Letitia Wright , Florence Kasumba";
@@ -143,10 +149,10 @@ public class DataCreator {
         HashMap<String, ArrayList<LocalDateTime>> cinema2St = new HashMap<String, ArrayList<LocalDateTime>>();
         HashMap<String, ArrayList<LocalDateTime>> cinema3St = new HashMap<String, ArrayList<LocalDateTime>>();
         //Creating a fixed showtimes for all movies
-        
+
         //Assign the showtime for each movie
         for (int i = 0; i < 4; i++) {
-        	ArrayList<LocalDateTime> showtimes1 = new ArrayList<LocalDateTime>(Arrays.asList(
+            ArrayList<LocalDateTime> showtimes1 = new ArrayList<LocalDateTime>(Arrays.asList(
                     LocalDateTime.parse("2022-11-14T09:30:00"), LocalDateTime.parse("2022-11-14T12:10:00"), LocalDateTime.parse("2022-11-14T15:50:00"), LocalDateTime.parse("2022-11-14T18:10:00"), LocalDateTime.parse("2022-11-14T21:00:00"),//mon
                     LocalDateTime.parse("2022-11-15T09:30:00"), LocalDateTime.parse("2022-11-15T12:10:00"), LocalDateTime.parse("2022-11-15T15:50:00"), LocalDateTime.parse("2022-11-15T18:10:00"), LocalDateTime.parse("2022-11-15T21:00:00"),//tue
                     LocalDateTime.parse("2022-11-16T09:30:00"), LocalDateTime.parse("2022-11-16T12:10:00"), LocalDateTime.parse("2022-11-16T15:50:00"), LocalDateTime.parse("2022-11-16T18:10:00"), LocalDateTime.parse("2022-11-16T21:00:00"),//wed
@@ -179,7 +185,7 @@ public class DataCreator {
         }
 
         //Create Seats
-        String alphabet = "";
+        /*String alphabet = "";
         for (int i = 1; i <= 10; i++) {
             switch (i) {
                 case 1:
@@ -216,34 +222,34 @@ public class DataCreator {
             for (int j = 1; j <= 16; j++) {
                 if (i < 8) {
                     if (alphabet.equals("C") && j == 6)
-                    	cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy01", 19, "dummy01", "dummy", "dummy01@gmail.com", 84567136), "C06");
+                        cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy01", 19, "dummy01", "dummy", "dummy01@gmail.com", 84567136), "C06");
                     if (alphabet.equals("D") && j == 12)
-                    	cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy02", 19, "dummy02", "dummy", "dummy02@gmail.com", 84567136), "D12");
+                        cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy02", 19, "dummy02", "dummy", "dummy02@gmail.com", 84567136), "D12");
                     if (alphabet.equals("E") && j == 3)
-                    	cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy03", 19, "dummy03", "dummy", "dummy03@gmail.com", 84567136), "E03");
+                        cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy03", 19, "dummy03", "dummy", "dummy03@gmail.com", 84567136), "E03");
                     if (alphabet.equals("E") && j == 4)
-                    	cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy04", 19, "dummy04", "dummy", "dummy04@gmail.com", 84567136), "E04");
+                        cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy04", 19, "dummy04", "dummy", "dummy04@gmail.com", 84567136), "E04");
                     if (alphabet.equals("E") && j == 15)
-                    	cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy12", 19, "dummy12", "dummy", "dummy12@gmail.com", 84567136), "E15");
+                        cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy12", 19, "dummy12", "dummy", "dummy12@gmail.com", 84567136), "E15");
                     if (alphabet.equals("F") && j == 8)
-                    	cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy05", 19, "dummy05", "dummy", "dummy05@gmail.com", 84567136), "F08");
+                        cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy05", 19, "dummy05", "dummy", "dummy05@gmail.com", 84567136), "F08");
                     if (alphabet.equals("F") && j == 9)
-                    	cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy06", 19, "dummy06", "dummy", "dummy06@gmail.com", 84567136), "F09");
+                        cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy06", 19, "dummy06", "dummy", "dummy06@gmail.com", 84567136), "F09");
                     if (alphabet.equals("F") && j == 10)
-                    	cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy07", 19, "dummy07", "dummy", "dummy07@gmail.com", 84567136), "F10");
+                        cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy07", 19, "dummy07", "dummy", "dummy07@gmail.com", 84567136), "F10");
                     if (j < 10)
                         cinema.insertSeatIntoDB(SeatType.STANDARD, null, alphabet + "0" + j);
                     else
                         cinema.insertSeatIntoDB(SeatType.STANDARD, null, alphabet + j);
                 } else {
                     if (alphabet.equals("I") && j == 3)
-                    	cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy08", 19, "dummy08", "dummy", "dummy08@gmail.com", 84567136), "I03");
+                        cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy08", 19, "dummy08", "dummy", "dummy08@gmail.com", 84567136), "I03");
                     if (alphabet.equals("I") && j == 4)
-                    	cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy09", 19, "dummy09", "dummy", "dummy09@gmail.com", 84567136), "I04");
+                        cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy09", 19, "dummy09", "dummy", "dummy09@gmail.com", 84567136), "I04");
                     if (alphabet.equals("I") && j == 7)
-                    	cinema.insertSeatIntoDB(SeatType.GOLD, new Customer("dummy10", 19, "dummy10", "dummy", "dummy10@gmail.com", 84567136), "I07");
+                        cinema.insertSeatIntoDB(SeatType.GOLD, new Customer("dummy10", 19, "dummy10", "dummy", "dummy10@gmail.com", 84567136), "I07");
                     if (alphabet.equals("J") && j == 11)
-                    	cinema.insertSeatIntoDB(SeatType.PLATINUM, new Customer("dummy11", 19, "dummy11", "dummy", "dummy11@gmail.com", 84567136), "J11");
+                        cinema.insertSeatIntoDB(SeatType.PLATINUM, new Customer("dummy11", 19, "dummy11", "dummy", "dummy11@gmail.com", 84567136), "J11");
                     if (j < 10) {
                         if (j < 5)
                             cinema.insertSeatIntoDB(SeatType.STANDARD, null, alphabet + "0" + j);
@@ -264,30 +270,30 @@ public class DataCreator {
                 }
             }
 
+        }*/
+        for (int i = 0; i < 112; i++) {
+            if (i == 3)
+                cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy01", 19, "dummy01", "dummy", "dummy01@gmail.com", 84567136), "C06");
+            else if (i == 10)
+                cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy01", 19, "dummy01", "dummy", "dummy01@gmail.com", 84567136), "C06");
+            else
+                cinema.insertSeatIntoDB(SeatType.STANDARD, null, String.valueOf(i));
         }
-//        for(int i=0; i<112;i++){
-//            if (i==3) cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy01", 19, "dummy01", "dummy", "dummy01@gmail.com", 84567136), "C06");
-//            else if (i==10) cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy01", 19, "dummy01", "dummy", "dummy01@gmail.com", 84567136), "C06");
-//            else
-//                cinema.insertSeatIntoDB(SeatType.STANDARD, null, String.valueOf(i));
-//        }
 
-//
-//        
-//        
-//        for(int i=112; i<144;i++){
-//            cinema.insertSeatIntoDB(SeatType.GOLD, null, String.valueOf(i));
-//        }
-//        
-//        for(int i=144;i<160;i++){
-//            cinema.insertSeatIntoDB(SeatType.PLATINUM, null, String.valueOf(i));
-//        }
+
+        for (int i = 112; i < 144; i++) {
+            cinema.insertSeatIntoDB(SeatType.GOLD, null, String.valueOf(i));
+        }
+
+        for (int i = 144; i < 160; i++) {
+            cinema.insertSeatIntoDB(SeatType.PLATINUM, null, String.valueOf(i));
+        }
 
         cinema.insertCinemaIntoDB("CathayTheatre1", cinema1Mv, cinema1St);
         cinema.insertCinemaIntoDB("CathayTheatre2", cinema2Mv, cinema2St);
         cinema.insertCinemaIntoDB("CathayTheatre3", cinema3Mv, cinema3St);
 
-        //Create Cineplex 
+        //Create Cineplex
 
         //Create CUSTOMERS
         client.insertCustomerToDB("John", 19, "john", "test123", "john111@gmail.com", 84324783);

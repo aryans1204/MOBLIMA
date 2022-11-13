@@ -99,6 +99,10 @@ public class BookingUI {
                 Movie mov = movieDB.get(0);
                 for (Movie movie : movieDB) {
                     if (movie.getTitle().equals(title)) {
+                        if (movie.getStatus() != MovieStatus.NOW_SHOWING && movie.getStatus() != MovieStatus.PREVIEW) {
+                            System.out.println("Movie is no longer available for booking.");
+                            return null;
+                        }
                         mov = movie;
                         break;
                     }

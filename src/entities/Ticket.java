@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 /**
  * Represents a Ticket in the system
+ *
  * @author XiChen
  */
 @SuppressWarnings("serial")
@@ -54,15 +55,16 @@ public class Ticket implements Serializable {
 
     /**
      * Creates a Ticket with the given attributes
-     * @param movie             This Ticket's Movie
-     * @param cinema            This Ticket's Cinema
-     * @param customer          This Ticket's Customer
-     * @param showtime          This Ticket's showtime
-     * @param seat              This Ticket's Seat
-     * @param TID               This Ticket's Transaction
-     * @param custName          This Ticket's Customer name
-     * @param custEmail         This Ticket's Customer email
-     * @param custMobileNumber  This Ticket's Customer mobile number
+     *
+     * @param movie            This Ticket's Movie
+     * @param cinema           This Ticket's Cinema
+     * @param customer         This Ticket's Customer
+     * @param showtime         This Ticket's showtime
+     * @param seat             This Ticket's Seat
+     * @param TID              This Ticket's Transaction
+     * @param custName         This Ticket's Customer name
+     * @param custEmail        This Ticket's Customer email
+     * @param custMobileNumber This Ticket's Customer mobile number
      */
     public Ticket(Movie movie, Cinema cinema, Customer customer, LocalDateTime showtime, Seat seat, String TID, String custName, String custEmail, int custMobileNumber) {
         this.movie = movie;
@@ -83,6 +85,7 @@ public class Ticket implements Serializable {
 
     /**
      * A method to calculate Ticket price
+     *
      * @author Aryan
      */
     public void calculatePrice() {
@@ -180,8 +183,9 @@ public class Ticket implements Serializable {
 
     /**
      * A method to set holidays
+     *
      * @param a Dates to set as holidays
-     * @return  True if successfully set holiday, False if unsuccessful
+     * @return True if successfully set holiday, False if unsuccessful
      */
     public boolean setHolidaysArray(ArrayList<LocalDate> a) {
         if (a == null) {
@@ -194,23 +198,25 @@ public class Ticket implements Serializable {
 
     /**
      * A method to check if the day is a holiday
-     * @return  True if it is a holiday, False if it is not
+     *
+     * @return True if it is a holiday, False if it is not
      */
     public boolean isAHoliday() {
         ArrayList<LocalDate> Holidays = HolidayController.getHolidays();
         LocalDate show_date = showtime.toLocalDate();
-        if(Holidays != null) {
-        for (int i = 0; i < Holidays.size(); i++) {
-            if (Holidays.get(i) == show_date)
-                return true;
+        if (Holidays != null) {
+            for (int i = 0; i < Holidays.size(); i++) {
+                if (Holidays.get(i).equals(show_date))
+                    return true;
+            }
         }
-       }
         return false;
     }
 
     /**
      * Gets the Customer of this Ticket
-     * @return  This Ticket's Customer
+     *
+     * @return This Ticket's Customer
      */
     public Customer getCustomer() {
         return customer;
@@ -218,7 +224,8 @@ public class Ticket implements Serializable {
 
     /**
      * Gets the price of this Ticket
-     * @return  This Ticket's price
+     *
+     * @return This Ticket's price
      */
     public double getPrice() {
         return price;
@@ -226,7 +233,8 @@ public class Ticket implements Serializable {
 
     /**
      * Gets the Seat of this Ticket
-     * @return  This Ticket's Seat
+     *
+     * @return This Ticket's Seat
      */
     public Seat getSeat() {
         return seat;
@@ -234,7 +242,8 @@ public class Ticket implements Serializable {
 
     /**
      * Gets the Transaction of this Ticket
-     * @return  This Ticket's Transaction
+     *
+     * @return This Ticket's Transaction
      */
     public Transaction getTransaction() {
         return this.transaction;
@@ -242,7 +251,8 @@ public class Ticket implements Serializable {
 
     /**
      * Gets the Cinema of this Ticket
-     * @return  This Ticket's Cinema
+     *
+     * @return This Ticket's Cinema
      */
     public Cinema getCinema() {
         //method to return cinema associated with the ticket.
@@ -251,7 +261,8 @@ public class Ticket implements Serializable {
 
     /**
      * Gets the Movie of this Ticket
-     * @return  This Ticket's Movie
+     *
+     * @return This Ticket's Movie
      */
     public Movie getMovie() {
         //method to return the movie for the ticket
@@ -260,7 +271,8 @@ public class Ticket implements Serializable {
 
     /**
      * Gets the showtime of this Ticket
-     * @return  This Ticket's showtime
+     *
+     * @return This Ticket's showtime
      */
     public LocalDateTime getShowtime() {
         //method to return showtime of the ticket.
@@ -269,7 +281,8 @@ public class Ticket implements Serializable {
 
     /**
      * Changes the price of the Ticket
-     * @param newPrice  This Ticket's new price
+     *
+     * @param newPrice This Ticket's new price
      */
     public void setPrice(double newPrice) {
         price = newPrice;
@@ -277,7 +290,8 @@ public class Ticket implements Serializable {
 
     /**
      * Overrides toString method to store Ticket detail in a specific format
-     * @return  a string of Ticket details
+     *
+     * @return a string of Ticket details
      */
     @Override
     public String toString() {
