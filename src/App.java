@@ -70,6 +70,8 @@ public class App {
                     c.login(username);
                     SessionController.customerUI(c);
                     break;
+                case 3:
+                    break;
                 default:
                     System.out.println("Make a valid choice");
                     break;
