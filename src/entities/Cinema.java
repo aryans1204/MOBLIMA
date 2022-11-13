@@ -258,7 +258,6 @@ public class Cinema implements Serializable {
                 purchasedSeats.add(i); //Add the index into purchased Seats
             }
         }
-        System.out.println(purchasedSeats);
 
 //        int seatPurchased = //Need to pass in the index of the purchased;
 
