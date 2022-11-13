@@ -190,7 +190,7 @@ public class Cinema implements Serializable {
                 if (c == 0) {
                     System.out.printf(" %c   ", (alpha++)); //For printing the alphabets
                 } else {
-                    if (purchasedSeats.contains(1 - c + ((r - 1) * col))) //Converts 2D layout to 1D to compare with Customer's index
+                    if (purchasedSeats.contains( c + ((r - 1) * col))) //Converts 2D layout to 1D to compare with Customer's index
                         seatStatus = 1; //Set the seat status to taken
                     if (c % 4 == 0) {
                         if (gap)
