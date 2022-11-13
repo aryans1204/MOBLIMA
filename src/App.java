@@ -21,6 +21,15 @@ public class App {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
+        System.out.println("Welcome to the application. The first step would be to\n" +
+                "load the database if not created\n" +
+                "1. Create database (if this is your first time running, you should choose this)\n" +
+                "2. Load database (if you've created the database once previously, then choose this option)\n");
+        Scanner scanner = new Scanner(System.in);
+        int choice = Integer.parseInt(scanner.nextLine());
+        if (choice == 1) {
+            DataCreator.main(args);
+        }
         MovieController mvc = new MovieController(Paths.get("").toAbsolutePath().toString() + "/data/movies.dat");
         ClientController cl = new ClientController(Paths.get("").toAbsolutePath().toString() + "/data/customers.dat", Paths.get("").toAbsolutePath().toString() + "/data/staffs.dat");
         //invalid constructor for ci controller, need two parameters

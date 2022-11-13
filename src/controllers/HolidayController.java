@@ -75,7 +75,7 @@ public class HolidayController {
             out.writeObject(a);
             out.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+
         }
         sync++;
         if (sync == 5) {
@@ -103,9 +103,9 @@ public class HolidayController {
             holidays = (ArrayList<LocalDate>) in.readObject();
             in.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            
         } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
+
         }
         return holidays;
     }

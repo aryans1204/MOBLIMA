@@ -9,17 +9,18 @@ import java.util.ArrayList;
 
 /**
  * class to control reading/writing from database for customer + staff
+ *
  * @author Xichen
  * @version 1.0
  * @since 2022-11-13
  */
 
 public class ClientController {
-     /**
-	 * name of file for customer
-	 */
+    /**
+     * name of file for customer
+     */
     private String fileName;
-     /**
+    /**
      * name of file for staff
      */
     private String fileNameStaff;
@@ -34,8 +35,9 @@ public class ClientController {
 
     /**
      * constructor will set filenames and read from database
+     *
      * @param fileNameCustomer file name for customer database
-     * @param fileNameStaff file name for staff
+     * @param fileNameStaff    file name for staff
      */
     public ClientController(String fileNameCustomer, String fileNameStaff) {
         this.fileNameStaff = fileNameStaff;
@@ -46,6 +48,7 @@ public class ClientController {
 
     /**
      * method returns filename of customer database
+     *
      * @return fileName of database
      */
     public String getFileName() {
@@ -54,32 +57,39 @@ public class ClientController {
 
     /**
      * returns file name of staff database
+     *
      * @return fileNameStaff of the staff database
      */
     public String getFileNameStaff() {
         return fileNameStaff;
     }
+
     /**
      * sets file name of the customer database
+     *
      * @param fileName is the new filename for customer database
      */
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
+
     /**
      * sets file name of database for staff
+     *
      * @param fileNameStaff is new file name for staff database
      */
     public void setFileNameStaff(String fileNameStaff) {
         this.fileNameStaff = fileNameStaff;
     }
+
     /**
      * Inserting Customers name, age, username and password into the database
-     * @param name of customer
-     * @param age of customer
-     * @param username of customer
-     * @param password of customer
-     * @param email of customer
+     *
+     * @param name         of customer
+     * @param age          of customer
+     * @param username     of customer
+     * @param password     of customer
+     * @param email        of customer
      * @param mobileNumber of customer
      */
     //Inserting Customers name, age, username and password into the database
@@ -102,15 +112,17 @@ public class ClientController {
             out.writeObject(customers);
             out.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+
         }
 
     }
+
     /**
      * Inserting Staff into database with username, password and associated cinema
+     *
      * @param username of Staff
      * @param password of Staff
-     * @param cinema of Staff
+     * @param cinema   of Staff
      */
     //Inserting Staff into database with username, password and associated cinema
     public void insertStaffToDB(String username, String password, Cinema cinema) {
@@ -132,12 +144,14 @@ public class ClientController {
             out.writeObject(staffs);
             out.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+
         }
 
     }
+
     /**
      * Getting all customer's details from the database
+     *
      * @return database value of customers
      */
     //Getting all customer's details from the database
@@ -152,14 +166,16 @@ public class ClientController {
             customers = (ArrayList<Customer>) in.readObject();
             in.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+
         } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
+
         }
         return customers;
     }
+
     /**
      * gets values from staff database
+     *
      * @return staffs database values.
      */
     public ArrayList<Staff> getStaffFromDB() {
@@ -173,14 +189,16 @@ public class ClientController {
             staffs = (ArrayList<Staff>) in.readObject();
             in.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+
         } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
+            
         }
         return staffs;
     }
+
     /**
      * checks if username is valid
+     *
      * @param username input by user
      * @return boolean whether username is valid/invalid
      */
@@ -199,10 +217,12 @@ public class ClientController {
 
         return false;
     }
+
     /**
      * removes customer from database
+     *
      * @param name of customer
-     * @param age of customer
+     * @param age  of customer
      * @return boolean which indicates whether customer has been removed or not
      */
     public boolean removeCustomer(String name, int age) {
@@ -221,15 +241,19 @@ public class ClientController {
 
         return false;
     }
+
     /**
      * returns array of customers from controller's static variable
+     *
      * @return customerDB array of customers from controller's static variabl
      */
     public static ArrayList<Customer> getCustomerList() {
         return customerDB;
     }
+
     /**
      * returns array of Staffs from controller's static variable
+     *
      * @return staffDB array of Staffs from controller's static variable
      */
     public static ArrayList<Staff> getStaffList() {

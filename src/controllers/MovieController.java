@@ -9,25 +9,28 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
+
 /**
-Controller for Movie entity
-@author xichen
-@version 1.0
-@since 2022-11-13
-*/
+ * Controller for Movie entity
+ *
+ * @author xichen
+ * @version 1.0
+ * @since 2022-11-13
+ */
 
 public class MovieController {
-	/**
-	 * filename of movies database
-	 */
+    /**
+     * filename of movies database
+     */
     private String fileName;
     /**
      * class variable to store movie database
      */
     private static ArrayList<Movie> movieDB;
-    
+
     /**
      * constructor sets the filename and retrieves data from file
+     *
      * @param fileName is the location of file
      */
 
@@ -38,6 +41,7 @@ public class MovieController {
 
     /**
      * gets the filename of the movie database
+     *
      * @return filename of movie database
      */
     public String getFileName() {
@@ -46,6 +50,7 @@ public class MovieController {
 
     /**
      * set filename of database
+     *
      * @param fileName is the new file location
      */
     public void setFileName(String fileName) {
@@ -54,16 +59,17 @@ public class MovieController {
 
     /**
      * Create a new movie object and insert it into the database
-     * @param title of movie
-     * @param type of movie
-     * @param status of movie
-     * @param synopsis of movie
-     * @param director of movie
-     * @param casts of movie
-     * @param rating of movie
-     * @param runtime of movie
+     *
+     * @param title            of movie
+     * @param type             of movie
+     * @param status           of movie
+     * @param synopsis         of movie
+     * @param director         of movie
+     * @param casts            of movie
+     * @param rating           of movie
+     * @param runtime          of movie
      * @param movieReleaseDate of movie
-     * @param totalSales of movie
+     * @param totalSales       of movie
      */
     //Create a new movie object and insert it into the database
     public void insertMovieToDB(String title, MovieType type, MovieStatus status, String synopsis, String director, ArrayList<String> casts,
@@ -87,13 +93,14 @@ public class MovieController {
             out.writeObject(movies);
             out.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+
         }
 
     }
 
     /**
      * Read the whole movies.dat and return all objects stored inside
+     *
      * @return movies, an arraylist from the movies.dat file
      */
     //Read the whole movies.dat and return all objects stored inside
@@ -109,17 +116,18 @@ public class MovieController {
             movies = (ArrayList<Movie>) in.readObject();
             in.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+
         } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
+
         }
         return movies;
     }
 
     /**
      * Iterate through all the movies and update the object with new values
-     * @param option to choose what attribute of movie to update
-     * @param movieID to choose which movie to update
+     *
+     * @param option   to choose what attribute of movie to update
+     * @param movieID  to choose which movie to update
      * @param newValue is the new value used to update the movie
      * @return true if movie is updated. False if movie was not updated
      */
@@ -186,6 +194,7 @@ public class MovieController {
 
     /**
      * Iterate through all the movies and remove the object
+     *
      * @param movieID is the unique identifier for movie
      * @return true if movie was removed. False otherwise.
      */
@@ -212,6 +221,7 @@ public class MovieController {
 
     /**
      * returns the last movie id in the database
+     *
      * @return id of last movie
      */
     //Obtain the ID of the last movie in the database
@@ -232,6 +242,7 @@ public class MovieController {
 
     /**
      * Iterate and print all the movies title and id
+     *
      * @return true if movies have been printed. False if filename was invalid
      */
     //Iterate and print all the movies title and id
@@ -256,6 +267,7 @@ public class MovieController {
 
     /**
      * Check if user selected ID exist in the database
+     *
      * @param movieID is the unique identifier of movie
      * @return true if the movie exists
      */
@@ -276,9 +288,10 @@ public class MovieController {
 
         return false;
     }
-    
+
     /**
      * Delete the current movies.dat file and reinsert the new one
+     *
      * @param newData is the data going to be passed into the new movies database file
      * @return true if operation was successful. False if filename don't exist
      */
@@ -298,15 +311,16 @@ public class MovieController {
             out.writeObject(newData);
             out.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+
             return false;
         }
 
         return true;
     }
-    
+
     /**
      * Print the top 5 movies based on the Overall Review
+     *
      * @return true if operation was successful. False if filename is invalid
      */
     //Print the top 5 movies based on the Overall Review
@@ -342,6 +356,7 @@ public class MovieController {
 
     /**
      * Print the top 5 movies based on the Overall Review
+     *
      * @return true if operation is done successfully. False if filename invalid.
      */
     //Print the top 5 movies based on the Overall Review
@@ -377,6 +392,7 @@ public class MovieController {
 
     /**
      * Search the movie in the database and return those movies that the input of user matches.
+     *
      * @param input is the movie title to search for
      * @return list of movies that matches user search
      */
@@ -401,10 +417,11 @@ public class MovieController {
 
     /**
      * Insert a new rating for a movie into the movie database
-     * @param movieID is identifier for movie
+     *
+     * @param movieID      is identifier for movie
      * @param customerName name of customer
-     * @param numRating rating that customer wants to give
-     * @param comments from customer
+     * @param numRating    rating that customer wants to give
+     * @param comments     from customer
      * @return true if review was added. False if invalid file name
      */
     //Insert a new rating for a movie into the movie database
@@ -426,9 +443,11 @@ public class MovieController {
             System.out.println("File: " + fileName + " does not exist");
         return false;
     }
+
     /**
      * Insert a totalSales for a movie into the movie database
-     * @param movieID the id of movie
+     *
+     * @param movieID    the id of movie
      * @param totalSales the total profit earned from movie
      * @return true if movie sales is successfully update. False if filename was invalid
      */
@@ -451,11 +470,12 @@ public class MovieController {
             System.out.println("File: " + fileName + " does not exist");
         return false;
     }
-    
+
     /**
      * Insert cinema that is broadcasting the movie into the movie database
+     *
      * @param movieID is unique id of movie
-     * @param cinema is cinema to broadcast the movie
+     * @param cinema  is cinema to broadcast the movie
      * @return true if movie sucessfully assigned to cinema. false if filename is invalid.
      */
 
@@ -478,9 +498,10 @@ public class MovieController {
             System.out.println("File: " + fileName + " does not exist");
         return false;
     }
-    
+
     /**
      * returns data of all movies in current static class variable
+     *
      * @return movieDB which is current static class variable
      */
 
@@ -490,6 +511,7 @@ public class MovieController {
 
     /**
      * set movies in parameter into current class variable
+     *
      * @param movies is collection of movies to update to class variable
      */
     public static void setMovieDB(ArrayList<Movie> movies) {
@@ -498,6 +520,7 @@ public class MovieController {
 
     /**
      * adds a single movie object to current collection of movies in class variable
+     *
      * @param newMovie is the movie to be added
      */
     public static void setMovieDB(Movie newMovie) {
