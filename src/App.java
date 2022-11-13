@@ -1,6 +1,5 @@
 package src;
 
-
 import src.controllers.*;
 import src.entities.Customer;
 import src.entities.Staff;
@@ -9,7 +8,18 @@ import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.Scanner;
 
+/**
+ * Main App for interacting with MOBLIMA
+ *
+ * @author Aryan
+ */
 public class App {
+    /**
+     * Main method for UI
+     *
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         MovieController mvc = new MovieController(Paths.get("").toAbsolutePath().toString() + "/data/movies.dat");
         ClientController cl = new ClientController(Paths.get("").toAbsolutePath().toString() + "/data/customers.dat", Paths.get("").toAbsolutePath().toString() + "/data/staffs.dat");
@@ -68,6 +78,9 @@ public class App {
 
     }
 
+    /**
+     * Welcome screen printout method
+     */
     private static void welcomeScreen() {
         System.out.println();
         System.out.println("╔═════════════════════════════════════════════════════════════════════════════════════════════════════╗");

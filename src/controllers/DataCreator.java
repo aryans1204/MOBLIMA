@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+/**
+ * Controller that creates the initial database
+ *
+ * @author JC
+ */
 public class DataCreator {
 
     public static void main(String[] args) {
@@ -240,9 +245,11 @@ public class DataCreator {
                 }
             }
         }*/
-        for(int i=0; i<112;i++){
-            if (i==3) cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy01", 19, "dummy01", "dummy", "dummy01@gmail.com", 84567136), "C06");
-            else if (i==10) cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy01", 19, "dummy01", "dummy", "dummy01@gmail.com", 84567136), "C06");
+        for (int i = 0; i < 112; i++) {
+            if (i == 3)
+                cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy01", 19, "dummy01", "dummy", "dummy01@gmail.com", 84567136), "C06");
+            else if (i == 10)
+                cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy01", 19, "dummy01", "dummy", "dummy01@gmail.com", 84567136), "C06");
             else
                 cinema.insertSeatIntoDB(SeatType.STANDARD, null, String.valueOf(i));
         }
@@ -259,11 +266,11 @@ public class DataCreator {
         cinema.insertSeatIntoDB(SeatType.GOLD, new Customer("dummy10", 19, "dummy10", "dummy", "dummy10@gmail.com", 84567136), "I07");
         cinema.insertSeatIntoDB(SeatType.PLATINUM, new Customer("dummy11", 19, "dummy11", "dummy", "dummy11@gmail.com", 84567136), "J11");
         cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy12", 19, "dummy12", "dummy", "dummy12@gmail.com", 84567136), "E15");*/
-        for(int i=112; i<144;i++){
+        for (int i = 112; i < 144; i++) {
             cinema.insertSeatIntoDB(SeatType.GOLD, null, String.valueOf(i));
         }
-        
-        for(int i=144;i<160;i++){
+
+        for (int i = 144; i < 160; i++) {
             cinema.insertSeatIntoDB(SeatType.PLATINUM, null, String.valueOf(i));
         }
 

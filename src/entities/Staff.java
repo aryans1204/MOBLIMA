@@ -7,10 +7,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-//ide suggested @SuppressWarnings("serial")
-@SuppressWarnings("serial")
 /**
- * Entity class that represents a Staff (Admin)
+ * Entity class representing a Staff (Admin) actor.
+ *
  * @author Aryan
  */
 public class Staff implements Client, Serializable {
