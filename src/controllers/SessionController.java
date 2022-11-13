@@ -9,7 +9,20 @@ import src.entities.Ticket;
 
 import java.util.Scanner;
 
+/**
+ * Controller for managing the Session between Customers and Staff
+ *
+ * @author xichen
+ * @version 1.0
+ * @since 2022-11-13
+ */
 public class SessionController {
+    /**
+     * User interface for staff
+     *
+     * @param s is staff object, after staff has logged in
+     * @throws Exception e
+     */
     public static void staffUI(Staff s) throws Exception {
         if (!s.isAuth())
             return;
@@ -75,6 +88,12 @@ public class SessionController {
         }
     }
 
+    /**
+     * UI for customers
+     *
+     * @param c is passed in after customer has logged in
+     * @throws Exception e
+     */
     public static void customerUI(Customer c) throws Exception {
         if (!c.isAuth())
             return;

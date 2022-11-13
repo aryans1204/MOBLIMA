@@ -11,7 +11,18 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Boundary class providing a User Interface for Staff to configure system settings
+ *
+ * @author Aryan
+ */
 public class SystemConfig {
+    /**
+     * User interface for Staff to change Ticket prices for a Movie at a Cinema
+     *
+     * @param cinema represents the Cinema at which to configureTicketPrices
+     * @throws Exception
+     */
     public static void configTicketPrices(Cinema cinema) throws Exception {
         System.out.println("Enter Movie title for which you would like to update the prices");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -30,6 +41,11 @@ public class SystemConfig {
         System.out.println("Ticket price configured successfully");
     }
 
+    /**
+     * User Interface for Staff to configure holidays at a Cinema
+     *
+     * @throws Exception
+     */
     public static void configHolidays() throws Exception {
         int choice = 0;
         String date_input;

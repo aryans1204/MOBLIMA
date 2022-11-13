@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+/**
+ * Controller that creates the initial database
+ *
+ * @author JC
+ */
 public class DataCreator {
 
     public static void main(String[] args) {
@@ -258,6 +263,7 @@ public class DataCreator {
 
                 }
             }
+
         }
 //        for(int i=0; i<112;i++){
 //            if (i==3) cinema.insertSeatIntoDB(SeatType.STANDARD, new Customer("dummy01", 19, "dummy01", "dummy", "dummy01@gmail.com", 84567136), "C06");
@@ -265,6 +271,7 @@ public class DataCreator {
 //            else
 //                cinema.insertSeatIntoDB(SeatType.STANDARD, null, String.valueOf(i));
 //        }
+
 //
 //        
 //        
@@ -275,7 +282,6 @@ public class DataCreator {
 //        for(int i=144;i<160;i++){
 //            cinema.insertSeatIntoDB(SeatType.PLATINUM, null, String.valueOf(i));
 //        }
-
 
         cinema.insertCinemaIntoDB("CathayTheatre1", cinema1Mv, cinema1St);
         cinema.insertCinemaIntoDB("CathayTheatre2", cinema2Mv, cinema2St);

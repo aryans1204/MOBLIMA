@@ -7,12 +7,36 @@ import src.entities.Staff;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * class to control reading/writing from database for customer + staff
+ * @author Xichen
+ * @version 1.0
+ * @since 2022-11-13
+ */
+
 public class ClientController {
+     /**
+	 * name of file for customer
+	 */
     private String fileName;
+     /**
+     * name of file for staff
+     */
     private String fileNameStaff;
+    /**
+     * to store a class variable of array of data from database
+     */
     private static ArrayList<Customer> customerDB;
+    /**
+     * to store a class variable of array of data from database
+     */
     private static ArrayList<Staff> staffDB;
 
+    /**
+     * constructor will set filenames and read from database
+     * @param fileNameCustomer file name for customer database
+     * @param fileNameStaff file name for staff
+     */
     public ClientController(String fileNameCustomer, String fileNameStaff) {
         this.fileNameStaff = fileNameStaff;
         this.fileName = fileNameCustomer;
@@ -20,22 +44,44 @@ public class ClientController {
         staffDB = this.getStaffFromDB();
     }
 
+    /**
+     * method returns filename of customer database
+     * @return fileName of database
+     */
     public String getFileName() {
         return fileName;
     }
 
+    /**
+     * returns file name of staff database
+     * @return fileNameStaff of the staff database
+     */
     public String getFileNameStaff() {
         return fileNameStaff;
     }
-
+    /**
+     * sets file name of the customer database
+     * @param fileName is the new filename for customer database
+     */
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
-
+    /**
+     * sets file name of database for staff
+     * @param fileNameStaff is new file name for staff database
+     */
     public void setFileNameStaff(String fileNameStaff) {
         this.fileNameStaff = fileNameStaff;
     }
-
+    /**
+     * Inserting Customers name, age, username and password into the database
+     * @param name of customer
+     * @param age of customer
+     * @param username of customer
+     * @param password of customer
+     * @param email of customer
+     * @param mobileNumber of customer
+     */
     //Inserting Customers name, age, username and password into the database
     public void insertCustomerToDB(String name, int age, String username, String password, String email, int mobileNumber) {
         ArrayList<Customer> customers = new ArrayList<>();
@@ -60,7 +106,12 @@ public class ClientController {
         }
 
     }
-
+    /**
+     * Inserting Staff into database with username, password and associated cinema
+     * @param username of Staff
+     * @param password of Staff
+     * @param cinema of Staff
+     */
     //Inserting Staff into database with username, password and associated cinema
     public void insertStaffToDB(String username, String password, Cinema cinema) {
         ArrayList<Staff> staffs = new ArrayList<>();
@@ -85,7 +136,10 @@ public class ClientController {
         }
 
     }
-
+    /**
+     * Getting all customer's details from the database
+     * @return database value of customers
+     */
     //Getting all customer's details from the database
     public ArrayList<Customer> getCustomerFromDB() {
         ArrayList<Customer> customers = null;
@@ -104,7 +158,10 @@ public class ClientController {
         }
         return customers;
     }
-
+    /**
+     * gets values from staff database
+     * @return staffs database values.
+     */
     public ArrayList<Staff> getStaffFromDB() {
         ArrayList<Staff> staffs = new ArrayList<>();
         FileInputStream fis = null;
@@ -122,7 +179,11 @@ public class ClientController {
         }
         return staffs;
     }
-
+    /**
+     * checks if username is valid
+     * @param username input by user
+     * @return boolean whether username is valid/invalid
+     */
     public boolean checkUsernameExist(String username) {
         ArrayList<Customer> customers = null;
         File f = new File(fileName);
@@ -138,7 +199,12 @@ public class ClientController {
 
         return false;
     }
-
+    /**
+     * removes customer from database
+     * @param name of customer
+     * @param age of customer
+     * @return boolean which indicates whether customer has been removed or not
+     */
     public boolean removeCustomer(String name, int age) {
         ArrayList<Customer> customers = null;
         File f = new File(fileName);
@@ -155,11 +221,17 @@ public class ClientController {
 
         return false;
     }
-
+    /**
+     * returns array of customers from controller's static variable
+     * @return customerDB array of customers from controller's static variabl
+     */
     public static ArrayList<Customer> getCustomerList() {
         return customerDB;
     }
-
+    /**
+     * returns array of Staffs from controller's static variable
+     * @return staffDB array of Staffs from controller's static variable
+     */
     public static ArrayList<Staff> getStaffList() {
         return staffDB;
     }

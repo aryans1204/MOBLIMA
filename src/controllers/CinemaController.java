@@ -1,3 +1,7 @@
+/**
+ * src.controllers is a group of controllers for operating on customer,staff,holiday,movie things.
+ */
+
 package src.controllers;
 
 import src.entities.*;
@@ -7,17 +11,40 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class CinemaController {
-    private String filename;
-    private String seatFileName;
-    private static ArrayList<Cinema> cinemaDB;
+/**
+Controller for cinema. Reads/writes from cinema  database and manages seats.
+manages the seats that are occupied by customers and stores them in database.
+@author xichen
+@version 1.0
+@since 2022-11-13
+*/
 
+
+public class CinemaController {
+    /**file name for cinema database*/
+    private String filename;
+    /**file name for seat database*/
+    private String seatFileName;
+    /** class variable for in controller that receives a reference of cinemas from database*/
+    private static ArrayList<Cinema> cinemaDB;
+    
+    /**
+     * method to set class variable with data from database
+     * @param filename is filename of cinemas database
+     * @param seatFileName is filename of seats database
+     */
     public CinemaController(String filename, String seatFileName) {
         this.filename = filename;
         this.seatFileName = seatFileName;
         cinemaDB = this.getAllCinemasFromDB();
     }
 
+    /**
+    *inserts cinema into class variable
+    *@param cinemaName is used to construct a new Cinema object to be added to CinemaDB
+    *@param movies is used to construct a new Cinema object to be added to CinemaDB
+    *@param showtimes is used to construct a new Cinema object to be added to CinemaDB
+    */
     public void insertCinemaIntoDB(String cinemaName, ArrayList<Movie> movies, HashMap<String, ArrayList<LocalDateTime>> showtimes) {
         HashMap<String, ArrayList<Seat>> seats = this.getSeatsFromDB(movies, showtimes);
         ArrayList<Cinema> cinemas = new ArrayList<>();
@@ -42,7 +69,13 @@ public class CinemaController {
         }
 
     }
-
+    
+    /** 
+    * gets the showtime, movie title to create a hashmap of seats for each movie, for each showtime
+    * @param movies title used for hashmap of seats
+    * @param showtimes for respective movie used for hashmap of seats
+    * @return s Hashmap of seats for each movie,showtime.
+    */
     public HashMap<String, ArrayList<Seat>> getSeatsFromDB(ArrayList<Movie> movies, HashMap<String, ArrayList<LocalDateTime>> showtimes) {
         ArrayList<Seat> seats = null;
         FileInputStream fis = null;
@@ -70,7 +103,9 @@ public class CinemaController {
 
         return s;
     }
-
+    /**method that retrieves all cinemas from database
+     * @return all cinemas from database
+     */
     public ArrayList<Cinema> getAllCinemasFromDB() {
         ArrayList<Cinema> cinemas = null;
         FileInputStream fis = null;
@@ -87,6 +122,13 @@ public class CinemaController {
         }
         return cinemas;
     }
+    
+    /**
+     * method that inserts newly created seat into database
+     * @param type for seattype
+     * @param customer records customer details
+     * @param seatNo records what seat is assigned to
+     */
 
     public void insertSeatIntoDB(SeatType type, Customer customer, String seatNo) {
         ArrayList<Seat> seats = new ArrayList<Seat>();
@@ -112,14 +154,27 @@ public class CinemaController {
             ex.printStackTrace();
         }
     }
+    /**
+     * method to return class variable
+     * @return class variable cinemaDB
+     */
 
     public static ArrayList<Cinema> getCinemaDB() {
         return cinemaDB;
     }
+    
+    /**
+     * method to set the class vairable
+     * @param cinemaDB is set to data from parameter
+     */
 
     public static void setCinemaDB(ArrayList<Cinema> cinemaDB) {
         CinemaController.cinemaDB = cinemaDB;
     }
+    /**
+     * method to read from database
+     * @return ArrayList of seats from database
+     */
 
     public ArrayList<Seat> getAllSeatsFromDB() {
         ArrayList<Seat> seats = null;

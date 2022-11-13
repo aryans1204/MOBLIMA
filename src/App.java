@@ -1,6 +1,5 @@
 package src;
 
-
 import src.controllers.*;
 import src.entities.Customer;
 import src.entities.Staff;
@@ -9,7 +8,18 @@ import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.Scanner;
 
+/**
+ * Main App for interacting with MOBLIMA
+ *
+ * @author Aryan
+ */
 public class App {
+    /**
+     * Main method for UI
+     *
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         MovieController mvc = new MovieController(Paths.get("").toAbsolutePath().toString() + "/data/movies.dat");
         ClientController cl = new ClientController(Paths.get("").toAbsolutePath().toString() + "/data/customers.dat", Paths.get("").toAbsolutePath().toString() + "/data/staffs.dat");
@@ -26,9 +36,7 @@ public class App {
             System.out.println("How can we help you today?");
             System.out.println("1. Login as Staff\n" +
                     "2. Login as a Customer\n" +
-                    "3. Create an Account as Staff\n" +
-                    "4. Create an Account as Customer\n" +
-                    "5. Exit");
+                    "3. Exit");
 
 
             option = Integer.parseInt(sc.nextLine());
@@ -66,10 +74,13 @@ public class App {
                     System.out.println("Make a valid choice");
                     break;
             }
-        } while (option != 5);
+        } while (option != 3);
 
     }
 
+    /**
+     * Welcome screen printout method
+     */
     private static void welcomeScreen() {
         System.out.println();
         System.out.println("╔═════════════════════════════════════════════════════════════════════════════════════════════════════╗");
